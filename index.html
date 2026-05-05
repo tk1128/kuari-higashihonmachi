@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kuari 東本町 | 時代を継ぐ空間美</title>
+    <meta name="description" content="古いものに宿る美しさと、現代の快適性の融合。岡山アンティークショップ「Found」の世界観を体感する次世代型宿泊施設、kuari 東本町。">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: '#708090',
+                        charcoal: '#2c3539',
+                        bitter: '#3e2723',
+                        brass: '#c0a054',
+                        offwhite: '#f4f4f0',
+                    },
+                    fontFamily: {
+                        sans: ['"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+                        serif: ['Cinzel', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased selection:bg-brass selection:text-charcoal">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 py-6 px-8 flex justify-between items-center" id="navbar">
+        <div class="text-white text-xl tracking-widest font-bold mix-blend-difference z-10 uppercase">
+            <a href="#" class="hover:opacity-70 transition-opacity">kuari</a>
+        </div>
+        <div class="hidden md:flex gap-8 text-sm tracking-widest text-white mix-blend-difference z-10 uppercase">
+            <a href="#concept" class="hover-brass">Concept</a>
+            <a href="#gallery" class="hover-brass">Gallery</a>
+            <a href="#experience" class="hover-brass">Experience</a>
+            <a href="#information" class="hover-brass">Information</a>
+        </div>
+        <div class="z-10">
+            <a href="#reserve" class="px-6 py-2 border border-white text-white text-sm tracking-widest hover:bg-white hover:text-charcoal transition-colors uppercase mix-blend-difference">Reserve</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="parallax-container h-screen flex items-center justify-center">
+        <div class="parallax-bg" id="hero-bg" style="background-image: url('./images/1.jpeg');"></div>
+        <div class="parallax-overlay"></div>
+        <div class="relative z-10 text-center px-4 fade-up">
+            <p class="text-brass tracking-[0.2em] uppercase text-sm mb-4">A Timeless Stay</p>
+            <h1 class="text-white text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6">kuari 東本町</h1>
+            <p class="text-white/80 text-lg md:text-xl tracking-widest font-light">時代を継ぐ、美しき翳り</p>
+        </div>
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center animate-bounce">
+            <span class="text-white/60 text-xs tracking-widest mb-2 uppercase">Scroll</span>
+            <div class="w-[1px] h-12 bg-white/40"></div>
+        </div>
+    </section>
+
+    <!-- Concept Section -->
+    <section id="concept" class="py-32 px-6 md:px-12 max-w-5xl mx-auto text-center relative z-10">
+        <div class="fade-up">
+            <div class="vintage-divider mb-12"></div>
+            <h2 class="text-3xl md:text-4xl font-bold text-charcoal mb-8 tracking-tighter">機能する、経年変化</h2>
+            <p class="text-brass font-serif text-lg md:text-xl italic mb-12">Functional Aging</p>
+            
+            <div class="text-left md:text-center space-y-8 leading-relaxed text-charcoal/80 text-sm md:text-base max-w-3xl mx-auto font-light">
+                <p>
+                    和の「静寂」ではなく、「使い込まれた古材の重厚感」「錆びたアイアンの冷たさ」「真鍮の鈍い光」。<br class="hidden md:block">
+                    kuari 東本町は、岡山のアンティークショップ「Found」の世界観を空間に昇華させました。
+                </p>
+                <p>
+                    ヨーロッパのインダストリアル・ヴィンテージを基調に、<br class="hidden md:block">
+                    ただ古いものを飾るのではなく、現代の快適な設備と融合し、「使う」ことで完成する美しさを追求。<br class="hidden md:block">
+                    重厚なアンティーク家具が主役となる、新しい滞在の形を提案します。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Space Gallery Section -->
+    <section id="gallery" class="py-20 px-4 md:px-8 bg-charcoal text-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4">The Texture</h2>
+                <p class="text-brass tracking-widest text-sm uppercase">空間を構成する質感を体感する</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+                <!-- Gallery Item 1 -->
+                <div class="group relative overflow-hidden h-[400px] fade-up">
+                    <img src="./images/2.jpeg" alt="Antique Detail" class="w-full h-full object-cover vintage-image group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                        <span class="text-white tracking-widest text-sm uppercase">Vintage Wood</span>
+                    </div>
+                </div>
+                <!-- Gallery Item 2 -->
+                <div class="group relative overflow-hidden h-[400px] fade-up" style="transition-delay: 100ms;">
+                    <img src="./images/3.jpeg" alt="Iron and Brass" class="w-full h-full object-cover vintage-image group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                        <span class="text-white tracking-widest text-sm uppercase">Industrial Iron</span>
+                    </div>
+                </div>
+                <!-- Gallery Item 3 -->
+                <div class="group relative overflow-hidden h-[400px] fade-up" style="transition-delay: 200ms;">
+                    <img src="./images/4.jpeg" alt="Room Atmosphere" class="w-full h-full object-cover vintage-image group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                        <span class="text-white tracking-widest text-sm uppercase">Atmosphere</span>
+                    </div>
+                </div>
+                <!-- Gallery Item 4 -->
+                <div class="group relative overflow-hidden h-[400px] md:col-span-2 lg:col-span-1 fade-up">
+                    <img src="./images/5.jpeg" alt="Light and Shadow" class="w-full h-full object-cover vintage-image group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                        <span class="text-white tracking-widest text-sm uppercase">Shadows</span>
+                    </div>
+                </div>
+                <!-- Gallery Item 5 -->
+                <div class="group relative overflow-hidden h-[400px] fade-up" style="transition-delay: 100ms;">
+                    <img src="./images/6.jpeg" alt="Furniture Detail" class="w-full h-full object-cover vintage-image group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                        <span class="text-white tracking-widest text-sm uppercase">Found Furniture</span>
+                    </div>
+                </div>
+                <!-- Gallery Item 6 -->
+                <div class="group relative overflow-hidden h-[400px] fade-up" style="transition-delay: 200ms;">
+                    <img src="./images/7.jpeg" alt="Material Contrast" class="w-full h-full object-cover vintage-image group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                        <span class="text-white tracking-widest text-sm uppercase">Texture</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-32 px-6 relative">
+        <div class="max-w-4xl mx-auto text-center fade-up">
+            <h2 class="text-3xl md:text-4xl font-bold text-charcoal mb-8 tracking-tighter">歴史的空間とWeb3の交差</h2>
+            <p class="text-brass font-serif text-lg mb-12">The Shared Future</p>
+            
+            <div class="bg-white/50 backdrop-blur-sm p-8 md:p-12 border border-slate/20 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brass opacity-10 rounded-bl-full"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-charcoal opacity-5 rounded-tr-full"></div>
+                
+                <p class="leading-relaxed text-charcoal/80 text-left md:text-center relative z-10">
+                    kuariは将来的に、DAO（自律分散型組織）的なコミュニティやWeb3ウォレット連携を見据えています。<br><br>
+                    ヴィンテージという「時間」を共有する空間において、所有ではなく、思想に共鳴するメンバーで権利を「共有」し、共にアップデートしていく。<br>
+                    これからの時代の、新しい不動産とコミュニティの形を、この東本町から追求します。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Information Section -->
+    <section id="information" class="py-24 px-6 bg-charcoal text-white relative">
+        <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center fade-up">
+            <div>
+                <h2 class="text-3xl font-bold tracking-tighter mb-8">Information</h2>
+                <div class="space-y-6 text-sm tracking-wide text-white/80">
+                    <div class="border-b border-white/10 pb-4">
+                        <p class="text-brass mb-1 uppercase text-xs">Name</p>
+                        <p class="text-lg">kuari 東本町</p>
+                    </div>
+                    <div class="border-b border-white/10 pb-4">
+                        <p class="text-brass mb-1 uppercase text-xs">Address</p>
+                        <p>島根県松江市東本町...</p> <!-- 実際の住所に合わせて変更 -->
+                    </div>
+                    <div class="border-b border-white/10 pb-4">
+                        <p class="text-brass mb-1 uppercase text-xs">Capacity</p>
+                        <p>1 - 4 Guests</p>
+                    </div>
+                    <div class="border-b border-white/10 pb-4">
+                        <p class="text-brass mb-1 uppercase text-xs">Facilities</p>
+                        <p>ヴィンテージ家具 / キッチン / Wi-Fi完備</p>
+                    </div>
+                </div>
+                <div class="mt-12">
+                    <a href="#reserve" class="inline-block px-8 py-4 bg-brass text-charcoal font-bold tracking-widest uppercase hover:bg-white transition-colors">
+                        Reserve Now
+                    </a>
+                </div>
+            </div>
+            
+            <div class="h-[400px] bg-slate/20 rounded-lg overflow-hidden grayscale contrast-125">
+                <!-- Google Maps Embed -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3248.86803248039!2d133.0560751!3d35.474668!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x355705a6fb38e9bb%3A0x95973ddba2802ed8!2z5p2x5pys55S6!5e0!3m2!1sja!2sjp!4v1700000000000!5m2!1sja!2sjp" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-[#1a1f22] text-white/50 text-center text-xs tracking-widest uppercase">
+        <div class="flex justify-center gap-6 mb-8">
+            <a href="#" class="hover:text-brass transition-colors">Instagram</a>
+            <a href="#" class="hover:text-brass transition-colors">Contact</a>
+            <a href="#" class="hover:text-brass transition-colors">Privacy</a>
+        </div>
+        <p>&copy; 2026 kuari. All rights reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Parallax Effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const heroBg = document.getElementById('hero-bg');
+            if (heroBg) {
+                heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
+            }
+            
+            // Navbar background on scroll
+            const navbar = document.getElementById('navbar');
+            if (scrolled > 50) {
+                navbar.classList.add('bg-charcoal/90', 'backdrop-blur-md');
+                navbar.classList.remove('py-6');
+                navbar.classList.add('py-4');
+            } else {
+                navbar.classList.remove('bg-charcoal/90', 'backdrop-blur-md');
+                navbar.classList.add('py-6');
+                navbar.classList.remove('py-4');
+            }
+        });
+
+        // Intersection Observer for Fade Up Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up').forEach((el) => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

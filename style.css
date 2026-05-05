@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-slate-gray: #708090;
+  --color-charcoal: #2c3539;
+  --color-bitter-brown: #3e2723;
+  --color-antique-brass: #c0a054;
+  --color-off-white: #f4f4f0;
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: var(--color-off-white);
+  color: var(--color-charcoal);
+  letter-spacing: -0.02em;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Texture Overlay */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('./images/8.jpeg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Modern Serif for specific headings */
+h1, h2, h3, .serif {
+  font-family: 'Cinzel', serif; /* Optional: adds to the European vintage feel if desired, or stick to Helvetica */
+}
+
+/* Force Helvetica on main headings if strict */
+.strict-helvetica {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: -0.05em;
+  font-weight: 700;
+}
+
+.text-brass {
+  color: var(--color-antique-brass);
+}
+
+.bg-charcoal {
+  background-color: var(--color-charcoal);
+}
+
+.border-brass {
+  border-color: var(--color-antique-brass);
+}
+
+.text-bitter-brown {
+  color: var(--color-bitter-brown);
+}
+
+/* Image styling for heavy vintage feel */
+.vintage-image {
+  filter: sepia(0.1) contrast(1.1) brightness(0.9);
+  transition: filter 0.5s ease;
+}
+
+.vintage-image:hover {
+  filter: sepia(0) contrast(1) brightness(1);
+}
+
+/* Fade in animation */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Parallax wrapper */
+.parallax-container {
+  overflow: hidden;
+  position: relative;
+  height: 100vh;
+}
+
+.parallax-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%; /* Extra height for parallax */
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  /* Add subtle shadow overlay to images */
+}
+
+.parallax-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(44, 53, 57, 0.4) 0%, rgba(44, 53, 57, 0.8) 100%);
+  z-index: 0;
+}
+
+/* Divider */
+.vintage-divider {
+  width: 1px;
+  height: 80px;
+  background-color: var(--color-antique-brass);
+  margin: 0 auto;
+}
+
+/* Link Hover */
+.hover-brass {
+  position: relative;
+  text-decoration: none;
+}
+.hover-brass::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--color-antique-brass);
+  transform-origin: bottom right;
+  transition: transform 0.3s cubic-bezier(0.86, 0, 0.07, 1);
+}
+.hover-brass:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
