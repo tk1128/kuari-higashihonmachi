@@ -9,10 +9,10 @@
 }
 
 body {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Inter', 'Noto Sans JP', sans-serif;
   background-color: var(--color-off-white);
   color: var(--color-charcoal);
-  letter-spacing: -0.02em;
+  letter-spacing: 0.01em;
   position: relative;
   overflow-x: hidden;
 }
@@ -33,15 +33,15 @@ body::before {
   z-index: -1;
 }
 
-/* Modern Helvetica for specific headings */
+/* Elegant Serif for headings */
 h1, h2, h3 {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  font-family: 'Shippori Mincho', 'Cormorant Garamond', serif;
+  font-weight: 600;
+  letter-spacing: 0.05em;
 }
 
 .serif {
-  font-family: 'Cinzel', serif;
+  font-family: 'Shippori Mincho', 'Cormorant Garamond', serif;
 }
 
 /* Force Helvetica on main headings if strict */
