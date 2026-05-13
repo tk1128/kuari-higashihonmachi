@@ -33,9 +33,15 @@ body::before {
   z-index: -1;
 }
 
-/* Modern Serif for specific headings */
-h1, h2, h3, .serif {
-  font-family: 'Cinzel', serif; /* Optional: adds to the European vintage feel if desired, or stick to Helvetica */
+/* Modern Helvetica for specific headings */
+h1, h2, h3 {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.serif {
+  font-family: 'Cinzel', serif;
 }
 
 /* Force Helvetica on main headings if strict */
