@@ -141,3 +141,24 @@ h1, h2, h3, .serif {
   transform: scaleX(1);
   transform-origin: bottom left;
 }
+
+/* Experience Cards */
+#experience .grid > div {
+    position: relative;
+    overflow: hidden;
+}
+
+#experience .grid > div::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 0;
+    background-color: var(--color-antique-brass);
+    transition: height 0.3s ease;
+}
+
+#experience .grid > div:hover::before {
+    height: 100%;
+}
