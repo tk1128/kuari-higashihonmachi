@@ -1,5 +1,7 @@
 // Vercel Serverless Function
-// LINE Notify + ntfy.sh プッシュ通知
+// LINE Notify + ntfy.sh プッシュ通知 + Gmail→SMS通知
+
+import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -18,9 +20,12 @@ export default async function handler(req, res) {
       req.headers['x-line-token'] ||
       '';
 
-    const NTFY_TOPIC = process.env.NTFY_TOPIC || 'kuari-higashihonmachi-2026';
+    const NTFY_TOPIC  = process.env.NTFY_TOPIC          || 'kuari-higashihonmachi-2026';
+    const SMS_PHONE   = process.env.SMS_PHONE            || '08020674314';
+    const GMAIL_USER  = process.env.GMAIL_USER           || '';
+    const GMAIL_PASS  = process.env.GMAIL_APP_PASSWORD   || '';
 
-    // 通知メッセージ
+    // 通知メッセージ（LINE / ntfy 共通）
     const msg = [
       '',
       '🏯【kuari東本町 新規予約】',
@@ -32,8 +37,11 @@ export default async function handler(req, res) {
       `📝 目的: ${purpose || '未記入'}`,
       notes ? `💬 備考: ${notes}` : null,
       '',
-      '📱 管理者通知: 08020674324',
+      `📱 管理者通知: ${SMS_PHONE}`,
     ].filter(Boolean).join('\n');
+
+    // SMS用メッセージ（70字以内に収める）
+    const smsMsg = `【kuari東本町】${name} ${checkin}〜${checkout} ${guests}名 ${contact} ${community}`.slice(0, 70);
 
     const results = {};
 
@@ -65,7 +73,7 @@ export default async function handler(req, res) {
         body: JSON.stringify({
           topic:    NTFY_TOPIC,
           title:    '🏯 kuari東本町 新規予約',
-          message:  `${name} / ${checkin}〜${checkout} / ${guests}\n${contact} / ${community}`,
+          message:  `${name} / ${checkin}〜${checkout} / ${guests}名\n${contact} / ${community}`,
           priority: 5,
           tags:     ['tada', 'house'],
         }),
@@ -73,6 +81,45 @@ export default async function handler(req, res) {
       results.ntfy = { status: r.status };
     } catch (e) {
       results.ntfy = { error: e.message };
+    }
+
+    // ── Gmail → SMS（email-to-SMS gateway） ─────────────────
+    if (GMAIL_USER && GMAIL_PASS) {
+      try {
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: { user: GMAIL_USER, pass: GMAIL_PASS },
+        });
+
+        // 日本の主要4キャリアに同時送信（どれかが届けばOK）
+        const carriers = [
+          'docomo.ne.jp',
+          'softbank.ne.jp',
+          'ezweb.ne.jp',
+          'rakuten.jp',
+        ];
+
+        const settled = await Promise.allSettled(
+          carriers.map(carrier =>
+            transporter.sendMail({
+              from:    GMAIL_USER,
+              to:      `${SMS_PHONE}@${carrier}`,
+              subject: 'kuari新規予約',
+              text:    smsMsg,
+            })
+          )
+        );
+
+        const smsResults = {};
+        settled.forEach((r, i) => {
+          smsResults[carriers[i]] = r.status === 'fulfilled' ? 'ok' : r.reason?.message;
+        });
+        results.sms = { phone: SMS_PHONE, carriers: smsResults };
+      } catch (e) {
+        results.sms = { error: e.message };
+      }
+    } else {
+      results.sms = { skipped: 'GMAIL_USER / GMAIL_APP_PASSWORD 未設定' };
     }
 
     return res.status(200).json({ ok: true, results });

@@ -638,13 +638,22 @@
           <p class="notif-hint">ntfyアプリでトピック購読 → 予約即時通知。</p>
         </div>
         <div class="notif-group">
-          <span class="notif-label">📩 SMS / 08020674324</span>
+          <span class="notif-label">📩 SMS / 08020674314（Vercel → Gmail → SMS）</span>
+          <p class="notif-hint">Vercel 環境変数に以下を設定すると予約のたびに SMS が届きます。</p>
           <table class="sms-table">
-            <tr><td>Docomo</td><td>08020674324@docomo.ne.jp</td></tr>
-            <tr><td>SoftBank</td><td>08020674324@softbank.ne.jp</td></tr>
-            <tr><td>au</td><td>08020674324@ezweb.ne.jp</td></tr>
-            <tr><td>楽天</td><td>08020674324@rakuten.jp</td></tr>
+            <tr><td colspan="2" style="color:var(--gold);font-weight:700;padding-bottom:6px;">Vercel 環境変数</td></tr>
+            <tr><td>GMAIL_USER</td><td>送信元 Gmail アドレス</td></tr>
+            <tr><td>GMAIL_APP_PASSWORD</td><td>Gmail アプリパスワード（16桁）</td></tr>
+            <tr><td>SMS_PHONE</td><td>08020674314</td></tr>
           </table>
+          <p class="notif-hint" style="margin-top:8px;">送信先（4キャリア同時）</p>
+          <table class="sms-table">
+            <tr><td>Docomo</td><td>08020674314@docomo.ne.jp</td></tr>
+            <tr><td>SoftBank</td><td>08020674314@softbank.ne.jp</td></tr>
+            <tr><td>au</td><td>08020674314@ezweb.ne.jp</td></tr>
+            <tr><td>楽天</td><td>08020674314@rakuten.jp</td></tr>
+          </table>
+          <p class="notif-hint" style="margin-top:8px;">Gmail アプリパスワード取得: <a href="https://myaccount.google.com/apppasswords" target="_blank" style="color:var(--gold);">myaccount.google.com/apppasswords</a></p>
         </div>
         <div class="notif-group">
           <span class="notif-label">💚 LINE Notify</span>
