@@ -106,11 +106,12 @@ h1, h2, h3, h4 {
 }
 .nav-logo {
   font-family: 'Cinzel', 'Cormorant Garamond', serif;
-  font-size: 22px;
+  font-size: clamp(16px, 2.5vw, 22px);
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   color: var(--warm-white);
   transition: color 0.4s;
+  white-space: nowrap;
 }
 #nav.scrolled .nav-logo { color: var(--dark); }
 .nav-links {
