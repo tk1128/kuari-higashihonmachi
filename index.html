@@ -9,101 +9,92 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
   <style>
-    /* ── 和敬清寂バー ── */
-    .wkss-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#0e0d0b;}
-    .wkss-cell{padding:clamp(22px,4vw,48px) 8px;text-align:center;border:1px solid rgba(255,255,255,.04);display:flex;flex-direction:column;align-items:center;gap:5px;}
-    .wkss-kanji{font-family:'Noto Serif JP',serif;font-size:clamp(32px,6vw,70px);font-weight:300;color:#fff;line-height:1;}
-    .wkss-roman{font-family:'Cormorant Garamond',serif;font-size:clamp(9px,1.2vw,12px);letter-spacing:.25em;color:var(--gold);text-transform:uppercase;}
-    .wkss-meaning{font-size:9px;color:rgba(255,255,255,.28);letter-spacing:.1em;}
-    @media(max-width:480px){.wkss-bar{grid-template-columns:repeat(2,1fr);}}
-
-    /* ── 空間資料ギャラリー ── */
-    .space-grid{display:grid;gap:2px;grid-template-columns:1fr 1fr;}
-    .space-cell{overflow:hidden;aspect-ratio:4/3;}
-    .space-cell img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease;}
-    .space-cell:hover img{transform:scale(1.04);}
-    .space-wide{grid-column:1/3;aspect-ratio:16/7;}
-    @media(max-width:480px){.space-wide{aspect-ratio:4/3;grid-column:1/3;}}
-
-    /* ── 客室メインフォト (その他資料) ── */
-    .room-hero{display:grid;grid-template-columns:2fr 1fr;gap:2px;}
-    .room-hero-main{overflow:hidden;height:clamp(260px,42vw,520px);}
-    .room-hero-sub{display:grid;grid-template-rows:1fr 1fr;gap:2px;}
-    .room-hero-sub-cell{overflow:hidden;}
-    .room-hero-main img,.room-hero-sub-cell img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease;}
-    .room-hero-main:hover img,.room-hero-sub-cell:hover img{transform:scale(1.04);}
+    /* ── 空間ギャラリー (空間資料) ── */
+    .space-grid { display:grid; gap:2px; }
+    .space-grid-top { grid-template-columns:1fr 1fr 1fr; }
+    .space-grid-top .space-cell { aspect-ratio:3/2; }
+    .space-grid-wide { grid-template-columns:1fr; }
+    .space-grid-wide .space-cell { height:clamp(280px,40vw,520px); }
+    .space-grid-bottom { grid-template-columns:1fr 1fr; margin-top:2px; }
+    .space-grid-bottom .space-cell { aspect-ratio:4/3; }
+    .space-cell { overflow:hidden; }
+    .space-cell img { width:100%;height:100%;object-fit:cover;transition:transform .8s ease; }
+    .space-cell:hover img { transform:scale(1.04); }
     @media(max-width:600px){
-      .room-hero{grid-template-columns:1fr;}
-      .room-hero-main{height:clamp(200px,55vw,360px);}
-      .room-hero-sub{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
-      .room-hero-sub-cell{height:clamp(120px,28vw,200px);}
+      .space-grid-top { grid-template-columns:1fr 1fr; }
+      .space-grid-top .space-cell:last-child { grid-column:1/3; }
+      .space-grid-wide .space-cell { height:clamp(220px,55vw,380px); }
     }
 
-    /* ── 定員ストリップ ── */
-    .cap-strip{background:var(--dark);display:grid;grid-template-columns:1fr 1fr;}
-    .cap-cell{padding:clamp(24px,5vw,52px);text-align:center;border:1px solid rgba(255,255,255,.05);}
-    .cap-num{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,8vw,84px);font-weight:300;color:var(--gold);line-height:1;}
-    .cap-sub{font-size:11px;color:rgba(247,244,239,.4);margin-top:8px;line-height:1.8;letter-spacing:.06em;}
+    /* ── 定員 ── */
+    .cap-strip { background:var(--dark); display:grid; grid-template-columns:1fr 1fr; }
+    .cap-cell { padding:clamp(24px,5vw,52px); text-align:center; border:1px solid rgba(255,255,255,.05); }
+    .cap-num { font-family:'Cormorant Garamond',serif; font-size:clamp(48px,8vw,84px); font-weight:300; color:var(--gold); line-height:1; }
+    .cap-sub { font-size:11px; color:rgba(247,244,239,.4); margin-top:8px; line-height:1.8; letter-spacing:.06em; }
 
     /* ── 間取り ── */
-    .fp-wrap{background:var(--off-white);padding:clamp(40px,6vw,72px) clamp(16px,4vw,48px);}
-    .fp-inner{max-width:760px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center;}
-    .fp-frame{overflow:hidden;position:relative;padding-bottom:88%;background:#e8e4dc;}
-    .fp-frame img{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(1.55);width:100%;height:100%;object-fit:contain;}
-    .fp-specs{display:flex;flex-direction:column;gap:11px;}
-    .fp-row{display:flex;gap:12px;padding-bottom:11px;border-bottom:1px solid var(--light-line);font-size:13px;color:var(--mid-grey);line-height:1.6;}
-    .fp-row:last-child{border:none;padding-bottom:0;}
-    .fp-key{color:var(--gold);width:72px;flex-shrink:0;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding-top:2px;}
-    @media(max-width:600px){.fp-inner{grid-template-columns:1fr;}}
+    .fp-wrap { background:var(--off-white); padding:clamp(40px,6vw,72px) clamp(16px,4vw,48px); }
+    .fp-inner { max-width:760px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:36px; align-items:center; }
+    .fp-frame { overflow:hidden; position:relative; padding-bottom:88%; background:#e8e4dc; }
+    .fp-frame img { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) scale(1.55); width:100%; height:100%; object-fit:contain; }
+    .fp-specs { display:flex; flex-direction:column; gap:11px; }
+    .fp-row { display:flex; gap:12px; padding-bottom:11px; border-bottom:1px solid var(--light-line); font-size:13px; color:var(--mid-grey); line-height:1.6; }
+    .fp-row:last-child { border:none; padding-bottom:0; }
+    .fp-key { color:var(--gold); width:72px; flex-shrink:0; font-size:10px; letter-spacing:.1em; text-transform:uppercase; padding-top:2px; }
+    @media(max-width:600px){ .fp-inner { grid-template-columns:1fr; } }
+
+    /* ── 和敬清寂バー ── */
+    .wkss-bar { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:#0e0d0b; }
+    .wkss-cell { padding:clamp(22px,4vw,48px) 8px; text-align:center; border:1px solid rgba(255,255,255,.04); display:flex; flex-direction:column; align-items:center; gap:5px; }
+    .wkss-kanji { font-family:'Noto Serif JP',serif; font-size:clamp(32px,6vw,70px); font-weight:300; color:#fff; line-height:1; }
+    .wkss-roman { font-family:'Cormorant Garamond',serif; font-size:clamp(9px,1.2vw,12px); letter-spacing:.25em; color:var(--gold); text-transform:uppercase; }
+    .wkss-meaning { font-size:9px; color:rgba(255,255,255,.28); letter-spacing:.1em; }
+    @media(max-width:480px){ .wkss-bar { grid-template-columns:repeat(2,1fr); } }
 
     /* ── 料金 ── */
-    .pricing-section{background:#0e0d0b;padding:clamp(56px,8vw,104px) 0;}
-    .pricing-grid{display:grid;grid-template-columns:1fr 1fr;max-width:580px;margin:0 auto;gap:2px;}
-    .pricing-card{padding:clamp(24px,4vw,52px) 20px;text-align:center;border:1px solid rgba(255,255,255,.06);}
-    .pricing-card.member{border-color:rgba(192,146,58,.3);background:rgba(192,146,58,.04);}
-    .pricing-amount{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,6vw,64px);font-weight:300;color:#fff;line-height:1;}
-    .pricing-card.member .pricing-amount{color:var(--gold);}
-    .pricing-unit{font-size:11px;color:rgba(255,255,255,.38);letter-spacing:.14em;margin-top:5px;}
-    .pricing-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.06);}
-    .pricing-card.member .pricing-label{color:var(--gold);border-top-color:rgba(192,146,58,.2);}
-    .member-list{margin:24px auto 0;display:flex;flex-direction:column;gap:8px;max-width:360px;padding:0 16px;}
-    .member-list-item{font-size:12px;color:rgba(255,255,255,.38);letter-spacing:.04em;display:flex;align-items:center;gap:10px;}
-    .member-list-item::before{content:'';width:14px;height:1px;background:var(--gold);flex-shrink:0;}
-    @media(max-width:440px){.pricing-grid{grid-template-columns:1fr;}}
+    .pricing-section { background:#0e0d0b; padding:clamp(56px,8vw,104px) 0; }
+    .pricing-grid { display:grid; grid-template-columns:1fr 1fr; max-width:580px; margin:0 auto; gap:2px; }
+    .pricing-card { padding:clamp(24px,4vw,52px) 20px; text-align:center; border:1px solid rgba(255,255,255,.06); }
+    .pricing-card.member { border-color:rgba(192,146,58,.3); background:rgba(192,146,58,.04); }
+    .pricing-amount { font-family:'Cormorant Garamond',serif; font-size:clamp(34px,6vw,64px); font-weight:300; color:#fff; line-height:1; }
+    .pricing-card.member .pricing-amount { color:var(--gold); }
+    .pricing-unit { font-size:11px; color:rgba(255,255,255,.38); letter-spacing:.14em; margin-top:5px; }
+    .pricing-label { font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.28); margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,.06); }
+    .pricing-card.member .pricing-label { color:var(--gold); border-top-color:rgba(192,146,58,.2); }
+    .member-list { margin:24px auto 0; display:flex; flex-direction:column; gap:8px; max-width:360px; padding:0 16px; }
+    .member-list-item { font-size:12px; color:rgba(255,255,255,.38); letter-spacing:.04em; display:flex; align-items:center; gap:10px; }
+    .member-list-item::before { content:''; width:14px; height:1px; background:var(--gold); flex-shrink:0; }
+    @media(max-width:440px){ .pricing-grid { grid-template-columns:1fr; } }
 
     /* ── 食事ガイド ── */
-    .dining-guide{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:2px;}
-    .dining-cell{background:#fff;padding:22px 16px;border:1px solid var(--off-white);}
-    .dining-icon{font-size:18px;margin-bottom:8px;}
-    .dining-name{font-family:'Noto Serif JP',serif;font-size:13px;margin-bottom:3px;color:var(--dark);}
-    .dining-note{font-size:11px;color:var(--warm-grey);line-height:1.7;}
-    @media(max-width:700px){.dining-guide{grid-template-columns:1fr 1fr;}}
-    @media(max-width:380px){.dining-guide{grid-template-columns:1fr;}}
+    .dining-guide { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:2px; }
+    .dining-cell { background:#fff; padding:22px 16px; border:1px solid var(--off-white); }
+    .dining-icon { font-size:18px; margin-bottom:8px; }
+    .dining-name { font-family:'Noto Serif JP',serif; font-size:13px; margin-bottom:3px; color:var(--dark); }
+    .dining-note { font-size:11px; color:var(--warm-grey); line-height:1.7; }
+    @media(max-width:700px){ .dining-guide { grid-template-columns:1fr 1fr; } }
+    @media(max-width:380px){ .dining-guide { grid-template-columns:1fr; } }
 
     /* ── 周辺観光 ── */
-    .sight-row{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
-    .sight-cell{position:relative;overflow:hidden;height:clamp(180px,26vw,340px);}
-    .sight-cell img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease;}
-    .sight-cell:hover img{transform:scale(1.05);}
-    .sight-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,25,22,.82),transparent 55%);}
-    .sight-text{position:absolute;bottom:0;left:0;right:0;padding:14px 18px;}
-    .sight-label{font-size:9px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:2px;}
-    .sight-jp{font-family:'Noto Serif JP',serif;font-size:16px;color:#fff;font-weight:300;}
-    .sight-dist{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px;}
-    .sight-row3{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;}
-    .sight-row3 .sight-cell{height:clamp(140px,20vw,260px);}
+    .sight-row2 { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
+    .sight-row3 { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-top:2px; }
+    .sight-cell { position:relative; overflow:hidden; height:clamp(180px,26vw,340px); }
+    .sight-row3 .sight-cell { height:clamp(140px,18vw,260px); }
+    .sight-cell img { width:100%;height:100%;object-fit:cover;transition:transform .7s ease; }
+    .sight-cell:hover img { transform:scale(1.05); }
+    .sight-overlay { position:absolute;inset:0;background:linear-gradient(to top,rgba(26,25,22,.82),transparent 55%); }
+    .sight-text { position:absolute;bottom:0;left:0;right:0;padding:14px 18px; }
+    .sight-label { font-size:9px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:2px; }
+    .sight-jp { font-family:'Noto Serif JP',serif;font-size:16px;color:#fff;font-weight:300; }
+    .sight-dist { font-size:10px;color:rgba(255,255,255,.5);margin-top:2px; }
     @media(max-width:600px){
-      .sight-row{grid-template-columns:1fr;}
-      .sight-row3{grid-template-columns:1fr 1fr;}
+      .sight-row2 { grid-template-columns:1fr; }
+      .sight-row3 { grid-template-columns:1fr 1fr; }
+      .sight-row3 .sight-cell { height:clamp(130px,35vw,220px); }
     }
     @media(max-width:380px){
-      .sight-row3{grid-template-columns:1fr;}
+      .sight-row3 { grid-template-columns:1fr; }
     }
-
-    /* ── 予約フォーム調整 ── */
-    .book-step{display:flex;align-items:center;gap:10px;margin-bottom:20px;font-size:11px;letter-spacing:.1em;color:var(--warm-grey);}
-    .book-step-num{width:22px;height:22px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
-    .book-step-num.done{background:var(--dark);}
   </style>
 </head>
 <body>
@@ -133,14 +124,14 @@
   <a href="#booking"     onclick="closeMobile()" class="menu-book-btn">予約する</a>
 </div>
 
-<!-- HERO (その他資料) -->
+<!-- HERO (その他資料 — 体験・周辺) -->
 <section id="home">
   <div class="hero-slides">
-    <div class="hero-slide active" style="background-image:url('./images/room-living.jpeg')"></div>
-    <div class="hero-slide"        style="background-image:url('./images/matsue-lake-sunset.jpeg')"></div>
-    <div class="hero-slide"        style="background-image:url('./images/room-bedroom.jpeg')"></div>
-    <div class="hero-slide"        style="background-image:url('./images/matsue-castle-summer.jpeg')"></div>
-    <div class="hero-slide"        style="background-image:url('./images/room-living2.jpeg')"></div>
+    <div class="hero-slide active" style="background-image:url('./images/exp-lake.jpeg')"></div>
+    <div class="hero-slide"        style="background-image:url('./images/exp-castle-forest.jpeg')"></div>
+    <div class="hero-slide"        style="background-image:url('./images/exp-fireworks.jpeg')"></div>
+    <div class="hero-slide"        style="background-image:url('./images/exp-castle-moat.jpeg')"></div>
+    <div class="hero-slide"        style="background-image:url('./images/exp-teahouse-ext.jpeg')"></div>
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -164,7 +155,7 @@
       <span class="section-label">Concept</span>
       <h2 class="section-title" style="color:var(--warm-white);">和敬清寂</h2>
       <div class="divider-line" style="background:rgba(192,146,58,.5);"></div>
-      <p class="section-lead" style="max-width:420px;color:rgba(247,244,239,.6);font-size:14px;">
+      <p class="section-lead" style="max-width:400px;color:rgba(247,244,239,.6);font-size:14px;">
         松江の静謐と調和。ヴィンテージ・ヘリテージ家具が息づく空間で。
       </p>
     </div>
@@ -177,36 +168,26 @@
   </div>
 </section>
 
-<!-- SPACE (空間資料) -->
+<!-- ROOMS / SPACE (空間資料) -->
 <section id="rooms" style="padding:0;">
 
-  <!-- 空間アトモスフィア (空間資料) -->
-  <div class="space-grid fade-up">
-    <div class="space-wide space-cell">
-      <img src="./images/space-detail2.jpeg" alt="">
-    </div>
+  <!-- メインフォト：リビング全景 -->
+  <div class="space-grid space-grid-wide">
     <div class="space-cell">
-      <img src="./images/space-detail3.jpeg" alt="">
-    </div>
-    <div class="space-cell">
-      <img src="./images/space-detail4.jpeg" alt="">
+      <img src="./images/space-living.jpeg" alt="リビング・ダイニング">
     </div>
   </div>
 
-  <!-- 客室メインフォト (その他資料) -->
-  <div style="margin-top:2px;">
-    <div class="room-hero">
-      <div class="room-hero-main">
-        <img src="./images/room-living.jpeg" alt="リビング">
-      </div>
-      <div class="room-hero-sub">
-        <div class="room-hero-sub-cell">
-          <img src="./images/room-bedroom.jpeg" alt="ベッドルーム">
-        </div>
-        <div class="room-hero-sub-cell">
-          <img src="./images/space-detail1.jpeg" alt="">
-        </div>
-      </div>
+  <!-- 3分割：ベッドルーム / ドレッサー / スケッチ -->
+  <div class="space-grid space-grid-top" style="margin-top:2px;">
+    <div class="space-cell">
+      <img src="./images/space-bedroom.jpeg" alt="ベッドルーム">
+    </div>
+    <div class="space-cell">
+      <img src="./images/space-dresser.jpeg" alt="家具ディテール">
+    </div>
+    <div class="space-cell">
+      <img src="./images/space-sketch.jpeg" alt="空間イメージ">
     </div>
   </div>
 
@@ -308,42 +289,91 @@
   </div>
 </section>
 
-<!-- SIGHTSEEING -->
+<!-- SIGHTSEEING (その他資料 — 滞在体験) -->
 <section id="sightseeing" style="background:var(--off-white);padding:clamp(48px,7vw,88px) 0 0;">
   <div class="container">
     <div class="section-head fade-up" style="margin-bottom:clamp(20px,3vw,32px);">
-      <span class="section-label">Sightseeing</span>
+      <span class="section-label">Experience</span>
       <h2 class="section-title">松江を歩く</h2>
       <div class="divider-line"></div>
     </div>
   </div>
-  <div class="sight-row fade-up">
+
+  <!-- 大判2列: 宍道湖 + 松江城 -->
+  <div class="sight-row2 fade-up">
     <div class="sight-cell">
-      <img src="./images/matsue-lake-sunset.jpeg" alt="宍道湖">
+      <img src="./images/exp-lake.jpeg" alt="宍道湖">
       <div class="sight-overlay"></div>
-      <div class="sight-text"><div class="sight-label">SHINJIKO</div><div class="sight-jp">宍道湖</div><div class="sight-dist">日本の夕日百選 · 徒歩10分</div></div>
+      <div class="sight-text">
+        <div class="sight-label">SHINJIKO</div>
+        <div class="sight-jp">宍道湖</div>
+        <div class="sight-dist">日本の夕日百選 · 徒歩10分</div>
+      </div>
     </div>
     <div class="sight-cell">
-      <img src="./images/matsue-castle-summer.jpeg" alt="松江城">
+      <img src="./images/exp-castle-forest.jpeg" alt="松江城">
       <div class="sight-overlay"></div>
-      <div class="sight-text"><div class="sight-label">MATSUE CASTLE</div><div class="sight-jp">松江城</div><div class="sight-dist">国宝現存天守 · 徒歩15分</div></div>
+      <div class="sight-text">
+        <div class="sight-label">MATSUE CASTLE</div>
+        <div class="sight-jp">松江城</div>
+        <div class="sight-dist">国宝現存天守 · 徒歩15分</div>
+      </div>
     </div>
   </div>
+
+  <!-- 中段3列: 抹茶 + 出雲大社 + 明々庵外観 -->
   <div class="sight-row3 fade-up delay-1">
     <div class="sight-cell">
-      <img src="./images/matsue-teahouse1.jpeg" alt="茶の湯">
+      <img src="./images/exp-matcha.jpeg" alt="抹茶">
       <div class="sight-overlay"></div>
-      <div class="sight-text"><div class="sight-jp">明々庵・茶の湯</div><div class="sight-dist">徒歩20分</div></div>
+      <div class="sight-text">
+        <div class="sight-jp">抹茶・茶の湯</div>
+        <div class="sight-dist">不昧公の城下町</div>
+      </div>
     </div>
     <div class="sight-cell">
-      <img src="./images/matsue-castle-moat.jpeg" alt="堀川遊覧船">
+      <img src="./images/exp-shrine.jpeg" alt="出雲大社">
       <div class="sight-overlay"></div>
-      <div class="sight-text"><div class="sight-jp">堀川遊覧船</div><div class="sight-dist">徒歩15分</div></div>
+      <div class="sight-text">
+        <div class="sight-jp">出雲大社</div>
+        <div class="sight-dist">車45分</div>
+      </div>
     </div>
     <div class="sight-cell">
-      <img src="./images/matsue-shrine.jpeg" alt="出雲大社">
+      <img src="./images/exp-teahouse-ext.jpeg" alt="明々庵">
       <div class="sight-overlay"></div>
-      <div class="sight-text"><div class="sight-jp">出雲大社</div><div class="sight-dist">車45分</div></div>
+      <div class="sight-text">
+        <div class="sight-jp">明々庵</div>
+        <div class="sight-dist">徒歩20分</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 下段3列: 大山 + 花火 + 松江橋 -->
+  <div class="sight-row3 fade-up delay-2">
+    <div class="sight-cell">
+      <img src="./images/exp-daisen.jpeg" alt="大山">
+      <div class="sight-overlay"></div>
+      <div class="sight-text">
+        <div class="sight-jp">大山</div>
+        <div class="sight-dist">車60分</div>
+      </div>
+    </div>
+    <div class="sight-cell">
+      <img src="./images/exp-fireworks.jpeg" alt="花火大会">
+      <div class="sight-overlay"></div>
+      <div class="sight-text">
+        <div class="sight-jp">しまね花火大会</div>
+        <div class="sight-dist">夏の風物詩</div>
+      </div>
+    </div>
+    <div class="sight-cell">
+      <img src="./images/exp-matsue-city.jpeg" alt="松江城下">
+      <div class="sight-overlay"></div>
+      <div class="sight-text">
+        <div class="sight-jp">松江城下</div>
+        <div class="sight-dist">徒歩15分</div>
+      </div>
     </div>
   </div>
 </section>
@@ -594,7 +624,6 @@
 </div>
 
 <script>
-/* ──────────── Utilities ──────────── */
 const _today = new Date(); _today.setHours(0,0,0,0);
 function dateToStr(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function strToDate(s){ const[y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); }
@@ -604,18 +633,8 @@ function showToast(msg,type=''){
   t.textContent=msg; t.className='show'+(type?' '+type:'');
   setTimeout(()=>{ t.className=''; },3500);
 }
-
-/* ──────────── Nav scroll ──────────── */
-window.addEventListener('scroll',()=>{
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY>60);
-});
-
-/* ──────────── Hero fade-in ──────────── */
-setTimeout(()=>{
-  document.querySelectorAll('#home .fade-up').forEach(el=>el.classList.add('visible'));
-},200);
-
-/* ──────────── Hamburger ──────────── */
+window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled', window.scrollY>60); });
+setTimeout(()=>{ document.querySelectorAll('#home .fade-up').forEach(el=>el.classList.add('visible')); },200);
 document.getElementById('hamburger').addEventListener('click',function(){
   this.classList.toggle('open');
   document.getElementById('mobileMenu').classList.toggle('open');
@@ -624,10 +643,8 @@ document.getElementById('hamburger').addEventListener('click',function(){
 function closeMobile(){
   document.getElementById('hamburger').classList.remove('open');
   document.getElementById('mobileMenu').classList.remove('open');
-  document.body.style.overflow = '';
+  document.body.style.overflow='';
 }
-
-/* ──────────── Hero Slideshow ──────────── */
 let _cs=0;
 const _sl=document.querySelectorAll('.hero-slide'), _dt=document.querySelectorAll('.hero-dot');
 function goSlide(n){
@@ -636,14 +653,11 @@ function goSlide(n){
   _sl[_cs].classList.add('active'); _dt[_cs].classList.add('active');
 }
 setInterval(()=>goSlide(_cs+1), 5500);
-
-/* ──────────── Scroll Animations ──────────── */
 const _obs = new IntersectionObserver(entries=>{
   entries.forEach(x=>{ if(x.isIntersecting) x.target.classList.add('visible'); });
 },{threshold:0.08});
 document.querySelectorAll('.fade-up').forEach(el=>_obs.observe(el));
 
-/* ──────────── Calendar State ──────────── */
 function getBlockedDates(){ try{ return JSON.parse(localStorage.getItem('kuari_blocked')||'[]'); }catch(e){ return[]; } }
 function getBookedRanges(){ try{ return JSON.parse(localStorage.getItem('kuari_bookings')||'[]'); }catch(e){ return[]; } }
 function isPast(ds){ return strToDate(ds)<_today; }
@@ -652,10 +666,7 @@ function isBooked(ds){
   const t=strToDate(ds).getTime();
   return getBookedRanges().some(b=> t>=strToDate(b.checkin).getTime() && t<=strToDate(b.checkout).getTime());
 }
-
 let _cy=_today.getFullYear(), _cm=_today.getMonth(), _ss=null, _se=null, _sh=null;
-
-/* ──────────── Calendar Render ──────────── */
 function renderCalendar(){
   document.getElementById('calMonthLabel').textContent=`${_cy}年 ${_cm+1}月`;
   const g=document.getElementById('calGrid'); g.innerHTML='';
@@ -687,13 +698,11 @@ function renderCalendar(){
     btn.className=cls; g.appendChild(btn);
   }
 }
-
 function handleCalClick(ds){
   if(!_ss||(_ss&&_se)){ _ss=ds; _se=null; }
   else{ if(ds<=_ss){ _se=_ss; _ss=ds; } else{ _se=ds; } }
   _sh=null; updateDatesDisplay(); renderCalendar();
 }
-
 function updateDatesDisplay(){
   const el=document.getElementById('selectedDatesDisplay');
   if(_ss&&_se){
@@ -707,85 +716,59 @@ function updateDatesDisplay(){
     el.style.color='var(--warm-grey)';
   }
 }
-
 function prevMonth(){ _cm--; if(_cm<0){_cm=11;_cy--;} renderCalendar(); }
 function nextMonth(){ _cm++; if(_cm>11){_cm=0;_cy++;} renderCalendar(); }
 
-/* ──────────── Submit Booking ──────────── */
 async function submitBooking(e){
   e.preventDefault();
   if(!_ss||!_se){ showToast('①カレンダーで日付を選択してください','error'); return; }
-  const name    = document.getElementById('bookName').value.trim();
-  const contact = document.getElementById('bookContact').value.trim();
-  const community = document.getElementById('bookCommunity').value;
-  const guests  = document.getElementById('bookGuests').value;
-  const notes   = document.getElementById('bookNotes').value.trim();
-  if(!name||!contact||!community||!guests){
-    showToast('必須項目を入力してください','error'); return;
-  }
+  const name=document.getElementById('bookName').value.trim();
+  const contact=document.getElementById('bookContact').value.trim();
+  const community=document.getElementById('bookCommunity').value;
+  const guests=document.getElementById('bookGuests').value;
+  const notes=document.getElementById('bookNotes').value.trim();
+  if(!name||!contact||!community||!guests){ showToast('必須項目を入力してください','error'); return; }
   const btn=document.getElementById('submitBtn');
   btn.disabled=true; btn.textContent='送信中…';
-
-  /* localStorage に保存 */
   const bks=getBookedRanges();
   const nb={id:Date.now().toString(),checkin:_ss,checkout:_se,name,contact,community,guests,notes,createdAt:new Date().toISOString()};
   bks.push(nb); localStorage.setItem('kuari_bookings',JSON.stringify(bks));
-
-  /* ntfy.sh 通知 */
   fetch('https://ntfy.sh/kuari-higashihonmachi-2026',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      topic:'kuari-higashihonmachi-2026',
-      title:'🏯 kuari東本町 新規予約',
-      message:`${name} / ${_ss}〜${_se} / ${guests}\n${contact}\n${community}`,
-      priority:5,
-      tags:['tada','house']
-    })
+    body:JSON.stringify({topic:'kuari-higashihonmachi-2026',title:'🏯 kuari東本町 新規予約',
+      message:`${name} / ${_ss}〜${_se} / ${guests}\n${contact}\n${community}`,priority:5,tags:['tada','house']})
   }).catch(()=>{});
-
-  /* LINE Notify (Vercel API経由) */
   const lt=localStorage.getItem('kuari_line_token')||'';
   fetch('/api/book',{
     method:'POST',
     headers:{'Content-Type':'application/json',...(lt?{'X-Line-Token':lt}:{})},
     body:JSON.stringify({name,contact,community,checkin:_ss,checkout:_se,guests,purpose:community,notes})
   }).catch(()=>{});
-
-  /* UI リセット */
   const s2=_ss, e2=_se;
   _ss=null; _se=null; _sh=null;
   updateDatesDisplay(); renderCalendar();
   document.getElementById('bookingForm').reset();
-
-  /* 確認モーダル */
   document.getElementById('confirmText').innerHTML=
     `${name} 様<br>${formatJP(s2)} → ${formatJP(e2)}<br><br>管理者より <strong>${contact}</strong> へご連絡します。`;
   document.getElementById('bookConfirmModal').classList.add('open');
-
   btn.disabled=false; btn.textContent='予約リクエストを送る';
 }
-
 function closeConfirm(){ document.getElementById('bookConfirmModal').classList.remove('open'); }
 
-/* ──────────── Admin Panel ──────────── */
 let _ac=0, _at=null;
 document.getElementById('adminTrigger').addEventListener('click',()=>{
   _ac++; clearTimeout(_at); _at=setTimeout(()=>_ac=0,2000);
   if(_ac>=5){ _ac=0; openAdmin(); }
 });
 if(new URLSearchParams(location.search).get('admin')!==null) openAdmin();
-
 function openAdmin(){
   document.getElementById('adminPanel').classList.add('open');
   document.body.style.overflow='hidden';
   renderAdminCalendar(); renderAdminBookings();
   document.getElementById('lineTokenInput').value=localStorage.getItem('kuari_line_token')||'';
 }
-function closeAdmin(){
-  document.getElementById('adminPanel').classList.remove('open');
-  document.body.style.overflow='';
-}
+function closeAdmin(){ document.getElementById('adminPanel').classList.remove('open'); document.body.style.overflow=''; }
 function switchAdminTab(tab,btn){
   document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.admin-tab-pane').forEach(p=>p.classList.remove('active'));
@@ -794,7 +777,6 @@ function switchAdminTab(tab,btn){
   if(tab==='dates') renderAdminCalendar();
   if(tab==='bookings') renderAdminBookings();
 }
-
 let _ay=_today.getFullYear(), _am=_today.getMonth();
 function renderAdminCalendar(){
   document.getElementById('adminCalLabel').textContent=`${_ay}年 ${_am+1}月`;
@@ -821,21 +803,13 @@ function adminToggleBlock(ds){
   renderAdminCalendar(); renderCalendar();
   showToast(i>=0?`${ds} 受付可`:`${ds} 受付不可`,'success');
 }
-function clearAllBlocked(){
-  if(!confirm('全リセット？'))return;
-  localStorage.removeItem('kuari_blocked');
-  renderAdminCalendar(); renderCalendar();
-  showToast('リセットしました','success');
-}
+function clearAllBlocked(){ if(!confirm('全リセット？'))return; localStorage.removeItem('kuari_blocked'); renderAdminCalendar(); renderCalendar(); showToast('リセットしました','success'); }
 function prevAdminMonth(){ _am--; if(_am<0){_am=11;_ay--;} renderAdminCalendar(); }
 function nextAdminMonth(){ _am++; if(_am>11){_am=0;_ay++;} renderAdminCalendar(); }
-
 function renderAdminBookings(){
   const el=document.getElementById('adminBookingsList');
   const data=getBookedRanges().sort((a,b)=>a.checkin.localeCompare(b.checkin));
-  if(!data.length){
-    el.innerHTML='<p style="color:var(--warm-grey);font-size:13px;padding:16px 0;">予約なし</p>'; return;
-  }
+  if(!data.length){ el.innerHTML='<p style="color:var(--warm-grey);font-size:13px;padding:16px 0;">予約なし</p>'; return; }
   el.innerHTML=data.map(b=>`
     <div class="booking-item" id="bi-${b.id}">
       <div><div class="booking-date">${formatJP(b.checkin)}<br>〜${formatJP(b.checkout)}</div></div>
@@ -846,11 +820,7 @@ function renderAdminBookings(){
       <button class="booking-delete" onclick="deleteBooking('${b.id}')">削除</button>
     </div>`).join('');
 }
-function deleteBooking(id){
-  if(!confirm('削除？'))return;
-  localStorage.setItem('kuari_bookings',JSON.stringify(getBookedRanges().filter(b=>b.id!==id)));
-  renderAdminBookings(); renderCalendar();
-}
+function deleteBooking(id){ if(!confirm('削除？'))return; localStorage.setItem('kuari_bookings',JSON.stringify(getBookedRanges().filter(b=>b.id!==id))); renderAdminBookings(); renderCalendar(); }
 function exportBookings(){
   const data=getBookedRanges();
   if(!data.length){ showToast('予約データなし'); return; }
@@ -878,8 +848,6 @@ async function testLineNotify(){
     showToast(d.ok?'成功 ✓':'エラー: '+JSON.stringify(d.results||d), d.ok?'success':'error');
   } catch(err){ showToast('エラー: '+err.message,'error'); }
 }
-
-/* ──────────── Init ──────────── */
 renderCalendar();
 </script>
 </body>
