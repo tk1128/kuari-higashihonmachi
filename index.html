@@ -3,11 +3,162 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>kuari 東本町 — 大切なものを共有する場所</title>
-  <meta name="description" content="kuari東本町は、自分の大切な事・物・スキルを共有できる人々のための特別な宿泊空間です。">
+  <title>kuari 東本町 — 松江、和敬清寂の宿</title>
+  <meta name="description" content="松江市東本町6F。ヴィンテージ・ヘリテージ家具で演出された1LDKの空間で、松江の和敬清寂を体験する。">
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+JP:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── 和敬清寂 display ── */
+    .wkss-section {
+      background: #0e0d0b;
+      padding: 80px clamp(20px,5vw,80px);
+      margin-top: 64px;
+    }
+    .wkss-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 2px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .wkss-cell {
+      padding: clamp(24px,4vw,48px) clamp(16px,2vw,32px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .wkss-kanji {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(52px,8vw,96px);
+      font-weight: 300;
+      color: #fff;
+      line-height: 1;
+    }
+    .wkss-roman {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(11px,1.5vw,15px);
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+    .wkss-meaning {
+      font-size: clamp(11px,1.5vw,13px);
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.12em;
+    }
+    @media(max-width:600px) {
+      .wkss-grid { grid-template-columns: repeat(2,1fr); }
+    }
+
+    /* ── Rooms: single room layout ── */
+    .room-hero { height: clamp(360px,50vw,600px); overflow:hidden; position:relative; }
+    .room-hero img { height:100%; object-position:center 40%; transition:transform 0.8s ease; }
+    .room-hero:hover img { transform:scale(1.04); }
+    .room-hero-label {
+      position:absolute; bottom:0; left:0; right:0;
+      background:linear-gradient(to top,rgba(26,25,22,0.85),transparent);
+      padding:40px 40px 28px;
+      color:#fff;
+    }
+    .room-type-badge {
+      display:inline-block;
+      font-size:10px; letter-spacing:0.25em; text-transform:uppercase;
+      color:var(--gold); border:1px solid rgba(192,146,58,0.5);
+      padding:5px 14px; margin-bottom:10px;
+    }
+    .room-hero-name { font-family:'Noto Serif JP',serif; font-size:clamp(20px,3vw,32px); font-weight:300; letter-spacing:0.1em; }
+
+    .room-detail-grid {
+      display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:2px;
+    }
+    .room-img-wrap { overflow:hidden; height:clamp(260px,35vw,440px); }
+    .room-img-wrap img { height:100%; transition:transform 0.7s ease; }
+    .room-img-wrap:hover img { transform:scale(1.05); }
+    .room-specs {
+      background:#fff; padding:clamp(28px,5vw,64px) clamp(24px,4vw,56px);
+      display:flex; flex-direction:column; gap:20px; justify-content:center;
+    }
+    .room-spec-row {
+      display:flex; align-items:baseline; gap:16px;
+      padding-bottom:16px; border-bottom:1px solid var(--off-white);
+    }
+    .room-spec-row:last-of-type { border-bottom:none; padding-bottom:0; }
+    .room-spec-label { font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); width:120px; flex-shrink:0; }
+    .room-spec-value { font-size:14px; color:var(--dark); line-height:1.7; }
+
+    .room-capacity {
+      background:var(--dark); color:var(--warm-white);
+      display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:2px;
+    }
+    .capacity-card { padding:clamp(24px,4vw,48px); text-align:center; border:1px solid rgba(255,255,255,0.05); }
+    .capacity-num { font-family:'Cormorant Garamond',serif; font-size:clamp(52px,8vw,80px); font-weight:300; color:var(--gold); line-height:1; }
+    .capacity-unit { font-size:12px; color:rgba(247,244,239,0.5); margin-top:4px; }
+    .capacity-label { font-size:13px; color:rgba(247,244,239,0.7); margin-top:12px; letter-spacing:0.05em; }
+
+    /* Floor plan */
+    .floorplan-section { background:var(--off-white); padding:clamp(48px,7vw,96px) clamp(20px,5vw,60px); }
+    .floorplan-inner { max-width:1200px; margin:0 auto; }
+    .floorplan-layout { display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start; margin-top:48px; }
+    .floorplan-frame {
+      overflow:hidden; background:#f0ede6; position:relative;
+      padding-bottom:95%;
+    }
+    .floorplan-frame img {
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%) scale(1.18);
+      width:100%; height:100%; object-fit:contain;
+    }
+    .floorplan-rooms { display:flex; flex-direction:column; gap:16px; }
+    .fp-room {
+      display:flex; align-items:center; gap:20px;
+      padding:16px 20px; background:#fff; border:1px solid var(--light-line);
+    }
+    .fp-room-size {
+      font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300;
+      color:var(--gold); line-height:1; flex-shrink:0; width:64px; text-align:center;
+    }
+    .fp-room-name { font-size:14px; font-weight:500; margin-bottom:4px; }
+    .fp-room-desc { font-size:12px; color:var(--warm-grey); line-height:1.7; }
+    @media(max-width:768px) {
+      .floorplan-layout { grid-template-columns:1fr; gap:32px; }
+      .room-detail-grid { grid-template-columns:1fr; }
+      .room-capacity { grid-template-columns:1fr 1fr; }
+    }
+
+    /* Dining nearby */
+    .dining-nearby-grid {
+      display:grid; grid-template-columns:repeat(2,1fr); gap:2px; margin-top:48px;
+    }
+    .dining-nearby-card {
+      background:#fff; padding:32px; border:1px solid var(--off-white);
+      transition:border-color 0.2s;
+    }
+    .dining-nearby-card:hover { border-color:var(--gold); }
+    .dining-nearby-icon { font-size:24px; margin-bottom:14px; }
+    .dining-nearby-name { font-family:'Noto Serif JP',serif; font-size:16px; font-weight:400; margin-bottom:8px; }
+    .dining-nearby-desc { font-size:12px; color:var(--warm-grey); line-height:1.9; }
+    @media(max-width:640px) {
+      .dining-nearby-grid { grid-template-columns:1fr; }
+    }
+
+    /* Concept lead */
+    .concept-lead-block {
+      padding:clamp(40px,6vw,80px) clamp(28px,5vw,64px);
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.06);
+      max-width:680px;
+    }
+    .concept-lead-quote {
+      font-family:'Noto Serif JP',serif; font-size:clamp(15px,2.5vw,20px);
+      font-weight:300; color:rgba(247,244,239,0.9); line-height:2; letter-spacing:0.08em;
+    }
+    .concept-lead-body {
+      font-size:13px; color:rgba(247,244,239,0.5); line-height:2.2; margin-top:20px;
+    }
+  </style>
 </head>
 <body>
 
@@ -20,7 +171,6 @@
       <li><a href="#rooms">客室</a></li>
       <li><a href="#dining">食事</a></li>
       <li><a href="#sightseeing">周辺観光</a></li>
-      <li><a href="#experience">体験</a></li>
       <li><a href="#access">アクセス</a></li>
       <li><a href="#instagram">Instagram</a></li>
       <li><a href="#booking" class="nav-book-btn">予約</a></li>
@@ -37,7 +187,6 @@
   <a href="#rooms"       onclick="closeMobile()">客室</a>
   <a href="#dining"      onclick="closeMobile()">食事</a>
   <a href="#sightseeing" onclick="closeMobile()">周辺観光</a>
-  <a href="#experience"  onclick="closeMobile()">体験</a>
   <a href="#access"      onclick="closeMobile()">アクセス</a>
   <a href="#instagram"   onclick="closeMobile()">Instagram</a>
   <a href="#booking"     onclick="closeMobile()" class="menu-book-btn">予約する</a>
@@ -45,18 +194,18 @@
 
 <!-- =============== HERO =============== -->
 <section id="home">
-  <div class="hero-slides" id="heroSlides">
-    <div class="hero-slide active" style="background-image:url('./images/1.jpeg')"></div>
-    <div class="hero-slide"        style="background-image:url('./images/2.jpeg')"></div>
-    <div class="hero-slide"        style="background-image:url('./images/3.jpeg')"></div>
-    <div class="hero-slide"        style="background-image:url('./images/4.jpeg')"></div>
+  <div class="hero-slides">
+    <div class="hero-slide active" style="background-image:url('./images/room-living.jpeg')"></div>
+    <div class="hero-slide"        style="background-image:url('./images/room-bedroom.jpeg')"></div>
+    <div class="hero-slide"        style="background-image:url('./images/matsue-lake-sunset.jpeg')"></div>
+    <div class="hero-slide"        style="background-image:url('./images/matsue-castle-summer.jpeg')"></div>
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <div class="hero-logo fade-up">kuari</div>
-    <div class="hero-subtitle fade-up delay-1">東本町 — 大切なものを共有する場所</div>
+    <div class="hero-subtitle fade-up delay-1">東本町 — 松江、和敬清寂の宿</div>
   </div>
-  <div class="hero-dots" id="heroDots">
+  <div class="hero-dots">
     <div class="hero-dot active" onclick="goSlide(0)"></div>
     <div class="hero-dot"        onclick="goSlide(1)"></div>
     <div class="hero-dot"        onclick="goSlide(2)"></div>
@@ -73,75 +222,194 @@
   <div class="container">
     <div class="section-head fade-up">
       <span class="section-label">Concept</span>
-      <h2 class="section-title">「和」の心で、<br>世界をつなぐ</h2>
+      <h2 class="section-title">「和敬清寂」を、<br>松江で体験する</h2>
       <div class="divider-line"></div>
-      <p class="section-lead">
-        kuari東本町は、自分が大切にしているもの — 知識・技術・文化・想い — を持ち寄り、分かち合うための特別な空間です。和敬清寂の精神を軸に、国境や世代を超えたつながりを育む場所として、ここに在ります。
-      </p>
+    </div>
+    <div class="fade-up delay-1">
+      <div class="concept-lead-block">
+        <p class="concept-lead-quote">
+          空間はヴィンテージ・ヘリテージ家具で演出されています。<br>
+          しかしここで感じてほしいのは、この土地が持つ精神性 ——
+        </p>
+        <p class="concept-lead-body">
+          宍道湖の夕景、松江城の静謐、不昧公の茶の湯、城下町の空気。それらはすべて「和敬清寂」という言葉に収束します。kuari東本町は、松江という文化圏を、より深く体感するための起点として在ります。
+        </p>
+      </div>
     </div>
   </div>
-  <div class="concept-grid">
-    <div class="concept-image fade-up">
-      <img src="./images/5.jpeg" alt="kuari 東本町">
+
+  <!-- 和敬清寂 4字解説 -->
+  <div class="wkss-section fade-up delay-2">
+    <div class="wkss-grid">
+      <div class="wkss-cell">
+        <span class="wkss-kanji">和</span>
+        <span class="wkss-roman">wa</span>
+        <span class="wkss-meaning">harmony</span>
+      </div>
+      <div class="wkss-cell">
+        <span class="wkss-kanji">敬</span>
+        <span class="wkss-roman">kei</span>
+        <span class="wkss-meaning">humility</span>
+      </div>
+      <div class="wkss-cell">
+        <span class="wkss-kanji">清</span>
+        <span class="wkss-roman">sei</span>
+        <span class="wkss-meaning">purity</span>
+      </div>
+      <div class="wkss-cell">
+        <span class="wkss-kanji">寂</span>
+        <span class="wkss-roman">jaku</span>
+        <span class="wkss-meaning">tranquility</span>
+      </div>
     </div>
-    <div class="concept-text-block fade-up delay-1">
-      <div>
-        <span class="section-label">For Members</span>
-        <h3 class="section-title" style="font-size:clamp(18px,2.5vw,26px);color:var(--warm-white);">ご利用いただける方</h3>
-      </div>
-      <div class="concept-members">
-        <div class="concept-member-item">web3.AI概論 履修者</div>
-        <div class="concept-member-item">HENKAKUコミュニティーメンバー</div>
-        <div class="concept-member-item">イーサリアン</div>
-        <div class="concept-member-item">大切な事・物・スキルを共有できる方</div>
-      </div>
-      <p style="font-size:13px;color:rgba(247,244,239,0.45);line-height:2;margin-top:8px;letter-spacing:0.05em;">
-        ご予約の際は、どのコミュニティに属しているか、またどのようなものを共有したいかをお知らせください。
-      </p>
+  </div>
+
+  <div class="container" style="margin-top:64px;">
+    <div class="section-head fade-up">
+      <span class="section-label" style="color:rgba(192,146,58,0.7);">For Guests</span>
+      <h3 class="section-title" style="font-size:clamp(18px,2.5vw,26px);color:var(--warm-white);">ご利用いただける方</h3>
+      <div class="divider-line"></div>
+    </div>
+    <div class="concept-members fade-up delay-1">
+      <div class="concept-member-item">松江の文化・自然を深く体験したい方</div>
+      <div class="concept-member-item">クリエイター・研究者・旅人</div>
+      <div class="concept-member-item">大切にしているものを持ち寄れる方</div>
+      <div class="concept-member-item">kuariの考え方に共感できる方</div>
     </div>
   </div>
 </section>
 
 <!-- =============== ROOMS =============== -->
-<section id="rooms">
-  <div class="container">
-    <div class="section-head fade-up">
-      <span class="section-label">Rooms</span>
-      <h2 class="section-title">客室</h2>
-      <div class="divider-line"></div>
-      <p class="section-lead">
-        古い家屋の佇まいを大切に残しながら、現代の快適性を織り交ぜた空間。それぞれの部屋に、この場所が積み重ねてきた時間の気配があります。
-      </p>
+<section id="rooms" style="padding:0 0 var(--pad-section);">
+  <div style="padding:var(--pad-section) 0 0;">
+    <div class="container">
+      <div class="section-head fade-up">
+        <span class="section-label">Rooms</span>
+        <h2 class="section-title">1LDK — ヴィンテージ × 松江の空</h2>
+        <div class="divider-line"></div>
+        <p class="section-lead">
+          松江市中心部、6階。ヨーロッパから持ち込んだヘリテージ家具と、松江の風が共鳴する空間。宿泊として、また集いの場として。
+        </p>
+      </div>
     </div>
-    <div class="rooms-grid">
-      <div class="room-card fade-up">
-        <div class="room-card-img">
-          <img src="./images/6.jpeg" alt="和室 縁">
-        </div>
-        <div class="room-card-body">
-          <div class="room-card-name">和室 — 縁（えん）</div>
-          <div class="room-card-desc">縁側から見える庭の緑。畳の香りと静けさの中で、大切な人と語り合う時間を。</div>
-          <span class="room-card-tag">最大4名</span>
-        </div>
+  </div>
+
+  <!-- Living room hero -->
+  <div class="room-hero fade-up">
+    <img src="./images/room-living.jpeg" alt="kuari東本町 リビング・ダイニング">
+    <div class="room-hero-label">
+      <span class="room-type-badge">1LDK · 6F · Matsue</span>
+      <div class="room-hero-name">ワークスペース &amp; リビング・ダイニング</div>
+    </div>
+  </div>
+
+  <!-- Bedroom + Specs -->
+  <div class="room-detail-grid">
+    <div class="room-img-wrap fade-up">
+      <img src="./images/room-bedroom.jpeg" alt="ベッドルーム">
+    </div>
+    <div class="room-specs fade-up delay-1">
+      <div>
+        <span class="section-label">Room Details</span>
       </div>
-      <div class="room-card fade-up delay-1">
-        <div class="room-card-img">
-          <img src="./images/7.jpeg" alt="ライブラリー 知">
-        </div>
-        <div class="room-card-body">
-          <div class="room-card-name">ライブラリー — 知（ち）</div>
-          <div class="room-card-desc">本と対話する時間。書棚には世界中のメンバーが持ち寄った1冊が並ぶ。朝の光が美しい。</div>
-          <span class="room-card-tag">最大2名</span>
-        </div>
+      <div class="room-spec-row">
+        <span class="room-spec-label">タイプ</span>
+        <span class="room-spec-value">1LDK / ブルースカイマンション 6F</span>
       </div>
-      <div class="room-card fade-up delay-2">
-        <div class="room-card-img">
-          <img src="./images/8.jpeg" alt="共有スペース 場">
+      <div class="room-spec-row">
+        <span class="room-spec-label">ワークスペース</span>
+        <span class="room-spec-value">32㎡ — アンティーク大テーブル、ヴィンテージラグ<br>ヘリテージ建具・家具</span>
+      </div>
+      <div class="room-spec-row">
+        <span class="room-spec-label">ベッドルーム</span>
+        <span class="room-spec-value">8㎡ — シェル製シャンデリア<br>アイアンフレームダブルベッド</span>
+      </div>
+      <div class="room-spec-row">
+        <span class="room-spec-label">キッチン</span>
+        <span class="room-spec-value">フルキッチン（冷蔵庫・洗濯機完備）</span>
+      </div>
+      <div class="room-spec-row">
+        <span class="room-spec-label">バスルーム</span>
+        <span class="room-spec-value">シャワールーム・独立トイレ</span>
+      </div>
+      <div class="room-spec-row">
+        <span class="room-spec-label">バルコニー</span>
+        <span class="room-spec-value">2箇所（南・西方向）</span>
+      </div>
+      <div class="room-spec-row">
+        <span class="room-spec-label">その他</span>
+        <span class="room-spec-value">クローゼット・エレベーター直通</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail image -->
+  <div class="room-detail-grid" style="margin-top:2px;">
+    <div class="room-img-wrap fade-up">
+      <img src="./images/room-dresser.jpeg" alt="ヴィンテージディテール">
+    </div>
+    <div class="room-img-wrap fade-up delay-1">
+      <img src="./images/room-living2.jpeg" alt="空間ディテール">
+    </div>
+  </div>
+
+  <!-- Capacity -->
+  <div class="room-capacity fade-up">
+    <div class="capacity-card">
+      <div class="capacity-num">2</div>
+      <div class="capacity-unit">名</div>
+      <div class="capacity-label">宿泊<br><span style="font-size:11px;opacity:0.5;">最大定員</span></div>
+    </div>
+    <div class="capacity-card">
+      <div class="capacity-num">6</div>
+      <div class="capacity-unit">名</div>
+      <div class="capacity-label">ミーティング・<br>ワークショップ等<br><span style="font-size:11px;opacity:0.5;">最大定員</span></div>
+    </div>
+  </div>
+
+  <!-- Floor Plan -->
+  <div class="floorplan-section">
+    <div class="floorplan-inner">
+      <div class="fade-up">
+        <span class="section-label">Floor Plan</span>
+        <h3 class="section-title" style="font-size:clamp(18px,2.5vw,28px);">間取り</h3>
+        <div class="divider-line"></div>
+      </div>
+      <div class="floorplan-layout">
+        <div class="fade-up">
+          <div class="floorplan-frame">
+            <img src="./images/floorplan.png" alt="kuari東本町 間取り図">
+          </div>
         </div>
-        <div class="room-card-body">
-          <div class="room-card-name">共有スペース — 場（ば）</div>
-          <div class="room-card-desc">昔ながらの土間をリノベートした多目的スペース。ワークショップ・交流会・展示等に。</div>
-          <span class="room-card-tag">イベント利用可</span>
+        <div class="floorplan-rooms fade-up delay-1">
+          <div class="fp-room">
+            <div class="fp-room-size">32<span style="font-size:14px;color:var(--warm-grey)">㎡</span></div>
+            <div>
+              <div class="fp-room-name">ワークスペース / リビング・ダイニング</div>
+              <div class="fp-room-desc">大型アンティークテーブル（6名着席可）、ヴィンテージラグ、ソファ、シェルフ。南北2方向にバルコニーへの出入口。</div>
+            </div>
+          </div>
+          <div class="fp-room">
+            <div class="fp-room-size">8<span style="font-size:14px;color:var(--warm-grey)">㎡</span></div>
+            <div>
+              <div class="fp-room-name">ベッドルーム</div>
+              <div class="fp-room-desc">シェル製シャンデリア、ダブルベッド、松江の街並みを見渡す窓。アート作品2点。</div>
+            </div>
+          </div>
+          <div class="fp-room">
+            <div class="fp-room-size" style="font-size:20px;">KIT</div>
+            <div>
+              <div class="fp-room-name">キッチン</div>
+              <div class="fp-room-desc">コンロ・冷蔵庫・洗濯機・給湯器完備。自炊も可能。</div>
+            </div>
+          </div>
+          <div class="fp-room">
+            <div class="fp-room-size" style="font-size:20px;">BAL</div>
+            <div>
+              <div class="fp-room-name">バルコニー × 2</div>
+              <div class="fp-room-desc">南側と北側の2方向。松江の空と城下町の景色。</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -149,154 +417,166 @@
 </section>
 
 <!-- =============== DINING =============== -->
-<section id="dining">
-  <div class="dining-split">
-    <div class="dining-image fade-up">
-      <img src="./images/2.jpeg" alt="食事">
-    </div>
-    <div class="dining-text">
+<section id="dining" style="background:var(--dark);color:var(--warm-white);">
+  <div class="container">
+    <div class="section-head fade-up">
       <span class="section-label">Dining</span>
-      <h2 class="section-title">食事</h2>
+      <h2 class="section-title" style="color:var(--warm-white);">松江城下の食をめぐる</h2>
       <div class="divider-line"></div>
-      <p class="section-lead">
-        地元の旬の食材を使い、丁寧に作られた食事をご用意します。食卓は、価値観を交換する場でもあります。
+      <p class="section-lead" style="color:rgba(247,244,239,0.6);max-width:600px;">
+        kuari東本町にはフルキッチンが完備されています。自炊も可能ですが、城下町の名店へ足を運ぶことをお勧めします。宍道湖の七珍、不昧公ゆかりの松江の地酒と菓子 — 食も、この土地の和敬清寂です。
       </p>
-      <div class="dining-menu-items fade-up delay-1">
-        <div class="dining-menu-item">
-          <div class="dining-menu-item-dot"></div>
-          <span>朝食 — 地元農家の新鮮野菜と焼きたてパン</span>
-        </div>
-        <div class="dining-menu-item">
-          <div class="dining-menu-item-dot"></div>
-          <span>夕食 — 季節の和食コース（要予約）</span>
-        </div>
-        <div class="dining-menu-item">
-          <div class="dining-menu-item-dot"></div>
-          <span>アレルギー・ヴィーガン対応可（事前申告）</span>
-        </div>
-        <div class="dining-menu-item">
-          <div class="dining-menu-item-dot"></div>
-          <span>食事をシェアする「共食」体験イベント不定期開催</span>
-        </div>
+    </div>
+    <div class="dining-nearby-grid fade-up delay-1">
+      <div class="dining-nearby-card" style="background:#1e1d1a;border-color:rgba(255,255,255,0.06);">
+        <div class="dining-nearby-icon">🐚</div>
+        <div class="dining-nearby-name" style="color:var(--warm-white);">割烹・和食</div>
+        <div class="dining-nearby-desc">宍道湖七珍（しじみ・すずき・もろげえび・あまさぎ・鯉・鰻・白魚）を使った本格松江料理。城下町に老舗の割烹が点在。</div>
+      </div>
+      <div class="dining-nearby-card" style="background:#1e1d1a;border-color:rgba(255,255,255,0.06);">
+        <div class="dining-nearby-icon">🍶</div>
+        <div class="dining-nearby-name" style="color:var(--warm-white);">居酒屋・地酒</div>
+        <div class="dining-nearby-desc">不昧公ゆかりの銘酒「王禄」「李白」「豊の秋」など松江の地酒と、旬の肴を。城下町の古い暖簾をくぐる時間。</div>
+      </div>
+      <div class="dining-nearby-card" style="background:#1e1d1a;border-color:rgba(255,255,255,0.06);">
+        <div class="dining-nearby-icon">🍵</div>
+        <div class="dining-nearby-name" style="color:var(--warm-white);">お茶・和菓子</div>
+        <div class="dining-nearby-desc">不昧公が育てた松江の茶文化。老舗の和菓子店や茶室で、一服の抹茶を。明々庵など徒歩圏内に複数。</div>
+      </div>
+      <div class="dining-nearby-card" style="background:#1e1d1a;border-color:rgba(255,255,255,0.06);">
+        <div class="dining-nearby-icon">☕</div>
+        <div class="dining-nearby-name" style="color:var(--warm-white);">カフェ・洋食</div>
+        <div class="dining-nearby-desc">城下町の古民家を改装したカフェや、朝食に立ち寄れるベーカリーも徒歩圏内に。宍道湖を眺めながらの朝食も。</div>
       </div>
     </div>
+    <p style="font-size:12px;color:rgba(247,244,239,0.35);margin-top:28px;text-align:center;letter-spacing:0.08em;" class="fade-up delay-2">
+      kuariにはフルキッチンが完備されています。自炊での滞在も歓迎しています。
+    </p>
   </div>
 </section>
 
 <!-- =============== SIGHTSEEING =============== -->
-<section id="sightseeing">
+<section id="sightseeing" style="background:var(--warm-white);">
   <div class="container">
     <div class="section-head fade-up">
       <span class="section-label">Sightseeing</span>
-      <h2 class="section-title">周辺観光</h2>
+      <h2 class="section-title">松江を、深く歩く</h2>
       <div class="divider-line"></div>
-      <p class="section-lead">東本町周辺には、歴史と自然が織り重なるスポットが数多く点在します。</p>
+      <p class="section-lead">宍道湖、松江城、茶室、神社 — 城下町松江には、和敬清寂の精神が息づく場所が凝縮されています。</p>
     </div>
-    <div class="sight-grid">
+
+    <!-- 2-col feature sightseeing -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:48px;">
+      <!-- 宍道湖 -->
+      <div class="fade-up" style="position:relative;overflow:hidden;height:clamp(260px,35vw,440px);">
+        <img src="./images/matsue-lake-sunset.jpeg" alt="宍道湖" style="height:100%;object-fit:cover;width:100%;transition:transform 0.7s;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(26,25,22,0.85),transparent 50%);"></div>
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:28px 28px 24px;">
+          <div style="font-size:10px;letter-spacing:0.2em;color:var(--gold);margin-bottom:6px;">SHINJIKO LAKE</div>
+          <div style="font-family:'Noto Serif JP',serif;font-size:20px;color:#fff;font-weight:300;">宍道湖</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:6px;line-height:1.7;">日本の夕日百選。宍道湖七珍が生まれる汽水湖。kuariから徒歩10分。</div>
+        </div>
+      </div>
+      <!-- 松江城 -->
+      <div class="fade-up delay-1" style="position:relative;overflow:hidden;height:clamp(260px,35vw,440px);">
+        <img src="./images/matsue-castle-summer.jpeg" alt="松江城" style="height:100%;object-fit:cover;width:100%;transition:transform 0.7s;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(26,25,22,0.85),transparent 50%);"></div>
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:28px 28px 24px;">
+          <div style="font-size:10px;letter-spacing:0.2em;color:var(--gold);margin-bottom:6px;">MATSUE CASTLE</div>
+          <div style="font-family:'Noto Serif JP',serif;font-size:20px;color:#fff;font-weight:300;">松江城</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:6px;line-height:1.7;">現存12天守・国宝。黒い天守が湖と城下町を見守る。徒歩15分。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4-col grid -->
+    <div class="sight-grid" style="margin-top:2px;">
       <div class="sight-card fade-up">
-        <div class="sight-icon">⛩️</div>
-        <div class="sight-name">地元神社</div>
-        <div class="sight-dist">徒歩 5分</div>
-        <div class="sight-desc">四季折々の自然の中に佇む古社。朝の参拝が地元の習慣。</div>
+        <div class="sight-icon">🍵</div>
+        <div class="sight-name">明々庵 &amp; 茶の湯</div>
+        <div class="sight-dist">徒歩 20分</div>
+        <div class="sight-desc">不昧公ゆかりの茶室「明々庵」。松江は全国有数の茶文化の地。城山の静寂の中で一服を。</div>
       </div>
       <div class="sight-card fade-up delay-1">
-        <div class="sight-icon">🏯</div>
-        <div class="sight-name">城跡公園</div>
+        <div class="sight-icon">⛵</div>
+        <div class="sight-name">堀川遊覧船</div>
         <div class="sight-dist">徒歩 15分</div>
-        <div class="sight-desc">石垣と桜が美しい城跡。市内一望の絶景スポット。</div>
+        <div class="sight-desc">松江城のお堀を巡る遊覧船。低い橋をくぐる独特の体験。城下町を水の上から感じる。</div>
       </div>
       <div class="sight-card fade-up delay-2">
-        <div class="sight-icon">🎨</div>
-        <div class="sight-name">アートギャラリー</div>
-        <div class="sight-dist">車 10分</div>
-        <div class="sight-desc">地元作家の作品を展示するギャラリー。kuariメンバーの作品も。</div>
+        <div class="sight-icon">🏮</div>
+        <div class="sight-name">城下町・塩見縄手</div>
+        <div class="sight-dist">徒歩 20分</div>
+        <div class="sight-desc">小泉八雲が愛した風景が今も残る旧市街。武家屋敷、老舗、川沿いの柳並木。</div>
       </div>
       <div class="sight-card fade-up delay-3">
-        <div class="sight-icon">🌿</div>
-        <div class="sight-name">里山トレイル</div>
-        <div class="sight-dist">車 20分</div>
-        <div class="sight-desc">四季を感じながら歩く緑のトレイル。早朝の霧が幻想的。</div>
+        <div class="sight-icon">⛩️</div>
+        <div class="sight-name">出雲大社</div>
+        <div class="sight-dist">車 45分</div>
+        <div class="sight-desc">縁結びの神・大国主大神を祀る。日本最大級の神社建築と、大しめ縄。出雲の空気を感じる。</div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- =============== EXPERIENCE =============== -->
-<section id="experience">
-  <div class="container">
-    <div class="section-head fade-up">
-      <span class="section-label">Experience</span>
-      <h2 class="section-title">体験</h2>
-      <div class="divider-line"></div>
-      <p class="section-lead">kuariに滞在することは、空間を借りるだけでなく、体験を交換することです。</p>
-    </div>
-    <div class="exp-grid">
-      <div class="exp-card fade-up">
-        <div class="exp-card-img"><img src="./images/3.jpeg" alt="スキルシェア"></div>
-        <div class="exp-card-body">
-          <div class="exp-card-number">01</div>
-          <div class="exp-card-title">スキルシェアセッション</div>
-          <div class="exp-card-desc">プログラミング・デザイン・料理・音楽など、あなたの専門性を他のゲストとシェア。教えることで知識が深まります。</div>
-        </div>
+    <!-- Extra: castle moat + fireworks -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:2px;">
+      <div class="fade-up" style="position:relative;overflow:hidden;height:clamp(200px,25vw,320px);">
+        <img src="./images/matsue-castle-moat.jpeg" alt="松江城 堀" style="height:100%;object-fit:cover;width:100%;">
       </div>
-      <div class="exp-card fade-up delay-1">
-        <div class="exp-card-img"><img src="./images/4.jpeg" alt="Web3体験"></div>
-        <div class="exp-card-body">
-          <div class="exp-card-number">02</div>
-          <div class="exp-card-title">Web3入門ワークショップ</div>
-          <div class="exp-card-desc">ウォレット開設からNFT・DAOまで、実際に触れながら学ぶ体験型ワークショップ。初心者歓迎。</div>
-        </div>
-      </div>
-      <div class="exp-card fade-up delay-2">
-        <div class="exp-card-img"><img src="./images/5.jpeg" alt="和の体験"></div>
-        <div class="exp-card-body">
-          <div class="exp-card-number">03</div>
-          <div class="exp-card-title">和の体験 — 茶事・書道</div>
-          <div class="exp-card-desc">和敬清寂の精神を体で学ぶ。抹茶を点てる静かな時間、筆で文字を書く集中の時間。</div>
-        </div>
-      </div>
-      <div class="exp-card fade-up delay-3">
-        <div class="exp-card-img"><img src="./images/6.jpeg" alt="コミュニティナイト"></div>
-        <div class="exp-card-body">
-          <div class="exp-card-number">04</div>
-          <div class="exp-card-title">コミュニティナイト</div>
-          <div class="exp-card-desc">滞在者同士が集い、それぞれの「大切なもの」を語り合う夜。好奇心が世界をつなぐ瞬間。</div>
-        </div>
+      <div class="fade-up delay-1" style="position:relative;overflow:hidden;height:clamp(200px,25vw,320px);">
+        <img src="./images/matsue-fireworks.jpeg" alt="松江水郷祭 花火" style="height:100%;object-fit:cover;width:100%;">
+        <div style="position:absolute;inset:0;background:rgba(26,25,22,0.3);"></div>
+        <div style="position:absolute;bottom:20px;left:20px;color:#fff;font-size:12px;letter-spacing:0.1em;">松江水郷祭 花火大会</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- =============== ACCESS =============== -->
-<section id="access">
+<section id="access" style="background:var(--dark);color:var(--warm-white);">
   <div class="container">
     <div class="section-head fade-up">
       <span class="section-label">Access</span>
-      <h2 class="section-title">アクセス</h2>
-      <div class="divider-line" style="background:rgba(192,146,58,0.6);"></div>
+      <h2 class="section-title" style="color:var(--warm-white);">アクセス</h2>
+      <div class="divider-line" style="background:rgba(192,146,58,0.5);"></div>
     </div>
     <div class="access-grid">
       <div class="access-map fade-up">
         <iframe
-          src="https://maps.google.com/maps?q=東本町&output=embed&z=15"
+          src="https://maps.google.com/maps?q=島根県松江市東本町4-144&output=embed&z=17"
           allowfullscreen="" loading="lazy" title="kuari東本町 地図"></iframe>
       </div>
       <div class="access-info fade-up delay-1">
         <div class="access-info-block">
           <span class="access-info-label">Address</span>
-          <div class="access-info-text">kuari 東本町<br>〒XXX-XXXX 東本町XX-XX</div>
+          <div class="access-info-text">
+            kuari 東本町<br>
+            〒690-0858<br>
+            島根県松江市東本町4−144<br>
+            ブルースカイマンション 6F
+          </div>
         </div>
         <div class="access-info-block">
-          <span class="access-info-label">電車</span>
-          <div class="access-info-text">最寄り駅より徒歩 約10分<br>バス停「東本町」下車 徒歩3分</div>
+          <span class="access-info-label">電車・バス</span>
+          <div class="access-info-text">
+            JR松江駅 から徒歩 約15分<br>
+            一畑バス「市役所前」下車 徒歩5分
+          </div>
         </div>
         <div class="access-info-block">
           <span class="access-info-label">お車</span>
-          <div class="access-info-text">高速IC より 約20分<br>駐車場あり（2台）— 要事前予約</div>
+          <div class="access-info-text">
+            山陰自動車道 松江玉造IC より 約20分<br>
+            近隣コインパーキング利用（要確認）
+          </div>
         </div>
         <div class="access-info-block">
-          <span class="access-info-label">問い合わせ</span>
-          <div class="access-info-text">ご不明な点はInstagram DMまたは<br>予約フォームよりお問い合わせください</div>
+          <span class="access-info-label">Google Maps</span>
+          <div class="access-info-text">
+            <a href="https://maps.app.goo.gl/nbUW83wK7iDSSKb77" target="_blank" rel="noopener"
+               style="color:var(--gold);text-decoration:none;">
+              マップで開く →
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -304,16 +584,16 @@
 </section>
 
 <!-- =============== INSTAGRAM =============== -->
-<section id="instagram">
-  <div class="container" style="text-align:center;">
+<section id="instagram" style="background:var(--warm-white);text-align:center;">
+  <div class="container">
     <div class="fade-up">
       <span class="section-label" style="display:block;">Instagram</span>
       <h2 class="section-title">日々の記録</h2>
       <div class="divider-line" style="margin:24px auto;"></div>
       <p class="section-lead" style="margin:0 auto 32px;text-align:center;">
-        kuari東本町の日常、イベント、メンバーの声を発信しています。
+        kuari東本町の日常、松江の風景、空間の記録を発信しています。
       </p>
-      <a href="https://www.instagram.com/reie" target="_blank" rel="noopener" class="insta-link">
+      <a href="https://www.instagram.com/re_ie_/?hl=ja" target="_blank" rel="noopener" class="insta-link">
         <div class="insta-icon">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
@@ -322,7 +602,7 @@
           </svg>
         </div>
         <div>
-          <div class="insta-handle">@reie</div>
+          <div class="insta-handle">@re_ie_</div>
           <div class="insta-follow">FOLLOW ON INSTAGRAM →</div>
         </div>
       </a>
@@ -331,7 +611,7 @@
 </section>
 
 <!-- =============== BOOKING =============== -->
-<section id="booking">
+<section id="booking" style="background:var(--off-white);">
   <div class="container">
     <div class="section-head fade-up">
       <span class="section-label">Reservation</span>
@@ -342,7 +622,6 @@
       </p>
     </div>
     <div class="booking-grid">
-
       <!-- Calendar -->
       <div class="fade-up">
         <div class="cal-wrap">
@@ -379,7 +658,12 @@
               <label class="form-label">人数 <span style="color:var(--gold)">*</span></label>
               <select class="form-input" id="bookGuests" required>
                 <option value="">選択</option>
-                <option>1名</option><option>2名</option><option>3名</option><option>4名</option>
+                <option>1名（宿泊）</option>
+                <option>2名（宿泊）</option>
+                <option>3名（ミーティング）</option>
+                <option>4名（ミーティング）</option>
+                <option>5名（ミーティング）</option>
+                <option>6名（ミーティング）</option>
               </select>
             </div>
           </div>
@@ -388,24 +672,21 @@
             <input class="form-input" type="text" id="bookContact" placeholder="090-XXXX-XXXX / example@email.com" required>
           </div>
           <div class="form-group">
-            <label class="form-label">コミュニティ <span style="color:var(--gold)">*</span></label>
+            <label class="form-label">ご利用目的 <span style="color:var(--gold)">*</span></label>
             <select class="form-input" id="bookCommunity" required>
               <option value="">選択してください</option>
-              <option>web3.AI概論 履修者</option>
-              <option>HENKAKUコミュニティーメンバー</option>
-              <option>イーサリアン</option>
-              <option>大切なものを共有できる方</option>
+              <option>宿泊（観光・旅行）</option>
+              <option>宿泊（仕事・出張）</option>
+              <option>ミーティング・打ち合わせ</option>
+              <option>ワークショップ・勉強会</option>
+              <option>撮影・制作利用</option>
               <option>その他（備考に記載）</option>
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label">訪問目的</label>
-            <input class="form-input" type="text" id="bookPurpose" placeholder="例：スキルシェア、休暇、ワークショップ参加">
-          </div>
-          <div class="form-group">
-            <label class="form-label">備考・シェアしたいこと</label>
+            <label class="form-label">備考・ご要望</label>
             <textarea class="form-input" id="bookNotes" rows="3"
-              placeholder="持ち寄りたいスキル・もの・話題など" style="resize:vertical;"></textarea>
+              placeholder="アレルギー、持ち込み希望品、その他ご要望など" style="resize:vertical;"></textarea>
           </div>
           <button type="submit" class="form-submit-btn" id="submitBtn">予約リクエストを送る</button>
           <p class="form-note">
@@ -423,7 +704,11 @@
   <div class="footer-inner">
     <div class="footer-brand">
       <div class="footer-logo">kuari</div>
-      <p>大切なものを共有する場所。<br>和敬清寂の精神で、世界をつなぐ。</p>
+      <p>
+        島根県松江市東本町4−144<br>
+        ブルースカイマンション 6F<br><br>
+        和敬清寂の精神で、松江を体験する。
+      </p>
     </div>
     <div class="footer-links">
       <h4>Navigation</h4>
@@ -432,20 +717,19 @@
         <li><a href="#rooms">客室</a></li>
         <li><a href="#dining">食事</a></li>
         <li><a href="#sightseeing">周辺観光</a></li>
-        <li><a href="#experience">体験</a></li>
         <li><a href="#access">アクセス</a></li>
         <li><a href="#booking">ご予約</a></li>
       </ul>
     </div>
     <div class="footer-social">
       <h4>Follow Us</h4>
-      <a href="https://www.instagram.com/reie" target="_blank" rel="noopener"
-         style="font-size:13px;color:rgba(247,244,239,0.6);">Instagram @reie →</a>
+      <a href="https://www.instagram.com/re_ie_/?hl=ja" target="_blank" rel="noopener"
+         style="font-size:13px;color:rgba(247,244,239,0.6);">Instagram @re_ie_ →</a>
     </div>
   </div>
   <div class="footer-copy">
     <span>© 2026 kuari 東本町. All rights reserved.</span>
-    <span id="adminTrigger" title="管理者パネル">・・・</span>
+    <span id="adminTrigger" title="管理者パネル" style="cursor:pointer;">・・・</span>
   </div>
 </footer>
 
@@ -479,8 +763,7 @@
       <!-- Tab: Dates -->
       <div class="admin-tab-pane active" id="tab-dates">
         <p style="font-size:13px;color:var(--warm-grey);margin-bottom:20px;line-height:1.8;">
-          日付をクリックして <strong style="color:var(--gold)">受付可</strong> / <strong style="color:var(--mid-grey)">受付不可</strong> を切り替えます。
-          デフォルトは全日受付可。
+          日付をクリックして <strong style="color:var(--gold)">受付可</strong> / <strong style="color:var(--mid-grey)">受付不可</strong> を切り替えます。デフォルトは全日受付可。
         </p>
         <div class="admin-cal-wrap">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
@@ -494,12 +777,10 @@
           </div>
           <div class="admin-cal-grid" id="adminCalGrid"></div>
         </div>
-        <p style="font-size:11px;color:var(--warm-grey);margin-top:16px;">
-          🟡 金色 = 受付可　⬜ グレー = 受付不可　変更はリアルタイムで保存されます。
-        </p>
+        <p style="font-size:11px;color:var(--warm-grey);margin-top:16px;">🟡 金色 = 受付可　⬜ グレー = 受付不可</p>
         <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--off-white);">
           <button class="notif-btn" onclick="clearAllBlocked()"
-            style="background:rgba(160,80,80,0.12);color:rgba(160,80,80,0.8);border:1px solid rgba(160,80,80,0.25);padding:10px 20px;">
+            style="background:rgba(160,80,80,0.1);color:rgba(160,80,80,0.8);border:1px solid rgba(160,80,80,0.25);padding:10px 20px;">
             全ての受付不可設定をリセット
           </button>
         </div>
@@ -519,13 +800,12 @@
         <div class="notif-group">
           <span class="notif-label">📱 ntfy.sh プッシュ通知（推奨・無料）</span>
           <p class="notif-hint">
-            スマホに <a href="https://ntfy.sh" target="_blank" style="color:var(--gold);">ntfy アプリ</a> をインストールし、
-            トピック <strong>kuari-higashihonmachi-2026</strong> を購読すると予約が入ると即時通知。
+            スマホに <a href="https://ntfy.sh" target="_blank" style="color:var(--gold);">ntfy アプリ</a> をインストール → トピック
+            <strong>kuari-higashihonmachi-2026</strong> を購読 → 予約が入ると即時通知。
           </p>
         </div>
         <div class="notif-group">
-          <span class="notif-label">📩 SMS通知（キャリアメール経由）</span>
-          <p class="notif-hint">08020674324 のキャリアに応じたメールアドレスへ転送されます：</p>
+          <span class="notif-label">📩 SMS通知（キャリアメール経由 / 08020674324）</span>
           <table class="sms-table">
             <tr><td>Docomo</td><td>08020674324@docomo.ne.jp</td></tr>
             <tr><td>SoftBank</td><td>08020674324@softbank.ne.jp</td></tr>
@@ -536,447 +816,153 @@
         <div class="notif-group">
           <span class="notif-label">💚 LINE Notify トークン（任意）</span>
           <div class="notif-input-row">
-            <input class="form-input" type="password" id="lineTokenInput" placeholder="LINE Notifyトークンを入力">
+            <input class="form-input" type="password" id="lineTokenInput" placeholder="LINE Notifyトークン">
             <button class="notif-btn" onclick="saveLineToken()">保存</button>
             <button class="notif-btn" onclick="testLineNotify()" style="background:var(--gold);">テスト</button>
           </div>
           <p class="notif-hint">
-            <a href="https://notify-bot.line.me/my/" target="_blank" style="color:var(--gold);">notify-bot.line.me</a>
-            でトークンを発行し、保存してください。
+            <a href="https://notify-bot.line.me/my/" target="_blank" style="color:var(--gold);">notify-bot.line.me</a> でトークンを発行。
           </p>
         </div>
       </div>
-
     </div>
   </div>
 </div>
 
 <!-- =============== JAVASCRIPT =============== -->
 <script>
-// =============================================
-// UTILITIES
-// =============================================
-const _today = new Date();
-_today.setHours(0,0,0,0);
+const _today = new Date(); _today.setHours(0,0,0,0);
+function dateToStr(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function strToDate(s){const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d);}
+function formatJP(s){if(!s)return'';const d=strToDate(s);return`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;}
+function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='show '+type;setTimeout(()=>{t.className='';},3200);}
 
-function dateToStr(d) {
-  return d.getFullYear() + '-' +
-    String(d.getMonth()+1).padStart(2,'0') + '-' +
-    String(d.getDate()).padStart(2,'0');
-}
-function strToDate(s) {
-  const [y,m,d] = s.split('-').map(Number);
-  return new Date(y, m-1, d);
-}
-function formatJP(s) {
-  if (!s) return '';
-  const d = strToDate(s);
-  return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
-}
-function showToast(msg, type='') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'show ' + type;
-  setTimeout(() => { t.className = ''; }, 3200);
-}
-
-// =============================================
-// NAVIGATION
-// =============================================
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+// Navigation
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);});
+setTimeout(()=>{document.querySelectorAll('#home .fade-up').forEach(el=>el.classList.add('visible'));},200);
+document.getElementById('hamburger').addEventListener('click',function(){
+  this.classList.toggle('open');document.getElementById('mobileMenu').classList.toggle('open');
+  document.body.style.overflow=this.classList.contains('open')?'hidden':'';
 });
-// Hero fade-in on load
-setTimeout(() => {
-  document.querySelectorAll('#home .fade-up').forEach(el => el.classList.add('visible'));
-}, 200);
+function closeMobile(){document.getElementById('hamburger').classList.remove('open');document.getElementById('mobileMenu').classList.remove('open');document.body.style.overflow='';}
 
-document.getElementById('hamburger').addEventListener('click', function() {
-  this.classList.toggle('open');
-  document.getElementById('mobileMenu').classList.toggle('open');
-  document.body.style.overflow = this.classList.contains('open') ? 'hidden' : '';
-});
-function closeMobile() {
-  document.getElementById('hamburger').classList.remove('open');
-  document.getElementById('mobileMenu').classList.remove('open');
-  document.body.style.overflow = '';
-}
+// Hero
+let _cs=0;const _sl=document.querySelectorAll('.hero-slide'),_dt=document.querySelectorAll('.hero-dot');
+function goSlide(n){_sl[_cs].classList.remove('active');_dt[_cs].classList.remove('active');_cs=(n+_sl.length)%_sl.length;_sl[_cs].classList.add('active');_dt[_cs].classList.add('active');}
+setInterval(()=>goSlide(_cs+1),5500);
 
-// =============================================
-// HERO SLIDESHOW
-// =============================================
-let _curSlide = 0;
-const _slides = document.querySelectorAll('.hero-slide');
-const _dots   = document.querySelectorAll('.hero-dot');
-function goSlide(n) {
-  _slides[_curSlide].classList.remove('active');
-  _dots[_curSlide].classList.remove('active');
-  _curSlide = (n + _slides.length) % _slides.length;
-  _slides[_curSlide].classList.add('active');
-  _dots[_curSlide].classList.add('active');
-}
-setInterval(() => goSlide(_curSlide + 1), 5500);
+// Scroll animations
+const _obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el=>_obs.observe(el));
 
-// =============================================
-// SCROLL ANIMATIONS
-// =============================================
-const _observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.fade-up').forEach(el => _observer.observe(el));
+// Data
+function getBlockedDates(){try{return JSON.parse(localStorage.getItem('kuari_blocked')||'[]');}catch(e){return[];}}
+function getBookedRanges(){try{return JSON.parse(localStorage.getItem('kuari_bookings')||'[]');}catch(e){return[];}}
+function isPast(ds){return strToDate(ds)<_today;}
+function isBlocked(ds){return getBlockedDates().includes(ds);}
+function isBooked(ds){const t=strToDate(ds).getTime();return getBookedRanges().some(b=>t>=strToDate(b.checkin).getTime()&&t<=strToDate(b.checkout).getTime());}
 
-// =============================================
-// DATA LAYER
-// =============================================
-function getBlockedDates() {
-  try { return JSON.parse(localStorage.getItem('kuari_blocked') || '[]'); } catch(e) { return []; }
-}
-function getBookedRanges() {
-  try { return JSON.parse(localStorage.getItem('kuari_bookings') || '[]'); } catch(e) { return []; }
-}
-function isPast(ds) { return strToDate(ds) < _today; }
-function isBlocked(ds) { return getBlockedDates().includes(ds); }
-function isBooked(ds) {
-  const t = strToDate(ds).getTime();
-  return getBookedRanges().some(b => {
-    return t >= strToDate(b.checkin).getTime() && t <= strToDate(b.checkout).getTime();
-  });
-}
-
-// =============================================
-// BOOKING CALENDAR
-// =============================================
-let _calYear  = _today.getFullYear();
-let _calMonth = _today.getMonth();
-let _selStart = null, _selEnd = null, _hoverDate = null;
-
-function renderCalendar() {
-  document.getElementById('calMonthLabel').textContent = `${_calYear}年 ${_calMonth+1}月`;
-  const grid = document.getElementById('calGrid');
-  grid.innerHTML = '';
-  const todayStr  = dateToStr(_today);
-  const firstDay  = new Date(_calYear, _calMonth, 1).getDay();
-  const daysInMon = new Date(_calYear, _calMonth+1, 0).getDate();
-
-  // Empty cells before 1st
-  for (let i = 0; i < firstDay; i++) {
-    const el = document.createElement('div');
-    el.className = 'cal-cell empty';
-    grid.appendChild(el);
-  }
-
-  for (let d = 1; d <= daysInMon; d++) {
-    const ds = `${_calYear}-${String(_calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.textContent = d;
-    let cls = 'cal-cell';
-
-    if (isPast(ds)) {
-      cls += ' past'; btn.disabled = true;
-    } else if (isBlocked(ds)) {
-      cls += ' blocked'; btn.disabled = true;
-    } else if (isBooked(ds)) {
-      cls += ' booked'; btn.disabled = true;
-    } else {
-      cls += ' available';
-      if (ds === todayStr) cls += ' today';
-      // Range classes
-      if (_selStart && _selEnd) {
-        if (ds === _selStart)                       cls += ' start';
-        else if (ds === _selEnd)                    cls += ' end';
-        else if (ds > _selStart && ds < _selEnd)    cls += ' in-range';
-      } else if (_selStart && !_selEnd) {
-        if (ds === _selStart)                       cls += ' start';
-        else if (_hoverDate && ds > _selStart && ds <= _hoverDate) cls += ' hovered-range';
-      }
-      btn.addEventListener('click', () => handleCalClick(ds));
-      btn.addEventListener('mouseenter', () => {
-        if (_selStart && !_selEnd) { _hoverDate = ds; renderCalendar(); }
-      });
+// Calendar
+let _cy=_today.getFullYear(),_cm=_today.getMonth(),_ss=null,_se=null,_sh=null;
+function renderCalendar(){
+  document.getElementById('calMonthLabel').textContent=`${_cy}年 ${_cm+1}月`;
+  const g=document.getElementById('calGrid');g.innerHTML='';
+  const ts=dateToStr(_today),fd=new Date(_cy,_cm,1).getDay(),dm=new Date(_cy,_cm+1,0).getDate();
+  for(let i=0;i<fd;i++){const e=document.createElement('div');e.className='cal-cell empty';g.appendChild(e);}
+  for(let d=1;d<=dm;d++){
+    const ds=`${_cy}-${String(_cm+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const btn=document.createElement('button');btn.type='button';btn.textContent=d;
+    let cls='cal-cell';
+    if(isPast(ds)){cls+=' past';btn.disabled=true;}
+    else if(isBlocked(ds)){cls+=' blocked';btn.disabled=true;}
+    else if(isBooked(ds)){cls+=' booked';btn.disabled=true;}
+    else{
+      cls+=' available';if(ds===ts)cls+=' today';
+      if(_ss&&_se){if(ds===_ss)cls+=' start';else if(ds===_se)cls+=' end';else if(ds>_ss&&ds<_se)cls+=' in-range';}
+      else if(_ss&&!_se){if(ds===_ss)cls+=' start';else if(_sh&&ds>_ss&&ds<=_sh)cls+=' hovered-range';}
+      btn.addEventListener('click',()=>handleCalClick(ds));
+      btn.addEventListener('mouseenter',()=>{if(_ss&&!_se){_sh=ds;renderCalendar();}});
     }
-    btn.className = cls;
-    grid.appendChild(btn);
+    btn.className=cls;g.appendChild(btn);
   }
 }
-
-function handleCalClick(ds) {
-  if (!_selStart || (_selStart && _selEnd)) {
-    _selStart = ds; _selEnd = null;
-  } else {
-    if (ds <= _selStart) { _selEnd = _selStart; _selStart = ds; }
-    else                 { _selEnd = ds; }
-  }
-  _hoverDate = null;
-  updateDatesDisplay();
-  renderCalendar();
+function handleCalClick(ds){
+  if(!_ss||(_ss&&_se)){_ss=ds;_se=null;}
+  else{if(ds<=_ss){_se=_ss;_ss=ds;}else{_se=ds;}}
+  _sh=null;updateDatesDisplay();renderCalendar();
 }
-
-function updateDatesDisplay() {
-  const el = document.getElementById('selectedDatesDisplay');
-  if (_selStart && _selEnd) {
-    el.textContent = `チェックイン: ${formatJP(_selStart)}　→　チェックアウト: ${formatJP(_selEnd)}`;
-    el.style.color = 'var(--dark)';
-  } else if (_selStart) {
-    el.textContent = `チェックイン: ${formatJP(_selStart)}　→　チェックアウト日を選択してください`;
-    el.style.color = 'var(--warm-grey)';
-  } else {
-    el.textContent = 'カレンダーからチェックイン・アウト日を選択してください';
-    el.style.color = 'var(--warm-grey)';
-  }
+function updateDatesDisplay(){
+  const el=document.getElementById('selectedDatesDisplay');
+  if(_ss&&_se){el.textContent=`チェックイン: ${formatJP(_ss)}　→　チェックアウト: ${formatJP(_se)}`;el.style.color='var(--dark)';}
+  else if(_ss){el.textContent=`チェックイン: ${formatJP(_ss)}　→　チェックアウト日を選択`;el.style.color='var(--warm-grey)';}
+  else{el.textContent='カレンダーからチェックイン・アウト日を選択してください';el.style.color='var(--warm-grey)';}
 }
+function prevMonth(){_cm--;if(_cm<0){_cm=11;_cy--;}renderCalendar();}
+function nextMonth(){_cm++;if(_cm>11){_cm=0;_cy++;}renderCalendar();}
 
-function prevMonth() {
-  _calMonth--; if (_calMonth < 0) { _calMonth = 11; _calYear--; } renderCalendar();
-}
-function nextMonth() {
-  _calMonth++; if (_calMonth > 11) { _calMonth = 0; _calYear++; } renderCalendar();
-}
-
-// =============================================
-// BOOKING FORM
-// =============================================
-async function submitBooking(e) {
+// Form submit
+async function submitBooking(e){
   e.preventDefault();
-  if (!_selStart || !_selEnd) {
-    showToast('チェックイン・アウト日を選択してください', 'error'); return;
-  }
-  const name      = document.getElementById('bookName').value.trim();
-  const contact   = document.getElementById('bookContact').value.trim();
-  const community = document.getElementById('bookCommunity').value;
-  const guests    = document.getElementById('bookGuests').value;
-  const purpose   = document.getElementById('bookPurpose').value.trim();
-  const notes     = document.getElementById('bookNotes').value.trim();
-
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true; btn.textContent = '送信中…';
-
-  // Save booking
-  const bookings   = getBookedRanges();
-  const newBooking = {
-    id: Date.now().toString(),
-    checkin: _selStart, checkout: _selEnd,
-    name, contact, community, guests, purpose, notes,
-    createdAt: new Date().toISOString()
-  };
-  bookings.push(newBooking);
-  localStorage.setItem('kuari_bookings', JSON.stringify(bookings));
-
-  // Notifications
-  const msgBody = [
-    '',
-    '🏯【kuari東本町 新規予約】',
-    `👤 ${name}`,
-    `📅 IN: ${_selStart}  OUT: ${_selEnd}`,
-    `👥 ${guests}`,
-    `🌐 ${community}`,
-    `✉️ ${contact}`,
-    purpose ? `📝 ${purpose}` : null,
-    notes   ? `💬 ${notes}`   : null,
-  ].filter(Boolean).join('\n');
-
-  // ntfy.sh
-  fetch('https://ntfy.sh/kuari-higashihonmachi-2026', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      topic: 'kuari-higashihonmachi-2026',
-      title: '🏯 kuari東本町 新規予約',
-      message: `${name} / ${_selStart}〜${_selEnd} / ${guests}\n${contact} / ${community}`,
-      priority: 5, tags: ['tada','house']
-    })
-  }).catch(()=>{});
-
-  // LINE Notify via serverless API
-  const lineToken = localStorage.getItem('kuari_line_token') || '';
-  fetch('/api/book', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(lineToken ? { 'X-Line-Token': lineToken } : {})
-    },
-    body: JSON.stringify({ name, contact, community, checkin: _selStart, checkout: _selEnd, guests, purpose, notes })
-  }).catch(()=>{});
-
-  // Reset
+  if(!_ss||!_se){showToast('チェックイン・アウト日を選択してください','error');return;}
+  const name=document.getElementById('bookName').value.trim();
+  const contact=document.getElementById('bookContact').value.trim();
+  const community=document.getElementById('bookCommunity').value;
+  const guests=document.getElementById('bookGuests').value;
+  const notes=document.getElementById('bookNotes').value.trim();
+  const btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent='送信中…';
+  const bks=getBookedRanges();
+  const nb={id:Date.now().toString(),checkin:_ss,checkout:_se,name,contact,community,guests,notes,createdAt:new Date().toISOString()};
+  bks.push(nb);localStorage.setItem('kuari_bookings',JSON.stringify(bks));
+  fetch('https://ntfy.sh/kuari-higashihonmachi-2026',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({topic:'kuari-higashihonmachi-2026',title:'🏯 kuari東本町 新規予約',message:`${name} / ${_ss}〜${_se} / ${guests}\n${contact}\n${community}`,priority:5,tags:['tada','house']})}).catch(()=>{});
+  const lt=localStorage.getItem('kuari_line_token')||'';
+  fetch('/api/book',{method:'POST',headers:{'Content-Type':'application/json',...(lt?{'X-Line-Token':lt}:{})},body:JSON.stringify({name,contact,community,checkin:_ss,checkout:_se,guests,purpose:community,notes})}).catch(()=>{});
   document.getElementById('bookingForm').reset();
-  const savedStart = _selStart, savedEnd = _selEnd;
-  _selStart = null; _selEnd = null; _hoverDate = null;
-  updateDatesDisplay(); renderCalendar();
-
-  // Confirm modal
-  document.getElementById('confirmText').innerHTML =
-    `${name} 様の予約リクエスト（${formatJP(savedStart)}〜${formatJP(savedEnd)}）を受け付けました。<br><br>` +
-    `管理者より <strong>${contact}</strong> へご連絡いたします。`;
+  const s2=_ss,e2=_se;_ss=null;_se=null;_sh=null;updateDatesDisplay();renderCalendar();
+  document.getElementById('confirmText').innerHTML=`${name} 様の予約リクエスト（${formatJP(s2)}〜${formatJP(e2)}）を受け付けました。<br><br>管理者より <strong>${contact}</strong> へご連絡いたします。`;
   document.getElementById('bookConfirmModal').classList.add('open');
-
-  btn.disabled = false; btn.textContent = '予約リクエストを送る';
+  btn.disabled=false;btn.textContent='予約リクエストを送る';
 }
-function closeConfirm() {
-  document.getElementById('bookConfirmModal').classList.remove('open');
-}
+function closeConfirm(){document.getElementById('bookConfirmModal').classList.remove('open');}
 
-// =============================================
-// ADMIN PANEL
-// =============================================
-let _adminClicks = 0, _adminTimer = null;
-document.getElementById('adminTrigger').addEventListener('click', () => {
-  _adminClicks++;
-  clearTimeout(_adminTimer);
-  _adminTimer = setTimeout(() => _adminClicks = 0, 2000);
-  if (_adminClicks >= 5) { _adminClicks = 0; openAdmin(); }
-});
-if (new URLSearchParams(location.search).get('admin') !== null) openAdmin();
-
-function openAdmin() {
-  document.getElementById('adminPanel').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  renderAdminCalendar(); renderAdminBookings();
-  document.getElementById('lineTokenInput').value = localStorage.getItem('kuari_line_token') || '';
-}
-function closeAdmin() {
-  document.getElementById('adminPanel').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function switchAdminTab(tab, btn) {
-  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.admin-tab-pane').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('tab-'+tab).classList.add('active');
-  if (tab === 'dates')    renderAdminCalendar();
-  if (tab === 'bookings') renderAdminBookings();
-}
-
-// Admin Calendar
-let _adminYear  = _today.getFullYear();
-let _adminMonth = _today.getMonth();
-
-function renderAdminCalendar() {
-  document.getElementById('adminCalLabel').textContent = `${_adminYear}年 ${_adminMonth+1}月`;
-  const grid = document.getElementById('adminCalGrid');
-  grid.innerHTML = '';
-  const blocked   = getBlockedDates();
-  const firstDay  = new Date(_adminYear, _adminMonth, 1).getDay();
-  const daysInMon = new Date(_adminYear, _adminMonth+1, 0).getDate();
-
-  for (let i = 0; i < firstDay; i++) {
-    const el = document.createElement('div'); el.className = 'admin-cal-cell empty'; grid.appendChild(el);
-  }
-  for (let d = 1; d <= daysInMon; d++) {
-    const ds = `${_adminYear}-${String(_adminMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const btn = document.createElement('button');
-    btn.type = 'button'; btn.textContent = d;
-    let cls = 'admin-cal-cell';
-
-    if (isPast(ds)) {
-      cls += ' past'; btn.disabled = true;
-    } else if (blocked.includes(ds)) {
-      cls += ' blocked'; btn.title = 'クリックで受付再開';
-      btn.addEventListener('click', () => adminToggleBlock(ds));
-    } else if (isBooked(ds)) {
-      cls += ' booked'; btn.disabled = true; btn.title = '予約済み';
-    } else {
-      btn.title = 'クリックで受付不可に設定';
-      btn.addEventListener('click', () => adminToggleBlock(ds));
-    }
-    btn.className = cls;
-    grid.appendChild(btn);
+// Admin
+let _ac=0,_at=null;
+document.getElementById('adminTrigger').addEventListener('click',()=>{_ac++;clearTimeout(_at);_at=setTimeout(()=>_ac=0,2000);if(_ac>=5){_ac=0;openAdmin();}});
+if(new URLSearchParams(location.search).get('admin')!==null)openAdmin();
+function openAdmin(){document.getElementById('adminPanel').classList.add('open');document.body.style.overflow='hidden';renderAdminCalendar();renderAdminBookings();document.getElementById('lineTokenInput').value=localStorage.getItem('kuari_line_token')||'';}
+function closeAdmin(){document.getElementById('adminPanel').classList.remove('open');document.body.style.overflow='';}
+function switchAdminTab(tab,btn){document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.admin-tab-pane').forEach(p=>p.classList.remove('active'));btn.classList.add('active');document.getElementById('tab-'+tab).classList.add('active');if(tab==='dates')renderAdminCalendar();if(tab==='bookings')renderAdminBookings();}
+let _ay=_today.getFullYear(),_am=_today.getMonth();
+function renderAdminCalendar(){
+  document.getElementById('adminCalLabel').textContent=`${_ay}年 ${_am+1}月`;
+  const g=document.getElementById('adminCalGrid');g.innerHTML='';
+  const bl=getBlockedDates(),fd=new Date(_ay,_am,1).getDay(),dm=new Date(_ay,_am+1,0).getDate();
+  for(let i=0;i<fd;i++){const e=document.createElement('div');e.className='admin-cal-cell empty';g.appendChild(e);}
+  for(let d=1;d<=dm;d++){
+    const ds=`${_ay}-${String(_am+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const btn=document.createElement('button');btn.type='button';btn.textContent=d;
+    let cls='admin-cal-cell';
+    if(isPast(ds)){cls+=' past';btn.disabled=true;}
+    else if(bl.includes(ds)){cls+=' blocked';btn.addEventListener('click',()=>adminToggleBlock(ds));}
+    else if(isBooked(ds)){cls+=' booked';btn.disabled=true;}
+    else{btn.addEventListener('click',()=>adminToggleBlock(ds));}
+    btn.className=cls;g.appendChild(btn);
   }
 }
+function adminToggleBlock(ds){const bl=getBlockedDates(),i=bl.indexOf(ds);if(i>=0)bl.splice(i,1);else bl.push(ds);localStorage.setItem('kuari_blocked',JSON.stringify(bl));renderAdminCalendar();renderCalendar();showToast(i>=0?`${ds} を受付可に変更`:`${ds} を受付不可に設定`,'success');}
+function clearAllBlocked(){if(!confirm('全設定をリセットしますか？'))return;localStorage.removeItem('kuari_blocked');renderAdminCalendar();renderCalendar();showToast('設定をリセットしました','success');}
+function prevAdminMonth(){_am--;if(_am<0){_am=11;_ay--;}renderAdminCalendar();}
+function nextAdminMonth(){_am++;if(_am>11){_am=0;_ay++;}renderAdminCalendar();}
+function renderAdminBookings(){
+  const el=document.getElementById('adminBookingsList');
+  const data=getBookedRanges().sort((a,b)=>a.checkin.localeCompare(b.checkin));
+  if(!data.length){el.innerHTML='<p style="color:var(--warm-grey);font-size:13px;padding:16px 0;">まだ予約はありません</p>';return;}
+  el.innerHTML=data.map(b=>`<div class="booking-item" id="bi-${b.id}"><div><div class="booking-date">${formatJP(b.checkin)}<br>〜 ${formatJP(b.checkout)}</div></div><div><div class="booking-name">${b.name||'—'}</div><div class="booking-meta">${b.guests||''} ／ ${b.community||''} ／ ${b.contact||''}</div>${b.notes?`<div class="booking-meta">備考: ${b.notes}</div>`:''}</div><button class="booking-delete" onclick="deleteBooking('${b.id}')">削除</button></div>`).join('');
+}
+function deleteBooking(id){if(!confirm('削除しますか？'))return;localStorage.setItem('kuari_bookings',JSON.stringify(getBookedRanges().filter(b=>b.id!==id)));renderAdminBookings();renderCalendar();showToast('予約を削除しました');}
+function exportBookings(){const data=getBookedRanges();if(!data.length){showToast('予約データがありません');return;}const hdr=['ID','チェックイン','チェックアウト','氏名','人数','連絡先','目的','備考','受付日時'];const rows=data.map(b=>[b.id,b.checkin,b.checkout,b.name,b.guests,b.contact,b.community,b.notes,b.createdAt]);const csv=[hdr,...rows].map(r=>r.map(v=>`"${(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8;'})),download:`kuari_bookings_${dateToStr(new Date())}.csv`});a.click();URL.revokeObjectURL(a.href);}
+function saveLineToken(){localStorage.setItem('kuari_line_token',document.getElementById('lineTokenInput').value.trim());showToast('保存しました','success');}
+async function testLineNotify(){const t=document.getElementById('lineTokenInput').value.trim();if(!t){showToast('トークンを入力してください','error');return;}localStorage.setItem('kuari_line_token',t);try{const r=await fetch('/api/book',{method:'POST',headers:{'Content-Type':'application/json','X-Line-Token':t},body:JSON.stringify({name:'テスト送信',contact:'test',community:'管理者テスト',checkin:dateToStr(_today),checkout:dateToStr(_today),guests:'1名',purpose:'テスト',notes:''})});const d=await r.json().catch(()=>({}));showToast(d.ok?'LINEテスト送信成功 ✓':'エラー: '+JSON.stringify(d),d.ok?'success':'error');}catch(err){showToast('送信エラー: '+err.message,'error');}}
 
-function adminToggleBlock(ds) {
-  const blocked = getBlockedDates();
-  const idx = blocked.indexOf(ds);
-  if (idx >= 0) blocked.splice(idx, 1);
-  else blocked.push(ds);
-  localStorage.setItem('kuari_blocked', JSON.stringify(blocked));
-  renderAdminCalendar(); renderCalendar();
-  showToast(idx >= 0 ? `${ds} を受付可に変更しました` : `${ds} を受付不可に設定しました`, 'success');
-}
-function clearAllBlocked() {
-  if (!confirm('全ての受付不可設定をリセットしますか？')) return;
-  localStorage.removeItem('kuari_blocked');
-  renderAdminCalendar(); renderCalendar();
-  showToast('設定をリセットしました', 'success');
-}
-function prevAdminMonth() {
-  _adminMonth--; if (_adminMonth < 0) { _adminMonth = 11; _adminYear--; } renderAdminCalendar();
-}
-function nextAdminMonth() {
-  _adminMonth++; if (_adminMonth > 11) { _adminMonth = 0; _adminYear++; } renderAdminCalendar();
-}
-
-// Bookings List
-function renderAdminBookings() {
-  const list = document.getElementById('adminBookingsList');
-  const data  = getBookedRanges().sort((a,b) => a.checkin.localeCompare(b.checkin));
-  if (!data.length) {
-    list.innerHTML = '<p style="color:var(--warm-grey);font-size:13px;padding:16px 0;">まだ予約はありません</p>';
-    return;
-  }
-  list.innerHTML = data.map(b => `
-    <div class="booking-item" id="bi-${b.id}">
-      <div>
-        <div class="booking-date">${formatJP(b.checkin)}<br>〜 ${formatJP(b.checkout)}</div>
-      </div>
-      <div>
-        <div class="booking-name">${b.name||'—'}</div>
-        <div class="booking-meta">${b.guests||''} ／ ${b.community||''} ／ ${b.contact||''}</div>
-        ${b.purpose ? `<div class="booking-meta">目的: ${b.purpose}</div>` : ''}
-        ${b.notes   ? `<div class="booking-meta">備考: ${b.notes}</div>`   : ''}
-      </div>
-      <button class="booking-delete" onclick="deleteBooking('${b.id}')">削除</button>
-    </div>
-  `).join('');
-}
-function deleteBooking(id) {
-  if (!confirm('この予約を削除しますか？')) return;
-  localStorage.setItem('kuari_bookings', JSON.stringify(getBookedRanges().filter(b => b.id !== id)));
-  renderAdminBookings(); renderCalendar();
-  showToast('予約を削除しました');
-}
-function exportBookings() {
-  const data = getBookedRanges();
-  if (!data.length) { showToast('予約データがありません'); return; }
-  const hdr = ['ID','チェックイン','チェックアウト','氏名','人数','連絡先','コミュニティ','目的','備考','受付日時'];
-  const rows = data.map(b => [b.id,b.checkin,b.checkout,b.name,b.guests,b.contact,b.community,b.purpose,b.notes,b.createdAt]);
-  const csv  = [hdr,...rows].map(r => r.map(v=>`"${(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');
-  const a = Object.assign(document.createElement('a'), {
-    href: URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8;'})),
-    download: `kuari_bookings_${dateToStr(new Date())}.csv`
-  });
-  a.click(); URL.revokeObjectURL(a.href);
-}
-
-// LINE Notify
-function saveLineToken() {
-  localStorage.setItem('kuari_line_token', document.getElementById('lineTokenInput').value.trim());
-  showToast('LINEトークンを保存しました', 'success');
-}
-async function testLineNotify() {
-  const token = document.getElementById('lineTokenInput').value.trim();
-  if (!token) { showToast('トークンを入力してください', 'error'); return; }
-  localStorage.setItem('kuari_line_token', token);
-  try {
-    const r = await fetch('/api/book', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Line-Token': token },
-      body: JSON.stringify({
-        name:'テスト送信', contact:'test', community:'管理者テスト',
-        checkin: dateToStr(_today), checkout: dateToStr(_today),
-        guests:'1名', purpose:'LINE通知テスト', notes:''
-      })
-    });
-    const data = await r.json().catch(()=>({}));
-    showToast(data.ok ? 'LINEテスト送信成功 ✓' : 'エラー: '+JSON.stringify(data), data.ok ? 'success' : 'error');
-  } catch(err) {
-    showToast('送信エラー: '+err.message, 'error');
-  }
-}
-
-// =============================================
-// INIT
-// =============================================
 renderCalendar();
 </script>
 </body>
