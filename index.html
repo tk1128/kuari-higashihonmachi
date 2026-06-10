@@ -53,18 +53,29 @@
 
     /* ── 料金 ── */
     .pricing-section { background:#0e0d0b; padding:clamp(56px,8vw,104px) 0; }
-    .pricing-grid { display:grid; grid-template-columns:1fr 1fr; max-width:580px; margin:0 auto; gap:2px; }
-    .pricing-card { padding:clamp(24px,4vw,52px) 20px; text-align:center; border:1px solid rgba(255,255,255,.06); }
-    .pricing-card.member { border-color:rgba(192,146,58,.3); background:rgba(192,146,58,.04); }
-    .pricing-amount { font-family:'Cormorant Garamond',serif; font-size:clamp(34px,6vw,64px); font-weight:300; color:#fff; line-height:1; }
-    .pricing-card.member .pricing-amount { color:var(--gold); }
-    .pricing-unit { font-size:11px; color:rgba(255,255,255,.38); letter-spacing:.14em; margin-top:5px; }
-    .pricing-label { font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.28); margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,.06); }
-    .pricing-card.member .pricing-label { color:var(--gold); border-top-color:rgba(192,146,58,.2); }
-    .member-list { margin:24px auto 0; display:flex; flex-direction:column; gap:8px; max-width:360px; padding:0 16px; }
-    .member-list-item { font-size:12px; color:rgba(255,255,255,.38); letter-spacing:.04em; display:flex; align-items:center; gap:10px; }
-    .member-list-item::before { content:''; width:14px; height:1px; background:var(--gold); flex-shrink:0; }
-    @media(max-width:440px){ .pricing-grid { grid-template-columns:1fr; } }
+    .price-split { display:grid; grid-template-columns:1fr 44px 1fr; max-width:740px; margin:0 auto; }
+    .price-half { padding:clamp(28px,5vw,60px) clamp(16px,4vw,52px); text-align:center; border:1px solid rgba(255,255,255,.07); }
+    .price-mbr { border-color:rgba(192,146,58,.28); background:rgba(192,146,58,.05); }
+    .price-divider { display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,.18); font-size:11px; letter-spacing:.15em; border-top:1px solid rgba(255,255,255,.06); border-bottom:1px solid rgba(255,255,255,.06); }
+    .price-tag { font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.28); margin-bottom:14px; }
+    .price-mbr .price-tag { color:var(--gold); }
+    .price-figure { font-family:'Cormorant Garamond',serif; font-size:clamp(38px,6.5vw,72px); font-weight:300; color:#fff; line-height:1; }
+    .price-figure--gold { color:var(--gold); }
+    .price-per { font-size:11px; color:rgba(255,255,255,.32); letter-spacing:.14em; margin-top:6px; }
+    .price-note { font-size:12px; color:rgba(255,255,255,.28); margin-top:18px; line-height:1.7; }
+    .price-mbr-list { list-style:none; margin-top:20px; display:flex; flex-direction:column; gap:9px; }
+    .price-mbr-list li { font-size:12px; color:rgba(255,255,255,.44); letter-spacing:.02em; display:flex; align-items:center; gap:8px; justify-content:center; }
+    .price-mbr-list li::before { content:''; width:10px; height:1px; background:var(--gold); flex-shrink:0; }
+    @media(max-width:600px){
+      .price-split { grid-template-columns:1fr 1fr; max-width:100%; }
+      .price-divider { display:none; }
+      .price-std { border-right:none; border-bottom:none; }
+      .price-mbr { border-left:1px solid rgba(192,146,58,.28); border-top:1px solid rgba(255,255,255,.07); }
+      .price-figure { font-size:clamp(26px,8vw,46px); }
+      .price-half { padding:22px 12px; }
+      .price-mbr-list li { font-size:11px; gap:5px; }
+      .price-mbr-list li::before { width:7px; }
+    }
 
     /* ── 食事ガイド ── */
     .dining-guide { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:2px; }
@@ -88,12 +99,14 @@
     .sight-jp { font-family:'Noto Serif JP',serif;font-size:16px;color:#fff;font-weight:300; }
     .sight-dist { font-size:10px;color:rgba(255,255,255,.5);margin-top:2px; }
     @media(max-width:600px){
-      .sight-row2 { grid-template-columns:1fr; }
+      .sight-row2 { grid-template-columns:1fr 1fr; }
+      .sight-row2 .sight-cell { height:clamp(150px,44vw,260px); }
       .sight-row3 { grid-template-columns:1fr 1fr; }
-      .sight-row3 .sight-cell { height:clamp(130px,35vw,220px); }
+      .sight-row3 .sight-cell { height:clamp(110px,30vw,190px); }
     }
     @media(max-width:380px){
-      .sight-row3 { grid-template-columns:1fr; }
+      .sight-row2 .sight-cell { height:clamp(130px,40vw,200px); }
+      .sight-row3 .sight-cell { height:clamp(100px,28vw,160px); }
     }
   </style>
 </head>
@@ -169,7 +182,17 @@
 </section>
 
 <!-- ROOMS / SPACE (空間資料) -->
-<section id="rooms" style="padding:0;">
+<section id="rooms" style="padding:0;background:var(--warm-white);">
+
+  <!-- セクションヘッダー -->
+  <div class="container" style="padding-top:clamp(48px,7vw,80px);padding-bottom:clamp(20px,3vw,32px);">
+    <div class="section-head fade-up" style="margin-bottom:0;">
+      <span class="section-label">Space</span>
+      <h2 class="section-title">滞在空間</h2>
+      <div class="divider-line"></div>
+      <p class="section-lead" style="font-size:13px;">ヴィンテージ・ヘリテージ家具が息づく1LDK。松江の静謐に包まれた空間で。</p>
+    </div>
+  </div>
 
   <!-- メインフォト：リビング全景 -->
   <div class="space-grid space-grid-wide">
@@ -234,23 +257,28 @@
       <h2 class="section-title" style="color:var(--warm-white);">料金</h2>
       <div class="divider-line" style="margin:16px auto;background:rgba(192,146,58,.5);"></div>
     </div>
-    <div class="pricing-grid fade-up delay-1">
-      <div class="pricing-card">
-        <div class="pricing-amount">¥80,000</div>
-        <div class="pricing-unit">/ 泊</div>
-        <div class="pricing-label">通常料金</div>
-      </div>
-      <div class="pricing-card member">
-        <div class="pricing-amount">1 🍓</div>
-        <div class="pricing-unit">/ 泊</div>
-        <div class="pricing-label">メンバー料金</div>
-      </div>
+  </div>
+  <div class="price-split fade-up delay-1">
+    <!-- 通常料金 -->
+    <div class="price-half price-std">
+      <div class="price-tag">Standard</div>
+      <div class="price-figure">¥80,000</div>
+      <div class="price-per">/ 泊</div>
+      <p class="price-note">どなたでもご利用いただけます</p>
     </div>
-    <div class="member-list fade-up delay-2">
-      <div class="member-list-item">web3.AI概論 履修者</div>
-      <div class="member-list-item">HENKAKU コミュニティーメンバー</div>
-      <div class="member-list-item">イーサリアン</div>
-      <div class="member-list-item">大切な事・物・スキルを共有できる方</div>
+    <!-- 仕切り -->
+    <div class="price-divider"><span>or</span></div>
+    <!-- メンバー料金 -->
+    <div class="price-half price-mbr">
+      <div class="price-tag">Member</div>
+      <div class="price-figure price-figure--gold">1 🍓</div>
+      <div class="price-per" style="color:rgba(192,146,58,.6);">/ 泊 · イチゴトークン</div>
+      <ul class="price-mbr-list">
+        <li>web3.AI概論 履修者</li>
+        <li>HENKAKU コミュニティメンバー</li>
+        <li>イーサリアン</li>
+        <li>大切なことを共有できる方</li>
+      </ul>
     </div>
   </div>
 </section>
@@ -655,7 +683,7 @@ function goSlide(n){
 setInterval(()=>goSlide(_cs+1), 5500);
 const _obs = new IntersectionObserver(entries=>{
   entries.forEach(x=>{ if(x.isIntersecting) x.target.classList.add('visible'); });
-},{threshold:0.08});
+},{threshold:0.04,rootMargin:'0px 0px -16px 0px'});
 document.querySelectorAll('.fade-up').forEach(el=>_obs.observe(el));
 
 function getBlockedDates(){ try{ return JSON.parse(localStorage.getItem('kuari_blocked')||'[]'); }catch(e){ return[]; } }
@@ -693,7 +721,8 @@ function renderCalendar(){
         else if(_sh&&ds>_ss&&ds<=_sh) cls+=' hovered-range';
       }
       btn.addEventListener('click',()=>handleCalClick(ds));
-      btn.addEventListener('mouseenter',()=>{ if(_ss&&!_se){ _sh=ds; renderCalendar(); } });
+      if(window.matchMedia('(hover:hover)').matches)
+        btn.addEventListener('mouseenter',()=>{ if(_ss&&!_se){ _sh=ds; renderCalendar(); } });
     }
     btn.className=cls; g.appendChild(btn);
   }
@@ -721,38 +750,51 @@ function nextMonth(){ _cm++; if(_cm>11){_cm=0;_cy++;} renderCalendar(); }
 
 async function submitBooking(e){
   e.preventDefault();
-  if(!_ss||!_se){ showToast('①カレンダーで日付を選択してください','error'); return; }
-  const name=document.getElementById('bookName').value.trim();
-  const contact=document.getElementById('bookContact').value.trim();
-  const community=document.getElementById('bookCommunity').value;
-  const guests=document.getElementById('bookGuests').value;
-  const notes=document.getElementById('bookNotes').value.trim();
-  if(!name||!contact||!community||!guests){ showToast('必須項目を入力してください','error'); return; }
-  const btn=document.getElementById('submitBtn');
+  if(!_ss||!_se){ showToast('① カレンダーで IN/OUT 日を選択してください','error'); return; }
+  const name    = document.getElementById('bookName').value.trim();
+  const contact = document.getElementById('bookContact').value.trim();
+  const community = document.getElementById('bookCommunity').value;
+  const guests  = document.getElementById('bookGuests').value;
+  const notes   = document.getElementById('bookNotes').value.trim();
+  if(!name)     { showToast('お名前を入力してください','error'); return; }
+  if(!contact)  { showToast('連絡先を入力してください','error'); return; }
+  if(!community){ showToast('ご利用プランを選択してください','error'); return; }
+  if(!guests)   { showToast('人数を選択してください','error'); return; }
+  const btn = document.getElementById('submitBtn');
   btn.disabled=true; btn.textContent='送信中…';
-  const bks=getBookedRanges();
-  const nb={id:Date.now().toString(),checkin:_ss,checkout:_se,name,contact,community,guests,notes,createdAt:new Date().toISOString()};
-  bks.push(nb); localStorage.setItem('kuari_bookings',JSON.stringify(bks));
-  fetch('https://ntfy.sh/kuari-higashihonmachi-2026',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({topic:'kuari-higashihonmachi-2026',title:'🏯 kuari東本町 新規予約',
-      message:`${name} / ${_ss}〜${_se} / ${guests}\n${contact}\n${community}`,priority:5,tags:['tada','house']})
-  }).catch(()=>{});
-  const lt=localStorage.getItem('kuari_line_token')||'';
-  fetch('/api/book',{
-    method:'POST',
-    headers:{'Content-Type':'application/json',...(lt?{'X-Line-Token':lt}:{})},
-    body:JSON.stringify({name,contact,community,checkin:_ss,checkout:_se,guests,purpose:community,notes})
-  }).catch(()=>{});
-  const s2=_ss, e2=_se;
-  _ss=null; _se=null; _sh=null;
-  updateDatesDisplay(); renderCalendar();
-  document.getElementById('bookingForm').reset();
-  document.getElementById('confirmText').innerHTML=
-    `${name} 様<br>${formatJP(s2)} → ${formatJP(e2)}<br><br>管理者より <strong>${contact}</strong> へご連絡します。`;
-  document.getElementById('bookConfirmModal').classList.add('open');
-  btn.disabled=false; btn.textContent='予約リクエストを送る';
+  try{
+    // localStorageに保存
+    const bks = getBookedRanges();
+    const nb = {id:Date.now().toString(),checkin:_ss,checkout:_se,name,contact,community,guests,notes,createdAt:new Date().toISOString()};
+    bks.push(nb);
+    localStorage.setItem('kuari_bookings', JSON.stringify(bks));
+    // ntfy通知（バックグラウンド）
+    fetch('https://ntfy.sh/kuari-higashihonmachi-2026',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({topic:'kuari-higashihonmachi-2026',title:'🏯 kuari東本町 新規予約',
+        message:`${name} / ${_ss}〜${_se} / ${guests}\n${contact}\n${community}`,priority:5,tags:['tada','house']})
+    }).catch(()=>{});
+    // LINE Notify（バックグラウンド）
+    const lt = localStorage.getItem('kuari_line_token')||'';
+    fetch('/api/book',{
+      method:'POST',
+      headers:{'Content-Type':'application/json',...(lt?{'X-Line-Token':lt}:{})},
+      body:JSON.stringify({name,contact,community,checkin:_ss,checkout:_se,guests,purpose:community,notes})
+    }).catch(()=>{});
+    // 確認モーダル表示
+    const s2=_ss, e2=_se;
+    _ss=null; _se=null; _sh=null;
+    updateDatesDisplay(); renderCalendar();
+    document.getElementById('bookingForm').reset();
+    document.getElementById('confirmText').innerHTML=
+      `${name} 様<br>${formatJP(s2)} → ${formatJP(e2)}<br>${guests}<br><br>管理者より <strong>${contact}</strong> へご連絡します。`;
+    document.getElementById('bookConfirmModal').classList.add('open');
+  } catch(err){
+    showToast('エラーが発生しました: '+err.message,'error');
+  } finally{
+    btn.disabled=false; btn.textContent='予約リクエストを送る';
+  }
 }
 function closeConfirm(){ document.getElementById('bookConfirmModal').classList.remove('open'); }
 

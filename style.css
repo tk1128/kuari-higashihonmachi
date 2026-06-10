@@ -896,40 +896,55 @@ select.form-input {
   text-align: center;
 }
 
+/* ── Mobile: booking ── */
 @media (max-width: 900px) {
-  .booking-grid { grid-template-columns: 1fr; gap: 28px; }
+  .booking-grid { grid-template-columns: 1fr; gap: 24px; }
   .form-row { grid-template-columns: 1fr; }
 }
-
-/* ── Mobile calendar: larger tap targets ── */
-@media (max-width: 480px) {
-  .cal-cell { min-height: 40px; font-size: 13px; }
-  .cal-wrap { padding: 20px 16px; }
-  .cal-wd { font-size: 11px; }
-  .selected-dates-display { font-size: 12px; padding: 14px 16px; }
-}
-
-/* ── Mobile: booking form tighter ── */
-@media (max-width: 480px) {
-  .form-input { font-size: 16px; } /* prevent iOS zoom */
-  .form-submit-btn { padding: 18px 24px; font-size: 13px; letter-spacing:.14em; }
-  .booking-form { gap: 16px; }
-}
-
-/* ── Mobile: section padding reduce ── */
 @media (max-width: 600px) {
-  :root { --pad-section: clamp(40px, 9vw, 64px); }
-  .section-title { font-size: clamp(22px, 5vw, 32px); }
+  .booking-grid { gap: 20px; }
+  .cal-cell { min-height: 40px; font-size: 13px; }
+  .cal-wrap { padding: 18px 14px; }
+  .cal-wd { font-size: 11px; }
+  .selected-dates-display { font-size: 12px; padding: 13px 14px; min-height:46px; }
+  .form-input { font-size: 16px; } /* prevent iOS zoom */
+  .form-submit-btn { padding: 18px 20px; font-size: 13px; letter-spacing:.12em; min-height:52px; }
+  .booking-form { gap: 14px; }
+}
+
+/* ── Mobile: section padding ── */
+@media (max-width: 600px) {
+  :root { --pad-section: clamp(36px, 9vw, 60px); }
+  .section-title { font-size: clamp(22px, 5.5vw, 32px); }
   .section-lead { font-size: 13px; line-height: 1.85; }
-  .access-grid { gap: 24px; }
-  .access-map { height: 260px; }
+  .section-head { margin-bottom: clamp(24px,5vw,48px); }
+}
+
+/* ── Mobile: access ── */
+@media (max-width: 768px) {
+  .access-grid { gap: 28px; }
+  .access-map { height: 280px; }
+}
+@media (max-width: 480px) {
+  .access-map { height: 240px; }
 }
 
 /* ── Mobile: footer ── */
 @media (max-width: 480px) {
-  footer { padding: 40px 20px 24px; }
+  footer { padding: 36px 20px 24px; }
   .footer-inner { gap: 20px; }
   .footer-logo { font-size: 22px !important; }
+}
+
+/* ── Mobile: dining guide ── */
+@media (max-width: 480px) {
+  .dining-guide { gap: 0; }
+  .dining-cell { padding: 18px 14px; }
+}
+
+/* ── Mobile: nav ── */
+@media (max-width: 480px) {
+  .nav-inner { height: 60px; }
 }
 
 /* Toast */
