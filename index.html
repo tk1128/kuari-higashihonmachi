@@ -544,34 +544,34 @@ async function submitBooking(e) {
     btn.disabled = false;
 }
 
+// ─── 通知設定（localStorage） ──────────────────────
+const NTFY_TOPIC = 'kuari-higashihonmachi-2026';
+
+function getLineToken() { return localStorage.getItem('kuari_line_token') || ''; }
+
 async function sendToApi(data) {
+    const lineToken = getLineToken();
     try {
         await fetch('/api/book', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                ...(lineToken ? { 'X-Line-Token': lineToken } : {}),
+            },
             body: JSON.stringify(data),
         });
     } catch (e) { /* non-critical */ }
 }
 
 async function sendNtfy(data) {
-    // ntfy.sh push notification — 管理者はntfyアプリで kuari-higashihonmachi-2026 をサブスクライブ
-    const msg = [
-        `👤 ${data.name}`,
-        `📅 ${data.checkin} → ${data.checkout}`,
-        `👥 ${data.guests}名`,
-        `🌐 ${data.community}`,
-        `✉️ ${data.contact}`,
-        `📝 ${data.purpose}`,
-    ].join('\n');
-
+    const msg = `👤 ${data.name}\n📅 ${data.checkin}→${data.checkout}\n👥 ${data.guests}名\n${data.community}\n✉️ ${data.contact}\n📝 ${data.purpose}`;
     try {
-        await fetch('https://ntfy.sh/kuari-higashihonmachi-2026', {
+        await fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                topic: 'kuari-higashihonmachi-2026',
-                title: '🏯 kuari東本町 新規予約リクエスト',
+                topic: NTFY_TOPIC,
+                title: '🏯 kuari東本町 新規予約',
                 message: msg,
                 priority: 5,
                 tags: ['tada', 'house'],
@@ -588,8 +588,99 @@ function resetBooking() {
     document.getElementById('bookingSuccess').classList.add('hidden');
 }
 
+// ─── 管理者セットアップパネル ─────────────────────────
+// フッターの「kuari」ロゴを5回クリック、または ?setup をURLに追加で表示
+let footerClickCount = 0;
+document.querySelector('footer').addEventListener('click', () => {
+    footerClickCount++;
+    if (footerClickCount >= 5) { footerClickCount = 0; openSetupPanel(); }
+});
+if (new URLSearchParams(location.search).has('setup')) openSetupPanel();
+
+function openSetupPanel() {
+    document.getElementById('setupPanel').classList.remove('hidden');
+    document.getElementById('setupToken').value = getLineToken();
+}
+function closeSetupPanel() {
+    document.getElementById('setupPanel').classList.add('hidden');
+}
+function saveSetup() {
+    const token = document.getElementById('setupToken').value.trim();
+    if (token) localStorage.setItem('kuari_line_token', token);
+    else localStorage.removeItem('kuari_line_token');
+    alert(token ? '✅ LINE Notifyトークンを保存しました' : 'トークンを削除しました');
+    closeSetupPanel();
+}
+async function testLineNotify() {
+    const token = document.getElementById('setupToken').value.trim();
+    if (!token) { alert('トークンを入力してください'); return; }
+    const btn = document.getElementById('testLineBtn');
+    btn.textContent = '送信中...'; btn.disabled = true;
+    try {
+        const r = await fetch('/api/book', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Line-Token': token },
+            body: JSON.stringify({
+                name: 'テスト', contact: 'test', community: 'テスト送信',
+                checkin: '2026-01-01', checkout: '2026-01-02', guests: '1',
+                purpose: 'LINE Notify 接続テスト', notes: ''
+            }),
+        });
+        const json = await r.json();
+        if (json.results?.line?.status === 200) alert('✅ LINEに通知が届きました！');
+        else alert('⚠️ 送信しましたが応答: ' + JSON.stringify(json.results?.line));
+    } catch (e) {
+        alert('エラー: ' + e.message);
+    }
+    btn.textContent = '接続テスト'; btn.disabled = false;
+}
+
 // ─── INIT ──────────────────────────────────────────
 initCalendar();
 </script>
+
+<!-- ===== 管理者セットアップパネル ===== -->
+<div id="setupPanel" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-4">
+  <div class="bg-white max-w-md w-full p-8 shadow-2xl relative">
+    <button onclick="closeSetupPanel()" class="absolute top-4 right-4 text-charcoal/40 hover:text-charcoal text-xl">✕</button>
+    <h3 class="text-lg font-bold text-charcoal mb-1 tracking-wider">管理者設定</h3>
+    <p class="text-xs text-charcoal/50 mb-6">通知の受信設定を行います</p>
+
+    <!-- LINE Notify -->
+    <div class="mb-6">
+      <label class="block text-xs font-bold text-charcoal uppercase tracking-widest mb-2">LINE Notify トークン</label>
+      <input id="setupToken" type="text" class="w-full border border-charcoal/20 px-3 py-2 text-sm font-mono outline-none focus:border-brass" placeholder="取得したトークンを貼り付け">
+      <p class="text-xs text-charcoal/40 mt-2 leading-relaxed">
+        ① <a href="https://notify-bot.line.me/my/" target="_blank" class="text-brass underline">notify-bot.line.me</a> を開く<br>
+        ②「トークン発行」→ 名前: kuari東本町予約 → 「1:1でLINE Notifyから通知を受け取る」を選択<br>
+        ③ 発行されたトークンをここに貼り付け → 保存
+      </p>
+      <div class="flex gap-3 mt-3">
+        <button id="testLineBtn" onclick="testLineNotify()" class="flex-1 py-2 border border-brass text-brass text-xs font-bold uppercase tracking-wider hover:bg-brass hover:text-charcoal transition-colors">接続テスト</button>
+        <button onclick="saveSetup()" class="flex-1 py-2 bg-charcoal text-white text-xs font-bold uppercase tracking-wider hover:bg-brass hover:text-charcoal transition-colors">保存</button>
+      </div>
+    </div>
+
+    <!-- ntfy.sh -->
+    <div class="border-t border-charcoal/10 pt-6">
+      <label class="block text-xs font-bold text-charcoal uppercase tracking-widest mb-2">プッシュ通知（ntfy.sh）</label>
+      <div class="bg-offwhite p-4 text-xs text-charcoal/70 leading-relaxed">
+        <p class="font-semibold text-charcoal mb-2">① スマートフォンで受信する場合</p>
+        <p>無料アプリ「ntfy」をインストール →「＋」→ トピック名を入力して購読</p>
+        <div class="mt-2 bg-charcoal text-brass font-mono px-3 py-2 select-all">kuari-higashihonmachi-2026</div>
+        <p class="mt-3 font-semibold text-charcoal mb-1">② SMS（ショートメール）として受信する場合</p>
+        <p>① でアプリを購読する際のメールアドレスに、あなたの携帯キャリアのSMSアドレスを入力：</p>
+        <div class="mt-2 space-y-1 font-mono bg-charcoal text-white/80 px-3 py-2 text-[11px]">
+          <div>Docomo: <span class="text-brass">08020674314@docomo.ne.jp</span></div>
+          <div>SoftBank: <span class="text-brass">08020674314@softbank.ne.jp</span></div>
+          <div>au: <span class="text-brass">08020674314@ezweb.ne.jp</span></div>
+          <div>楽天: <span class="text-brass">08020674314@rakuten.jp</span></div>
+        </div>
+        <p class="mt-2 text-charcoal/50">※ご自身のキャリアの行のアドレスを使用してください。予約が入るたびSMSが届きます。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
