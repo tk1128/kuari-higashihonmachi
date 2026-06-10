@@ -17,14 +17,11 @@ body {
   overflow-x: hidden;
 }
 
-/* Texture Overlay */
 body::before {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   background-image: url('./images/8.jpeg');
   background-size: cover;
   background-position: center;
@@ -33,138 +30,206 @@ body::before {
   z-index: -1;
 }
 
-/* Elegant Serif for headings */
 h1, h2, h3 {
   font-family: 'Shippori Mincho', 'Cormorant Garamond', serif;
   font-weight: 600;
   letter-spacing: 0.05em;
 }
 
-.serif {
-  font-family: 'Shippori Mincho', 'Cormorant Garamond', serif;
-}
+.serif { font-family: 'Shippori Mincho', 'Cormorant Garamond', serif; }
+.text-brass { color: var(--color-antique-brass); }
+.bg-charcoal { background-color: var(--color-charcoal); }
+.border-brass { border-color: var(--color-antique-brass); }
+.text-bitter-brown { color: var(--color-bitter-brown); }
 
-/* Force Helvetica on main headings if strict */
-.strict-helvetica {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  letter-spacing: -0.05em;
-  font-weight: 700;
-}
-
-.text-brass {
-  color: var(--color-antique-brass);
-}
-
-.bg-charcoal {
-  background-color: var(--color-charcoal);
-}
-
-.border-brass {
-  border-color: var(--color-antique-brass);
-}
-
-.text-bitter-brown {
-  color: var(--color-bitter-brown);
-}
-
-/* Image styling for heavy vintage feel */
+/* ── Vintage Image ── */
 .vintage-image {
   filter: sepia(0.1) contrast(1.1) brightness(0.9);
   transition: filter 0.5s ease;
 }
+.vintage-image:hover { filter: sepia(0) contrast(1) brightness(1); }
 
-.vintage-image:hover {
-  filter: sepia(0) contrast(1) brightness(1);
-}
-
-/* Fade in animation */
+/* ── Fade Up ── */
 .fade-up {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
 
-.fade-up.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Parallax wrapper */
-.parallax-container {
-  overflow: hidden;
-  position: relative;
-  height: 100vh;
-}
-
+/* ── Parallax ── */
+.parallax-container { overflow: hidden; position: relative; height: 100vh; }
 .parallax-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 120%; /* Extra height for parallax */
-  background-size: cover;
-  background-position: center;
-  z-index: -1;
-  /* Add subtle shadow overlay to images */
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 120%;
+  background-size: cover; background-position: center; z-index: -1;
 }
-
 .parallax-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(44, 53, 57, 0.4) 0%, rgba(44, 53, 57, 0.8) 100%);
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(44,53,57,0.4) 0%, rgba(44,53,57,0.8) 100%);
   z-index: 0;
 }
 
-/* Divider */
+/* ── Divider ── */
 .vintage-divider {
-  width: 1px;
-  height: 80px;
+  width: 1px; height: 80px;
   background-color: var(--color-antique-brass);
   margin: 0 auto;
 }
 
-/* Link Hover */
-.hover-brass {
-  position: relative;
-  text-decoration: none;
-}
+/* ── Hover Brass ── */
+.hover-brass { position: relative; text-decoration: none; }
 .hover-brass::after {
   content: '';
-  position: absolute;
-  width: 100%;
-  transform: scaleX(0);
-  height: 1px;
-  bottom: -2px;
-  left: 0;
+  position: absolute; width: 100%; transform: scaleX(0);
+  height: 1px; bottom: -2px; left: 0;
   background-color: var(--color-antique-brass);
   transform-origin: bottom right;
   transition: transform 0.3s cubic-bezier(0.86, 0, 0.07, 1);
 }
-.hover-brass:hover::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
-}
+.hover-brass:hover::after { transform: scaleX(1); transform-origin: bottom left; }
 
-/* Experience Cards */
-#experience .grid > div {
-    position: relative;
-    overflow: hidden;
-}
-
+/* ── Experience Cards ── */
+#experience .grid > div { position: relative; overflow: hidden; }
 #experience .grid > div::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 2px;
-    height: 0;
-    background-color: var(--color-antique-brass);
-    transition: height 0.3s ease;
+  content: ''; position: absolute; top: 0; left: 0; width: 2px; height: 0;
+  background-color: var(--color-antique-brass); transition: height 0.3s ease;
+}
+#experience .grid > div:hover::before { height: 100%; }
+
+/* ── Mobile Menu ── */
+.mobile-menu {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.mobile-menu.open {
+  opacity: 1;
+  pointer-events: all;
 }
 
-#experience .grid > div:hover::before {
-    height: 100%;
+/* ── Member Cards ── */
+.member-card {
+  background: #fff;
+  border: 1px solid rgba(44,53,57,0.1);
+  padding: 20px 16px;
+  text-align: center;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
+.member-card:hover {
+  border-color: var(--color-antique-brass);
+  box-shadow: 0 4px 20px rgba(192,160,84,0.1);
+}
+.member-icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+  display: block;
+}
+.member-label {
+  font-size: 11px;
+  color: var(--color-charcoal);
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.03em;
+}
+
+/* ── Calendar ── */
+.calendar-wrap {
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.cal-nav {
+  user-select: none;
+}
+
+.cal-nav-btn {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; color: var(--color-charcoal);
+  cursor: pointer; border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+  border: none; background: none;
+}
+.cal-nav-btn:hover {
+  background: rgba(44,53,57,0.06);
+  color: var(--color-antique-brass);
+}
+
+.cal-cell {
+  aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+  border: none; background: none;
+  color: var(--color-charcoal);
+  min-height: 36px;
+}
+.cal-cell.empty { cursor: default; }
+.cal-cell.cal-available:hover {
+  background: rgba(192,160,84,0.15);
+  color: var(--color-charcoal);
+}
+.cal-cell.cal-today {
+  font-weight: 700;
+  color: var(--color-antique-brass);
+}
+.cal-cell.cal-today::after {
+  content: '';
+  position: absolute;
+  bottom: 3px; left: 50%; transform: translateX(-50%);
+  width: 4px; height: 4px;
+  background: var(--color-antique-brass);
+  border-radius: 50%;
+}
+.cal-cell { position: relative; }
+
+.cal-cell.cal-disabled, .cal-cell.cal-booked {
+  color: rgba(44,53,57,0.25);
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+.cal-cell.cal-booked {
+  background: rgba(44,53,57,0.06);
+}
+
+.cal-cell.cal-start, .cal-cell.cal-end {
+  background: var(--color-antique-brass);
+  color: #fff;
+  font-weight: 700;
+}
+.cal-cell.cal-in-range {
+  background: rgba(192,160,84,0.2);
+  color: var(--color-charcoal);
+  border-radius: 0;
+}
+
+/* ── Form ── */
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-charcoal);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.form-input {
+  background: #fff;
+  border: 1px solid rgba(44,53,57,0.15);
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--color-charcoal);
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+  border-radius: 2px;
+}
+.form-input:focus { border-color: var(--color-antique-brass); }
+.form-input::placeholder { color: rgba(44,53,57,0.35); }
+select.form-input { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%232c3539' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+
+.reserve-submit-btn { border-radius: 2px; letter-spacing: 0.12em; }
+.reserve-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
