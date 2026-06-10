@@ -660,177 +660,243 @@
 </div>
 
 <script>
-const _today = new Date(); _today.setHours(0,0,0,0);
-function dateToStr(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
-function strToDate(s){ const[y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); }
-function formatJP(s){ if(!s)return''; const d=strToDate(s); return`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`; }
-function showToast(msg,type=''){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.className='show'+(type?' '+type:'');
-  setTimeout(()=>{ t.className=''; },3500);
+/* =====================================================
+   kuari東本町 — Booking Script (clean rewrite)
+   ===================================================== */
+
+// ── Utilities ──────────────────────────────────────
+const TODAY = new Date(); TODAY.setHours(0,0,0,0);
+const TODAY_STR = fmtDate(TODAY);
+
+function fmtDate(d){
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 }
-window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled', window.scrollY>60); });
-setTimeout(()=>{ document.querySelectorAll('#home .fade-up').forEach(el=>el.classList.add('visible')); },200);
+function parseDate(s){ const[y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); }
+function jpDate(s){
+  if(!s) return '';
+  const d=parseDate(s);
+  return d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日';
+}
+function showToast(msg, type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='show'+(type?' '+type:'');
+  clearTimeout(t._tid);
+  t._tid=setTimeout(()=>{ t.className=''; }, 3600);
+}
+
+// ── Navigation ─────────────────────────────────────
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY>60);
+});
+setTimeout(()=>{
+  document.querySelectorAll('#home .fade-up').forEach(el=>el.classList.add('visible'));
+},200);
 document.getElementById('hamburger').addEventListener('click',function(){
   this.classList.toggle('open');
   document.getElementById('mobileMenu').classList.toggle('open');
-  document.body.style.overflow = this.classList.contains('open') ? 'hidden' : '';
+  document.body.style.overflow=this.classList.contains('open')?'hidden':'';
 });
 function closeMobile(){
   document.getElementById('hamburger').classList.remove('open');
   document.getElementById('mobileMenu').classList.remove('open');
   document.body.style.overflow='';
 }
-let _cs=0;
-const _sl=document.querySelectorAll('.hero-slide'), _dt=document.querySelectorAll('.hero-dot');
-function goSlide(n){
-  _sl[_cs].classList.remove('active'); _dt[_cs].classList.remove('active');
-  _cs=(n+_sl.length)%_sl.length;
-  _sl[_cs].classList.add('active'); _dt[_cs].classList.add('active');
-}
-setInterval(()=>goSlide(_cs+1), 5500);
-const _obs = new IntersectionObserver(entries=>{
-  entries.forEach(x=>{ if(x.isIntersecting) x.target.classList.add('visible'); });
-},{threshold:0.04,rootMargin:'0px 0px -16px 0px'});
-document.querySelectorAll('.fade-up').forEach(el=>_obs.observe(el));
 
-function getBlockedDates(){ try{ return JSON.parse(localStorage.getItem('kuari_blocked')||'[]'); }catch(e){ return[]; } }
-function getBookedRanges(){ try{ return JSON.parse(localStorage.getItem('kuari_bookings')||'[]'); }catch(e){ return[]; } }
-function isPast(ds){ return strToDate(ds)<_today; }
-function isBlocked(ds){ return getBlockedDates().includes(ds); }
-function isBooked(ds){
-  const t=strToDate(ds).getTime();
-  return getBookedRanges().some(b=> t>=strToDate(b.checkin).getTime() && t<=strToDate(b.checkout).getTime());
+// ── Hero Slideshow ──────────────────────────────────
+let curSlide=0;
+const slides=document.querySelectorAll('.hero-slide');
+const dots  =document.querySelectorAll('.hero-dot');
+function goSlide(n){
+  if(!slides.length) return;
+  slides[curSlide].classList.remove('active'); dots[curSlide].classList.remove('active');
+  curSlide=(n+slides.length)%slides.length;
+  slides[curSlide].classList.add('active'); dots[curSlide].classList.add('active');
 }
-let _cy=_today.getFullYear(), _cm=_today.getMonth(), _ss=null, _se=null, _sh=null;
-function renderCalendar(){
-  document.getElementById('calMonthLabel').textContent=`${_cy}年 ${_cm+1}月`;
-  const g=document.getElementById('calGrid'); g.innerHTML='';
-  const fd=new Date(_cy,_cm,1).getDay(), dm=new Date(_cy,_cm+1,0).getDate();
-  for(let i=0;i<fd;i++){
-    const e=document.createElement('div'); e.className='cal-cell empty'; g.appendChild(e);
-  }
-  for(let d=1;d<=dm;d++){
-    const ds=`${_cy}-${String(_cm+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const btn=document.createElement('button'); btn.type='button'; btn.textContent=d;
-    let cls='cal-cell';
-    if(isPast(ds)){ cls+=' past'; btn.disabled=true; }
-    else if(isBlocked(ds)){ cls+=' blocked'; btn.disabled=true; }
-    else if(isBooked(ds)){ cls+=' booked'; btn.disabled=true; }
-    else{
-      cls+=' available';
-      if(ds===dateToStr(_today)) cls+=' today';
-      if(_ss&&_se){
-        if(ds===_ss) cls+=' start';
-        else if(ds===_se) cls+=' end';
-        else if(ds>_ss&&ds<_se) cls+=' in-range';
-      } else if(_ss&&!_se){
-        if(ds===_ss) cls+=' start';
-        else if(_sh&&ds>_ss&&ds<=_sh) cls+=' hovered-range';
-      }
-      btn.addEventListener('click',()=>handleCalClick(ds));
-      if(window.matchMedia('(hover:hover)').matches)
-        btn.addEventListener('mouseenter',()=>{ if(_ss&&!_se){ _sh=ds; renderCalendar(); } });
-    }
-    btn.className=cls; g.appendChild(btn);
-  }
+setInterval(()=>goSlide(curSlide+1), 5500);
+
+// ── Scroll Fade-in ──────────────────────────────────
+new IntersectionObserver(entries=>{
+  entries.forEach(x=>{ if(x.isIntersecting) x.target.classList.add('visible'); });
+},{threshold:0.05}).observe && document.querySelectorAll('.fade-up').forEach(el=>{
+  new IntersectionObserver(([e])=>{ if(e.isIntersecting) el.classList.add('visible'); },{threshold:0.05}).observe(el);
+});
+
+// ── Local Storage helpers ───────────────────────────
+function getBlocked(){ try{ return JSON.parse(localStorage.getItem('kuari_blocked')||'[]'); }catch{ return[]; } }
+function getBookings(){ try{ return JSON.parse(localStorage.getItem('kuari_bookings')||'[]'); }catch{ return[]; } }
+function isDatePast(ds){ return parseDate(ds)<TODAY; }
+function isDateBlocked(ds){ return getBlocked().includes(ds); }
+function isDateBooked(ds){
+  const t=parseDate(ds).getTime();
+  return getBookings().some(b=>t>=parseDate(b.checkin).getTime()&&t<=parseDate(b.checkout).getTime());
 }
-function handleCalClick(ds){
-  // 未選択 or 両方選択済み → 新たにIN日として設定
-  if(!_ss || (_ss && _se)){
-    _ss = ds; _se = null;
-  } else {
-    // IN日のみ選択済みの状態
-    if(ds === _ss){
-      // 同じ日を再クリック → リセット
-      _ss = null; _se = null;
-    } else if(ds < _ss){
-      // IN日より前を選択 → 前後入れ替え
-      _se = _ss; _ss = ds;
+
+// ── Booking Calendar ────────────────────────────────
+let calY=TODAY.getFullYear(), calM=TODAY.getMonth();
+let selIn=null, selOut=null;
+
+function buildCal(){
+  const grid=document.getElementById('calGrid');
+  if(!grid) return;
+  document.getElementById('calMonthLabel').textContent=calY+'年 '+(calM+1)+'月';
+  grid.innerHTML='';
+  const firstDay=new Date(calY,calM,1).getDay();
+  const daysInMonth=new Date(calY,calM+1,0).getDate();
+
+  for(let i=0;i<firstDay;i++){
+    const el=document.createElement('div'); el.className='cal-cell empty'; grid.appendChild(el);
+  }
+  for(let d=1;d<=daysInMonth;d++){
+    const ds=calY+'-'+String(calM+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const btn=document.createElement('button');
+    btn.type='button'; btn.textContent=d;
+    const cls=['cal-cell'];
+
+    if(isDatePast(ds)){
+      cls.push('past'); btn.disabled=true;
+    } else if(isDateBlocked(ds)){
+      cls.push('blocked'); btn.disabled=true;
+    } else if(isDateBooked(ds)){
+      cls.push('booked'); btn.disabled=true;
     } else {
-      _se = ds;
+      cls.push('available');
+      if(ds===TODAY_STR) cls.push('today');
+      if(selIn&&selOut){
+        if(ds===selIn)             cls.push('start');
+        else if(ds===selOut)       cls.push('end');
+        else if(ds>selIn&&ds<selOut) cls.push('in-range');
+      } else if(selIn){
+        if(ds===selIn) cls.push('start');
+      }
+      // onclick assigned as property (avoids duplicate listener issues on re-render)
+      btn.onclick = (function(dateStr){ return function(){ calClick(dateStr); }; })(ds);
+    }
+    btn.className=cls.join(' ');
+    grid.appendChild(btn);
+  }
+}
+
+function calClick(ds){
+  if(!selIn||(selIn&&selOut)){
+    // 新規選択開始
+    selIn=ds; selOut=null;
+  } else {
+    // IN日のみ選択済み
+    if(ds===selIn){
+      selIn=null; selOut=null;          // 同日タップ → リセット
+    } else if(ds<selIn){
+      selOut=selIn; selIn=ds;           // 前日 → 前後入れ替え
+    } else {
+      selOut=ds;                         // 通常: OUT日確定
     }
   }
-  _sh = null;
-  updateDatesDisplay();
-  renderCalendar();
+  refreshDates();
+  buildCal();
 }
-function updateDatesDisplay(){
+
+function refreshDates(){
   const el=document.getElementById('selectedDatesDisplay');
-  if(_ss&&_se){
-    el.textContent=`IN: ${formatJP(_ss)}  →  OUT: ${formatJP(_se)}`;
+  if(!el) return;
+  if(selIn&&selOut){
+    el.textContent='IN: '+jpDate(selIn)+'　→　OUT: '+jpDate(selOut);
     el.style.color='var(--dark)';
-  } else if(_ss){
-    el.textContent=`IN: ${formatJP(_ss)}  →  アウト日を選択`;
+    el.style.borderColor='rgba(192,146,58,.55)';
+    el.style.background='rgba(192,146,58,.1)';
+  } else if(selIn){
+    el.textContent='IN: '+jpDate(selIn)+'　→　アウト日を選択';
     el.style.color='var(--warm-grey)';
-  } else{
+    el.style.borderColor='rgba(192,146,58,.3)';
+    el.style.background='rgba(192,146,58,.05)';
+  } else {
     el.textContent='チェックイン・アウト日を選択してください';
     el.style.color='var(--warm-grey)';
+    el.style.borderColor='rgba(192,146,58,.2)';
+    el.style.background='rgba(192,146,58,.04)';
   }
 }
-function prevMonth(){ _cm--; if(_cm<0){_cm=11;_cy--;} renderCalendar(); }
-function nextMonth(){ _cm++; if(_cm>11){_cm=0;_cy++;} renderCalendar(); }
 
+function prevMonth(){ calM--; if(calM<0){calM=11;calY--;} buildCal(); }
+function nextMonth(){ calM++; if(calM>11){calM=0;calY++;} buildCal(); }
+
+// ── Booking Form Submit ─────────────────────────────
 async function submitBooking(e){
   e.preventDefault();
-  if(!_ss||!_se){ showToast('① カレンダーで IN/OUT 日を選択してください','error'); return; }
+  if(!selIn||!selOut){
+    showToast('カレンダーでチェックイン・アウト日を選択してください','error'); return;
+  }
   const name    = document.getElementById('bookName').value.trim();
   const contact = document.getElementById('bookContact').value.trim();
-  const community = document.getElementById('bookCommunity').value;
+  const plan    = document.getElementById('bookCommunity').value;
   const guests  = document.getElementById('bookGuests').value;
   const notes   = document.getElementById('bookNotes').value.trim();
-  if(!name)     { showToast('お名前を入力してください','error'); return; }
-  if(!contact)  { showToast('連絡先を入力してください','error'); return; }
-  if(!community){ showToast('ご利用プランを選択してください','error'); return; }
-  if(!guests)   { showToast('人数を選択してください','error'); return; }
-  const btn = document.getElementById('submitBtn');
+  if(!name)    { showToast('お名前を入力してください','error'); return; }
+  if(!contact) { showToast('連絡先を入力してください','error'); return; }
+  if(!plan)    { showToast('ご利用プランを選択してください','error'); return; }
+  if(!guests)  { showToast('人数を選択してください','error'); return; }
+
+  const btn=document.getElementById('submitBtn');
   btn.disabled=true; btn.textContent='送信中…';
   try{
-    // localStorageに保存
-    const bks = getBookedRanges();
-    const nb = {id:Date.now().toString(),checkin:_ss,checkout:_se,name,contact,community,guests,notes,createdAt:new Date().toISOString()};
-    bks.push(nb);
-    localStorage.setItem('kuari_bookings', JSON.stringify(bks));
-    // ntfy通知（バックグラウンド）
+    // 1. localStorageに保存
+    const bks=getBookings();
+    bks.push({
+      id:Date.now().toString(), checkin:selIn, checkout:selOut,
+      name, contact, community:plan, guests, notes,
+      createdAt:new Date().toISOString()
+    });
+    localStorage.setItem('kuari_bookings',JSON.stringify(bks));
+
+    // 2. ntfy通知（fire-and-forget）
     fetch('https://ntfy.sh/kuari-higashihonmachi-2026',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({topic:'kuari-higashihonmachi-2026',title:'🏯 kuari東本町 新規予約',
-        message:`${name} / ${_ss}〜${_se} / ${guests}\n${contact}\n${community}`,priority:5,tags:['tada','house']})
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        topic:'kuari-higashihonmachi-2026', title:'🏯 kuari東本町 新規予約',
+        message:name+' / '+selIn+'〜'+selOut+' / '+guests+'\n'+contact+'\n'+plan,
+        priority:5, tags:['tada','house']
+      })
     }).catch(()=>{});
-    // LINE Notify（バックグラウンド）
-    const lt = localStorage.getItem('kuari_line_token')||'';
+
+    // 3. LINE Notify（fire-and-forget）
+    const lt=localStorage.getItem('kuari_line_token')||'';
     fetch('/api/book',{
       method:'POST',
-      headers:{'Content-Type':'application/json',...(lt?{'X-Line-Token':lt}:{})},
-      body:JSON.stringify({name,contact,community,checkin:_ss,checkout:_se,guests,purpose:community,notes})
+      headers:Object.assign({'Content-Type':'application/json'},lt?{'X-Line-Token':lt}:{}),
+      body:JSON.stringify({name,contact,community:plan,checkin:selIn,checkout:selOut,guests,purpose:plan,notes})
     }).catch(()=>{});
-    // 確認モーダル表示
-    const s2=_ss, e2=_se;
-    _ss=null; _se=null; _sh=null;
-    updateDatesDisplay(); renderCalendar();
+
+    // 4. 確認モーダル
+    const cin=selIn, cout=selOut;
+    selIn=null; selOut=null;
+    refreshDates(); buildCal();
     document.getElementById('bookingForm').reset();
     document.getElementById('confirmText').innerHTML=
-      `${name} 様<br>${formatJP(s2)} → ${formatJP(e2)}<br>${guests}<br><br>管理者より <strong>${contact}</strong> へご連絡します。`;
+      name+' 様<br>'+jpDate(cin)+' → '+jpDate(cout)+'<br>'+guests+
+      '<br><br>管理者より <strong>'+contact+'</strong> へご連絡します。';
     document.getElementById('bookConfirmModal').classList.add('open');
+
   } catch(err){
-    showToast('エラーが発生しました: '+err.message,'error');
+    showToast('エラー: '+err.message,'error');
   } finally{
     btn.disabled=false; btn.textContent='予約リクエストを送る';
   }
 }
 function closeConfirm(){ document.getElementById('bookConfirmModal').classList.remove('open'); }
 
-let _ac=0, _at=null;
+// ── Admin Panel ─────────────────────────────────────
+let adminClickCount=0, adminTimer=null;
 document.getElementById('adminTrigger').addEventListener('click',()=>{
-  _ac++; clearTimeout(_at); _at=setTimeout(()=>_ac=0,2000);
-  if(_ac>=5){ _ac=0; openAdmin(); }
+  adminClickCount++;
+  clearTimeout(adminTimer);
+  adminTimer=setTimeout(()=>adminClickCount=0, 2000);
+  if(adminClickCount>=5){ adminClickCount=0; openAdmin(); }
 });
 if(new URLSearchParams(location.search).get('admin')!==null) openAdmin();
+
 function openAdmin(){
   document.getElementById('adminPanel').classList.add('open');
   document.body.style.overflow='hidden';
-  renderAdminCalendar(); renderAdminBookings();
+  buildAdminCal(); renderAdminBookings();
   document.getElementById('lineTokenInput').value=localStorage.getItem('kuari_line_token')||'';
 }
 function closeAdmin(){ document.getElementById('adminPanel').classList.remove('open'); document.body.style.overflow=''; }
@@ -839,45 +905,50 @@ function switchAdminTab(tab,btn){
   document.querySelectorAll('.admin-tab-pane').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('tab-'+tab).classList.add('active');
-  if(tab==='dates') renderAdminCalendar();
+  if(tab==='dates') buildAdminCal();
   if(tab==='bookings') renderAdminBookings();
 }
-let _ay=_today.getFullYear(), _am=_today.getMonth();
-function renderAdminCalendar(){
-  document.getElementById('adminCalLabel').textContent=`${_ay}年 ${_am+1}月`;
+let adminY=TODAY.getFullYear(), adminM=TODAY.getMonth();
+function buildAdminCal(){
+  document.getElementById('adminCalLabel').textContent=adminY+'年 '+(adminM+1)+'月';
   const g=document.getElementById('adminCalGrid'); g.innerHTML='';
-  const bl=getBlockedDates(), fd=new Date(_ay,_am,1).getDay(), dm=new Date(_ay,_am+1,0).getDate();
+  const bl=getBlocked(), fd=new Date(adminY,adminM,1).getDay(), dm=new Date(adminY,adminM+1,0).getDate();
   for(let i=0;i<fd;i++){
-    const e=document.createElement('div'); e.className='admin-cal-cell empty'; g.appendChild(e);
+    const el=document.createElement('div'); el.className='admin-cal-cell empty'; g.appendChild(el);
   }
   for(let d=1;d<=dm;d++){
-    const ds=`${_ay}-${String(_am+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const ds=adminY+'-'+String(adminM+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
     const btn=document.createElement('button'); btn.type='button'; btn.textContent=d;
     let cls='admin-cal-cell';
-    if(isPast(ds)){ cls+=' past'; btn.disabled=true; }
-    else if(bl.includes(ds)){ cls+=' blocked'; btn.addEventListener('click',()=>adminToggleBlock(ds)); }
-    else if(isBooked(ds)){ cls+=' booked'; btn.disabled=true; }
-    else{ btn.addEventListener('click',()=>adminToggleBlock(ds)); }
+    if(isDatePast(ds)){ cls+=' past'; btn.disabled=true; }
+    else if(bl.includes(ds)){ cls+=' blocked'; btn.onclick=(function(s){ return function(){ adminToggle(s); }; })(ds); }
+    else if(isDateBooked(ds)){ cls+=' booked'; btn.disabled=true; }
+    else{ btn.onclick=(function(s){ return function(){ adminToggle(s); }; })(ds); }
     btn.className=cls; g.appendChild(btn);
   }
 }
-function adminToggleBlock(ds){
-  const bl=getBlockedDates(), i=bl.indexOf(ds);
-  if(i>=0) bl.splice(i,1); else bl.push(ds);
+function adminToggle(ds){
+  const bl=getBlocked(), idx=bl.indexOf(ds);
+  if(idx>=0) bl.splice(idx,1); else bl.push(ds);
   localStorage.setItem('kuari_blocked',JSON.stringify(bl));
-  renderAdminCalendar(); renderCalendar();
-  showToast(i>=0?`${ds} 受付可`:`${ds} 受付不可`,'success');
+  buildAdminCal(); buildCal();
+  showToast(idx>=0?ds+' 受付可':ds+' 受付不可','success');
 }
-function clearAllBlocked(){ if(!confirm('全リセット？'))return; localStorage.removeItem('kuari_blocked'); renderAdminCalendar(); renderCalendar(); showToast('リセットしました','success'); }
-function prevAdminMonth(){ _am--; if(_am<0){_am=11;_ay--;} renderAdminCalendar(); }
-function nextAdminMonth(){ _am++; if(_am>11){_am=0;_ay++;} renderAdminCalendar(); }
+function clearAllBlocked(){
+  if(!confirm('全リセット？')) return;
+  localStorage.removeItem('kuari_blocked');
+  buildAdminCal(); buildCal();
+  showToast('リセットしました','success');
+}
+function prevAdminMonth(){ adminM--; if(adminM<0){adminM=11;adminY--;} buildAdminCal(); }
+function nextAdminMonth(){ adminM++; if(adminM>11){adminM=0;adminY++;} buildAdminCal(); }
 function renderAdminBookings(){
   const el=document.getElementById('adminBookingsList');
-  const data=getBookedRanges().sort((a,b)=>a.checkin.localeCompare(b.checkin));
+  const data=getBookings().sort((a,b)=>a.checkin.localeCompare(b.checkin));
   if(!data.length){ el.innerHTML='<p style="color:var(--warm-grey);font-size:13px;padding:16px 0;">予約なし</p>'; return; }
   el.innerHTML=data.map(b=>`
     <div class="booking-item" id="bi-${b.id}">
-      <div><div class="booking-date">${formatJP(b.checkin)}<br>〜${formatJP(b.checkout)}</div></div>
+      <div><div class="booking-date">${jpDate(b.checkin)}<br>〜${jpDate(b.checkout)}</div></div>
       <div><div class="booking-name">${b.name||'—'}</div>
         <div class="booking-meta">${b.guests||''} ／ ${b.community||''} ／ ${b.contact||''}</div>
         ${b.notes?`<div class="booking-meta">${b.notes}</div>`:''}
@@ -885,20 +956,27 @@ function renderAdminBookings(){
       <button class="booking-delete" onclick="deleteBooking('${b.id}')">削除</button>
     </div>`).join('');
 }
-function deleteBooking(id){ if(!confirm('削除？'))return; localStorage.setItem('kuari_bookings',JSON.stringify(getBookedRanges().filter(b=>b.id!==id))); renderAdminBookings(); renderCalendar(); }
+function deleteBooking(id){
+  if(!confirm('削除？')) return;
+  localStorage.setItem('kuari_bookings',JSON.stringify(getBookings().filter(b=>b.id!==id)));
+  renderAdminBookings(); buildCal();
+}
 function exportBookings(){
-  const data=getBookedRanges();
+  const data=getBookings();
   if(!data.length){ showToast('予約データなし'); return; }
   const hdr=['ID','IN','OUT','氏名','人数','連絡先','プラン','備考','日時'];
   const rows=data.map(b=>[b.id,b.checkin,b.checkout,b.name,b.guests,b.contact,b.community,b.notes,b.createdAt]);
-  const csv=[hdr,...rows].map(r=>r.map(v=>`"${(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const csv=[hdr,...rows].map(r=>r.map(v=>'"'+(v||'').replace(/"/g,'""')+'"').join(',')).join('\n');
   const a=Object.assign(document.createElement('a'),{
     href:URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8;'})),
-    download:`kuari_${dateToStr(new Date())}.csv`
+    download:'kuari_'+fmtDate(new Date())+'.csv'
   });
   a.click(); URL.revokeObjectURL(a.href);
 }
-function saveLineToken(){ localStorage.setItem('kuari_line_token',document.getElementById('lineTokenInput').value.trim()); showToast('保存しました','success'); }
+function saveLineToken(){
+  localStorage.setItem('kuari_line_token',document.getElementById('lineTokenInput').value.trim());
+  showToast('保存しました','success');
+}
 async function testLineNotify(){
   const t=document.getElementById('lineTokenInput').value.trim();
   if(!t){ showToast('トークン未入力','error'); return; }
@@ -907,13 +985,16 @@ async function testLineNotify(){
     const r=await fetch('/api/book',{
       method:'POST',
       headers:{'Content-Type':'application/json','X-Line-Token':t},
-      body:JSON.stringify({name:'テスト',contact:'test',community:'テスト',checkin:dateToStr(_today),checkout:dateToStr(_today),guests:'1名',purpose:'test',notes:''})
+      body:JSON.stringify({name:'テスト',contact:'test',community:'テスト',
+        checkin:TODAY_STR,checkout:TODAY_STR,guests:'1名',purpose:'test',notes:''})
     });
     const d=await r.json().catch(()=>({}));
-    showToast(d.ok?'成功 ✓':'エラー: '+JSON.stringify(d.results||d), d.ok?'success':'error');
+    showToast(d.ok?'成功 ✓':'エラー: '+JSON.stringify(d.results||d),d.ok?'success':'error');
   } catch(err){ showToast('エラー: '+err.message,'error'); }
 }
-renderCalendar();
+
+// ── Init ────────────────────────────────────────────
+buildCal();
 </script>
 </body>
 </html>

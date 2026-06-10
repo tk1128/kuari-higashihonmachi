@@ -791,6 +791,11 @@ section {
 .cal-cell.available:hover {
   background: rgba(192,146,58,0.15);
 }
+/* タッチデバイスではホバー色を残さない（選択色が上書きされるのを防ぐ） */
+@media (hover: none) {
+  .cal-cell.available:hover { background: transparent; }
+  .cal-cell.start:hover, .cal-cell.end:hover { background: var(--gold); }
+}
 .cal-cell.today {
   font-weight: 700;
   color: var(--gold);
