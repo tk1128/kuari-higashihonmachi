@@ -169,7 +169,7 @@
       <h2 class="section-title" style="color:var(--warm-white);">和敬清寂</h2>
       <div class="divider-line" style="background:rgba(192,146,58,.5);"></div>
       <p class="section-lead" style="max-width:400px;color:rgba(247,244,239,.6);font-size:14px;">
-        松江の静謐と調和。ヴィンテージ・ヘリテージ家具が息づく空間で。
+        松江の静寂と調和。開放感を感じる4面彩光の落ち着いた空間で。
       </p>
     </div>
   </div>
@@ -190,7 +190,7 @@
       <span class="section-label">Space</span>
       <h2 class="section-title">滞在空間</h2>
       <div class="divider-line"></div>
-      <p class="section-lead" style="font-size:13px;">ヴィンテージ・ヘリテージ家具が息づく1LDK。松江の静謐に包まれた空間で。</p>
+      <p class="section-lead" style="font-size:13px;">開放感を感じる4面彩光の1LDK。松江の静寂に包まれた落ち着いた空間で。</p>
     </div>
   </div>
 
@@ -271,7 +271,7 @@
     <!-- メンバー料金 -->
     <div class="price-half price-mbr">
       <div class="price-tag">Member</div>
-      <div class="price-figure price-figure--gold">1 🍓</div>
+      <div class="price-figure price-figure--gold" style="font-size:clamp(28px,5vw,56px);">1,000 🍓</div>
       <div class="price-per" style="color:rgba(192,146,58,.6);">/ 泊 · イチゴトークン</div>
       <ul class="price-mbr-list">
         <li>web3.AI概論 履修者</li>
@@ -475,7 +475,7 @@
     </div>
     <div class="booking-grid">
       <!-- カレンダー -->
-      <div class="fade-up">
+      <div>
         <p style="font-size:11px;letter-spacing:.12em;color:var(--warm-grey);margin-bottom:14px;">① チェックイン日 → アウト日 の順にタップ</p>
         <div class="cal-wrap">
           <div class="cal-header">
@@ -496,7 +496,7 @@
         </div>
       </div>
       <!-- フォーム -->
-      <div class="fade-up delay-1">
+      <div>
         <p style="font-size:11px;letter-spacing:.12em;color:var(--warm-grey);margin-bottom:14px;">② 情報を入力して送信</p>
         <form class="booking-form" id="bookingForm" onsubmit="submitBooking(event)" novalidate>
           <div class="selected-dates-display" id="selectedDatesDisplay">チェックイン・アウト日を選択してください</div>
@@ -527,10 +527,10 @@
             <select class="form-input" id="bookCommunity" required>
               <option value="">選択してください</option>
               <option>通常料金 ¥80,000/泊</option>
-              <option>メンバー料金 1🍓/泊 — web3.AI概論</option>
-              <option>メンバー料金 1🍓/泊 — HENKAKU</option>
-              <option>メンバー料金 1🍓/泊 — イーサリアン</option>
-              <option>メンバー料金 1🍓/泊 — 共有できる方</option>
+              <option>メンバー料金 1,000🍓/泊 — web3.AI概論</option>
+              <option>メンバー料金 1,000🍓/泊 — HENKAKU</option>
+              <option>メンバー料金 1,000🍓/泊 — イーサリアン</option>
+              <option>メンバー料金 1,000🍓/泊 — 共有できる方</option>
               <option>ミーティング / ワークショップ</option>
             </select>
           </div>
@@ -728,9 +728,24 @@ function renderCalendar(){
   }
 }
 function handleCalClick(ds){
-  if(!_ss||(_ss&&_se)){ _ss=ds; _se=null; }
-  else{ if(ds<=_ss){ _se=_ss; _ss=ds; } else{ _se=ds; } }
-  _sh=null; updateDatesDisplay(); renderCalendar();
+  // 未選択 or 両方選択済み → 新たにIN日として設定
+  if(!_ss || (_ss && _se)){
+    _ss = ds; _se = null;
+  } else {
+    // IN日のみ選択済みの状態
+    if(ds === _ss){
+      // 同じ日を再クリック → リセット
+      _ss = null; _se = null;
+    } else if(ds < _ss){
+      // IN日より前を選択 → 前後入れ替え
+      _se = _ss; _ss = ds;
+    } else {
+      _se = ds;
+    }
+  }
+  _sh = null;
+  updateDatesDisplay();
+  renderCalendar();
 }
 function updateDatesDisplay(){
   const el=document.getElementById('selectedDatesDisplay');
