@@ -280,6 +280,10 @@
       slides[cur].classList.add('active');
     }, 5000);
 
+    /* ── Scroll to top on load ── */
+    if (history.scrollRestoration) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+
     /* ── Date min ── */
     const todayStr = new Date().toISOString().split('T')[0];
     document.getElementById('f-checkin').min  = todayStr;

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>kuari 東本町 — QRコード</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Cormorant Garamond', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+      background: #faf9f7;
+      color: #1c1917;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #e8e5e0;
+      padding: clamp(32px, 6vw, 64px);
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+    }
+    .logo {
+      font-size: clamp(22px, 5vw, 32px);
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      color: #1c1917;
+      margin-bottom: 6px;
+    }
+    .sub {
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: #c09a40;
+      text-transform: uppercase;
+      margin-bottom: 36px;
+    }
+    .qr-wrap {
+      background: #fff;
+      padding: 16px;
+      display: inline-block;
+      border: 1px solid #e8e5e0;
+      margin-bottom: 28px;
+    }
+    .qr-wrap img {
+      display: block;
+      width: 220px;
+      height: 220px;
+    }
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: #c09a40;
+      margin: 0 auto 24px;
+    }
+    .url {
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      color: #78716c;
+      word-break: break-all;
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+    .info {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: #a8a29e;
+      line-height: 2;
+    }
+    .info strong {
+      color: #78716c;
+      font-weight: 400;
+    }
+    .print-btn {
+      margin-top: 32px;
+      display: inline-block;
+      background: #1c1917;
+      color: #faf9f7;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 12px 32px;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.3s;
+      text-decoration: none;
+    }
+    .print-btn:hover { background: #c09a40; }
+    @media print {
+      body { background: #fff; }
+      .print-btn { display: none; }
+      .card { border: none; padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">kuari 東本町</div>
+    <div class="sub">Matsue, Shimane — 1LDK</div>
+
+    <div class="qr-wrap">
+      <img
+        src="https://api.qrserver.com/v1/create-qr-code/?size=440x440&data=https%3A%2F%2Fkuari-higashihonmachi.vercel.app%2F&format=png&margin=10&color=1c1917&bgcolor=ffffff"
+        alt="kuari東本町 QRコード"
+      >
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="url">kuari-higashihonmachi.vercel.app</div>
+
+    <div class="info">
+      <strong>宿泊予約・お問い合わせ</strong><br>
+      1泊 ¥80,000 / 定員 2名<br>
+      島根県松江市東本町4-144<br>
+      チェックイン 15:00 / アウト 翌11:00
+    </div>
+
+    <button class="print-btn" onclick="window.print()">印刷する</button>
+  </div>
+</body>
+</html>
