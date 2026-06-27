@@ -29,17 +29,14 @@
     .font-display { font-family: 'Cormorant Garamond', 'Noto Serif JP', Georgia, serif; }
     input, select, textarea { -webkit-appearance: none; appearance: none; outline: none; border-radius: 0; }
     input:focus, select:focus, textarea:focus { border-color: #1c1917 !important; }
-    /* Nav scroll transition */
     #nav { transition: background 0.5s, backdrop-filter 0.5s; }
     #nav.scrolled { background: rgba(250, 249, 247, 0.92); backdrop-filter: blur(12px); }
     #nav.scrolled .nav-logo,
     #nav.scrolled .nav-link { color: #1c1917 !important; }
     #nav.scrolled .nav-cta { color: #1c1917 !important; border-color: #1c1917 !important; }
     #nav.scrolled .nav-cta:hover { background: #1c1917; color: #faf9f7 !important; }
-    /* Hero slideshow */
     .hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.6s ease; }
     .hero-slide.active { opacity: 1; }
-    /* Form inputs */
     .form-line {
       width: 100%; background: transparent;
       border: none; border-bottom: 1px solid #d6d3d1;
@@ -49,7 +46,6 @@
     .form-line::placeholder { color: #c4c0bb; }
     .form-line:focus { border-bottom-color: #1c1917; }
     select.form-line { cursor: pointer; }
-    /* Submit button */
     .btn-submit {
       background: #1c1917; color: #faf9f7;
       font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
@@ -58,7 +54,6 @@
     }
     .btn-submit:hover { background: #c09a40; }
     .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-    /* Toast */
     #toast {
       position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
       background: #1c1917; color: #faf9f7;
@@ -69,10 +64,18 @@
     }
     #toast.show { opacity: 1; }
     #toast.error { background: #7f1d1d; }
-    /* Image hover */
     .img-hover { overflow: hidden; }
     .img-hover img { transition: transform 0.9s ease; }
     .img-hover:hover img { transform: scale(1.04); }
+    /* Language switcher */
+    .lang-btn { color: rgba(255,255,255,0.45); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; transition: color 0.3s; background: none; border: none; cursor: pointer; padding: 2px 0; }
+    .lang-btn.active { color: rgba(255,255,255,0.95); }
+    .lang-btn:hover { color: rgba(255,255,255,0.8); }
+    .lang-sep { color: rgba(255,255,255,0.2); font-size: 9px; }
+    #nav.scrolled .lang-btn { color: rgba(28,25,23,0.4); }
+    #nav.scrolled .lang-btn.active { color: #1c1917; }
+    #nav.scrolled .lang-btn:hover { color: rgba(28,25,23,0.75); }
+    #nav.scrolled .lang-sep { color: rgba(28,25,23,0.2); }
   </style>
 </head>
 <body class="bg-stone-50 text-stone-900 antialiased">
@@ -80,54 +83,54 @@
   <!-- ── NAV ──────────────────────────────────────────── -->
   <header id="nav" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-14 h-16">
     <a href="#" class="nav-logo font-display text-white text-lg tracking-ultra font-light">kuari 東本町</a>
-    <nav class="hidden md:flex items-center gap-6 mr-6">
-      <a href="https://tk1128.github.io/kuari-hp/zen-retreat/" target="_blank" rel="noopener"
-         class="text-white/40 text-[9px] tracking-[0.2em] uppercase hover:text-white/70 transition-colors">
-        kuari 皆生 ↗
+    <div class="flex items-center gap-4">
+      <nav class="hidden md:flex items-center gap-6 mr-2">
+        <a href="https://tk1128.github.io/kuari-hp/zen-retreat/" target="_blank" rel="noopener"
+           class="text-white/40 text-[9px] tracking-[0.2em] uppercase hover:text-white/70 transition-colors">
+          kuari 皆生 ↗
+        </a>
+        <a href="https://prouve-brise-soleil.vercel.app/" target="_blank" rel="noopener"
+           class="text-white/40 text-[9px] tracking-[0.2em] uppercase hover:text-white/70 transition-colors">
+          Jean Prouvé ↗
+        </a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <button data-lang="ja" class="lang-btn active">JA</button>
+        <span class="lang-sep">/</span>
+        <button data-lang="en" class="lang-btn">EN</button>
+      </div>
+      <a href="#contact" class="nav-cta text-white text-[10px] tracking-[0.22em] uppercase border border-white/50 px-5 py-2 hover:bg-white hover:text-stone-900 transition-all duration-300">
+        <span data-i18n="nav.reserve">予約する</span>
       </a>
-      <a href="https://prouve-brise-soleil.vercel.app/" target="_blank" rel="noopener"
-         class="text-white/40 text-[9px] tracking-[0.2em] uppercase hover:text-white/70 transition-colors">
-        Jean Prouvé ↗
-      </a>
-    </nav>
-    <a href="#contact" class="nav-cta text-white text-[10px] tracking-[0.22em] uppercase border border-white/50 px-5 py-2 hover:bg-white hover:text-stone-900 transition-all duration-300">
-      予約する
-    </a>
+    </div>
   </header>
 
   <!-- ── HERO ──────────────────────────────────────────── -->
   <section class="relative h-screen min-h-[600px] overflow-hidden">
-    <!-- Slides -->
     <div class="hero-slide active">
-      <img src="images/space-living.jpeg" alt="リビング" class="w-full h-full object-cover">
+      <img src="images/space-living.jpeg" data-i18n-alt="hero.alt.living" alt="リビング" class="w-full h-full object-cover">
     </div>
     <div class="hero-slide">
-      <img src="images/space-bedroom.jpeg" alt="居室" class="w-full h-full object-cover">
+      <img src="images/space-bedroom.jpeg" data-i18n-alt="hero.alt.bedroom" alt="居室" class="w-full h-full object-cover">
     </div>
     <div class="hero-slide">
-      <img src="images/matsue-lake-bridge.jpeg" alt="宍道湖" class="w-full h-full object-cover">
+      <img src="images/matsue-lake-bridge.jpeg" data-i18n-alt="hero.alt.lake" alt="宍道湖" class="w-full h-full object-cover">
     </div>
-
-    <!-- Overlay -->
     <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/60"></div>
-
-    <!-- Text -->
     <div class="absolute inset-0 flex flex-col justify-end pb-20 px-8 md:px-16 z-10">
       <p class="text-white/50 text-[10px] tracking-ultra uppercase mb-5">Matsue, Shimane — 1LDK</p>
       <h1 class="font-display text-white font-light leading-[0.9] mb-8"
           style="font-size: clamp(56px, 10vw, 110px);">
-        静寂と、<br><em class="not-italic" style="color: #e8d090;">光の宿。</em>
+        <span data-i18n="hero.title1">静寂と、</span><br><em class="not-italic" style="color: #e8d090;"><span data-i18n="hero.title2">光の宿。</span></em>
       </h1>
       <div class="flex items-center gap-6">
-        <span class="text-white/60 text-xs tracking-ultra">¥80,000 / 泊</span>
+        <span class="text-white/60 text-xs tracking-ultra" data-i18n="hero.price">¥80,000 / 泊</span>
         <span class="w-px h-4 bg-white/20"></span>
         <span class="text-white/60 text-xs tracking-ultra">0.1 ETH / 泊</span>
         <span class="w-px h-4 bg-white/20"></span>
-        <span class="text-white/60 text-xs tracking-widest">松江城址まで徒歩5分</span>
+        <span class="text-white/60 text-xs tracking-widest" data-i18n="hero.location">松江城址まで徒歩5分</span>
       </div>
     </div>
-
-    <!-- Scroll indicator -->
     <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10">
       <span class="text-white/30 text-[9px] tracking-[0.3em] uppercase">Scroll</span>
       <div class="w-px h-10 bg-gradient-to-b from-white/30 to-transparent animate-pulse"></div>
@@ -141,35 +144,35 @@
         <p class="text-[10px] tracking-ultra text-gold uppercase mb-8">kuari Higashihonmachi</p>
         <h2 class="font-display font-light leading-tight mb-10"
             style="font-size: clamp(32px, 5vw, 52px);">
-          松江城址を望む、<br>1LDKの滞在空間。
+          <span data-i18n-html="intro.heading">松江城址を望む、<br>1LDKの滞在空間。</span>
         </h2>
-        <p class="text-stone-400 text-sm leading-loose mb-8">
+        <p class="text-stone-400 text-sm leading-loose mb-8" data-i18n="intro.body">
           島根県松江市東本町4丁目。宍道湖の夕景と城下町に佇む、
           ヴィンテージ家具を揃えた静かな1LDK。
           4面採光の開放感ある空間で、大切な時間をお過ごしください。
         </p>
         <a href="https://maps.google.com/?q=島根県松江市東本町4-144" target="_blank" rel="noopener"
            class="inline-flex items-center gap-2 text-[10px] tracking-ultra text-stone-400 hover:text-stone-700 transition-colors mb-12" style="text-decoration:none;">
-          <span>松江市東本町4-144 6F</span>
+          <span data-i18n="intro.address">松江市東本町4-144 6F</span>
           <span class="text-stone-300">— Google Maps ↗</span>
         </a>
         <div class="grid grid-cols-3 gap-4 border-t border-stone-200 pt-10">
           <div>
             <p class="font-display text-4xl font-light text-gold">2</p>
-            <p class="text-[10px] text-stone-400 tracking-widest mt-2 uppercase">定員</p>
+            <p class="text-[10px] text-stone-400 tracking-widest mt-2 uppercase" data-i18n="intro.stat1.label">定員</p>
           </div>
           <div>
             <p class="font-display text-4xl font-light text-gold">1LDK</p>
-            <p class="text-[10px] text-stone-400 tracking-widest mt-2 uppercase">間取り</p>
+            <p class="text-[10px] text-stone-400 tracking-widest mt-2 uppercase" data-i18n="intro.stat2.label">間取り</p>
           </div>
           <div>
             <p class="font-display text-2xl font-light text-gold">¥80K<span class="text-lg"> / </span>0.1<span class="text-lg">ETH</span></p>
-            <p class="text-[10px] text-stone-400 tracking-widest mt-2 uppercase">1泊</p>
+            <p class="text-[10px] text-stone-400 tracking-widest mt-2 uppercase" data-i18n="intro.stat3.label">1泊</p>
           </div>
         </div>
       </div>
       <div class="img-hover aspect-[4/5]">
-        <img src="images/space-bedroom.jpeg" alt="居室" class="w-full h-full object-cover">
+        <img src="images/space-bedroom.jpeg" data-i18n-alt="hero.alt.bedroom" alt="居室" class="w-full h-full object-cover">
       </div>
     </div>
   </section>
@@ -177,13 +180,13 @@
   <!-- ── IMAGE ROW ──────────────────────────────────────── -->
   <div class="grid grid-cols-3 gap-1 px-2 md:px-4">
     <div class="img-hover aspect-square">
-      <img src="images/space-dresser.jpeg" alt="ドレッサー" class="w-full h-full object-cover">
+      <img src="images/space-dresser.jpeg" data-i18n-alt="img.dresser" alt="ドレッサー" class="w-full h-full object-cover">
     </div>
     <div class="img-hover aspect-square">
-      <img src="images/matsue-lake-sunset.jpeg" alt="宍道湖夕景" class="w-full h-full object-cover">
+      <img src="images/matsue-lake-sunset.jpeg" data-i18n-alt="img.sunset" alt="宍道湖夕景" class="w-full h-full object-cover">
     </div>
     <div class="img-hover aspect-square">
-      <img src="images/matsue-teahouse1.jpeg" alt="茶室" class="w-full h-full object-cover">
+      <img src="images/matsue-teahouse1.jpeg" data-i18n-alt="img.teahouse" alt="茶室" class="w-full h-full object-cover">
     </div>
   </div>
 
@@ -195,72 +198,66 @@
     <p class="text-[10px] tracking-ultra text-gold uppercase mb-6">Reservation &amp; Enquiry</p>
     <h2 class="font-display font-light leading-tight mb-4"
         style="font-size: clamp(30px, 5vw, 46px);">
-      予約・お問い合わせ
+      <span data-i18n="form.heading">予約・お問い合わせ</span>
     </h2>
-    <p class="text-stone-400 text-xs tracking-widest mb-14">
+    <p class="text-stone-400 text-xs tracking-widest mb-14" data-i18n="form.sub">
       ご希望の日程・人数をお知らせください。確認後、ご連絡いたします。
     </p>
 
     <form id="bookingForm" class="space-y-10" novalidate>
-
-      <!-- 氏名 / 連絡先 -->
       <div class="grid md:grid-cols-2 gap-8">
         <div>
-          <label class="block text-[10px] tracking-ultra text-stone-400 uppercase mb-3">お名前 <span class="text-gold">*</span></label>
-          <input type="text" id="f-name" placeholder="山田 太郎" required class="form-line">
+          <label class="block text-[10px] tracking-ultra text-stone-400 uppercase mb-3"><span data-i18n="form.name">お名前</span> <span class="text-gold">*</span></label>
+          <input type="text" id="f-name" data-i18n-placeholder="form.name.placeholder" placeholder="山田 太郎" required class="form-line">
         </div>
         <div>
-          <label class="block text-[10px] tracking-ultra text-stone-400 uppercase mb-3">連絡先 <span class="text-gold">*</span></label>
-          <input type="text" id="f-contact" placeholder="メール or 電話番号" required class="form-line">
+          <label class="block text-[10px] tracking-ultra text-stone-400 uppercase mb-3"><span data-i18n="form.contact">連絡先</span> <span class="text-gold">*</span></label>
+          <input type="text" id="f-contact" data-i18n-placeholder="form.contact.placeholder" placeholder="メール or 電話番号" required class="form-line">
         </div>
       </div>
 
-      <!-- 日程 -->
       <div class="grid md:grid-cols-2 gap-8">
         <div>
-          <label class="block text-[10px] tracking-ultra text-stone-400 uppercase mb-3">チェックイン <span class="text-gold">*</span></label>
+          <label class="block text-[10px] tracking-ultra text-stone-400 uppercase mb-3"><span data-i18n="form.checkin">チェックイン</span> <span class="text-gold">*</span></label>
           <input type="date" id="f-checkin" required class="form-line text-stone-500">
         </div>
         <div>
-          <label class="block text-[10px] tracking-ultra text-stone-400 uppercase mb-3">チェックアウト <span class="text-gold">*</span></label>
+          <label class="block text-[10px] tracking-ultra text-stone-400 uppercase mb-3"><span data-i18n="form.checkout">チェックアウト</span> <span class="text-gold">*</span></label>
           <input type="date" id="f-checkout" required class="form-line text-stone-500">
         </div>
       </div>
 
-      <!-- 人数 / プラン -->
       <div class="grid md:grid-cols-2 gap-8">
         <div>
-          <label class="block text-[10px] tracking-ultra text-stone-400 uppercase mb-3">人数 <span class="text-gold">*</span></label>
+          <label class="block text-[10px] tracking-ultra text-stone-400 uppercase mb-3"><span data-i18n="form.guests">人数</span> <span class="text-gold">*</span></label>
           <select id="f-guests" required class="form-line text-stone-500">
-            <option value="">選択してください</option>
-            <option value="1名">1名</option>
-            <option value="2名">2名</option>
+            <option value="" data-i18n-option="form.guests.default">選択してください</option>
+            <option value="1名" data-i18n-option="form.guests.1">1名</option>
+            <option value="2名" data-i18n-option="form.guests.2">2名</option>
           </select>
         </div>
         <div>
-          <label class="block text-[10px] tracking-ultra text-stone-400 uppercase mb-3">料金プラン</label>
+          <label class="block text-[10px] tracking-ultra text-stone-400 uppercase mb-3" data-i18n="form.plan">料金プラン</label>
           <select id="f-plan" class="form-line text-stone-500">
-            <option value="通常料金 ¥80,000/泊">通常料金 — ¥80,000 / 泊</option>
-            <option value="クリプト 0.1ETH/泊">クリプト決済 — 0.1 ETH / 泊</option>
-            <option value="STAY POINTS 8,000pt/泊">STAY POINTS — 8,000pt / 泊</option>
-            <option value="無料 — web3.AI概論 履修者">無料 — web3.AI概論 履修者</option>
-            <option value="無料 — 変革メンバー">無料 — 変革メンバー</option>
-            <option value="無料 — イーサリアン">無料 — イーサリアン</option>
-            <option value="ミーティング / ワークショップ">ミーティング / ワークショップ</option>
+            <option value="通常料金 ¥80,000/泊" data-i18n-option="form.plan.normal">通常料金 — ¥80,000 / 泊</option>
+            <option value="クリプト 0.1ETH/泊" data-i18n-option="form.plan.crypto">クリプト決済 — 0.1 ETH / 泊</option>
+            <option value="STAY POINTS 8,000pt/泊" data-i18n-option="form.plan.staypoints">STAY POINTS — 8,000pt / 泊</option>
+            <option value="無料 — web3.AI概論 履修者" data-i18n-option="form.plan.web3">無料 — web3.AI概論 履修者</option>
+            <option value="無料 — 変革メンバー" data-i18n-option="form.plan.henkaku">無料 — 変革メンバー</option>
+            <option value="無料 — イーサリアン" data-i18n-option="form.plan.eth">無料 — イーサリアン</option>
+            <option value="ミーティング / ワークショップ" data-i18n-option="form.plan.meeting">ミーティング / ワークショップ</option>
           </select>
         </div>
       </div>
 
-      <!-- メッセージ -->
       <div>
-        <label class="block text-[10px] tracking-ultra text-stone-400 uppercase mb-3">メッセージ</label>
-        <textarea id="f-notes" rows="4" placeholder="ご要望・ご質問など" class="form-line resize-none"></textarea>
+        <label class="block text-[10px] tracking-ultra text-stone-400 uppercase mb-3" data-i18n="form.message">メッセージ</label>
+        <textarea id="f-notes" rows="4" data-i18n-placeholder="form.message.placeholder" placeholder="ご要望・ご質問など" class="form-line resize-none"></textarea>
       </div>
 
       <div class="pt-2">
-        <button type="submit" class="btn-submit" id="submitBtn">送信する</button>
+        <button type="submit" class="btn-submit" id="submitBtn" data-i18n="form.submit">送信する</button>
       </div>
-
     </form>
   </section>
 
@@ -268,9 +265,9 @@
   <section class="border-t border-stone-200 py-20 px-8 md:px-16 text-center bg-white">
     <p class="text-[9px] tracking-[0.25em] text-stone-400 uppercase mb-4">STAY POINTS</p>
     <h2 class="font-display font-light leading-tight mb-6 text-stone-900" style="font-size:clamp(28px,5vw,52px);">
-      投稿が、滞在になる。
+      <span data-i18n="staypoints.heading">投稿が、滞在になる。</span>
     </h2>
-    <p class="text-stone-400 text-sm leading-loose max-w-xl mx-auto mb-14">
+    <p class="text-stone-400 text-sm leading-loose max-w-xl mx-auto mb-14" data-i18n-html="staypoints.body">
       kuariでの体験や山陰の観光プランをSNSに投稿するだけ。<br>
       いいねが貯まるほどSTAY POINTSが増え、無料滞在へ変わる。<br>
       余った泊は他の人に売ることもできる。
@@ -279,27 +276,27 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto mb-12">
       <div class="border border-stone-200 p-8 text-left">
         <p class="text-[9px] tracking-ultra text-stone-400 uppercase mb-4">STEP 01</p>
-        <h3 class="font-display text-xl font-light text-stone-900 mb-3">投稿する</h3>
-        <p class="text-stone-400 text-xs leading-relaxed mb-4">kuari滞在ログや山陰の旅プランをSNSへ。kuariアプリに登録すると自動集計される。</p>
-        <p class="text-[10px] text-stone-300 tracking-widest border-t border-stone-100 pt-3">滞在投稿 +300pt / 観光プラン +100pt</p>
+        <h3 class="font-display text-xl font-light text-stone-900 mb-3" data-i18n="step1.title">投稿する</h3>
+        <p class="text-stone-400 text-xs leading-relaxed mb-4" data-i18n="step1.body">kuari滞在ログや山陰の旅プランをSNSへ。kuariアプリに登録すると自動集計される。</p>
+        <p class="text-[10px] text-stone-300 tracking-widest border-t border-stone-100 pt-3" data-i18n="step1.note">滞在投稿 +300pt / 観光プラン +100pt</p>
       </div>
       <div class="border border-stone-200 p-8 text-left">
         <p class="text-[9px] tracking-ultra text-stone-400 uppercase mb-4">STEP 02</p>
-        <h3 class="font-display text-xl font-light text-stone-900 mb-3">いいねを集める</h3>
-        <p class="text-stone-400 text-xs leading-relaxed mb-4">投稿が共感を呼ぶほどポイントが増える。他者のプランを実行して投稿するとボーナスも。</p>
-        <p class="text-[10px] text-stone-300 tracking-widest border-t border-stone-100 pt-3">いいね +1pt / プラン実行ボーナス +500pt</p>
+        <h3 class="font-display text-xl font-light text-stone-900 mb-3" data-i18n="step2.title">いいねを集める</h3>
+        <p class="text-stone-400 text-xs leading-relaxed mb-4" data-i18n="step2.body">投稿が共感を呼ぶほどポイントが増える。他者のプランを実行して投稿するとボーナスも。</p>
+        <p class="text-[10px] text-stone-300 tracking-widest border-t border-stone-100 pt-3" data-i18n="step2.note">いいね +1pt / プラン実行ボーナス +500pt</p>
       </div>
       <div class="border border-gold/40 p-8 text-left">
         <p class="text-[9px] tracking-ultra text-stone-400 uppercase mb-4">STEP 03</p>
-        <h3 class="font-display text-xl font-light text-stone-900 mb-3">無料で泊まる・売る</h3>
-        <p class="text-stone-400 text-xs leading-relaxed mb-4">8,000ptで1泊に交換。使わない泊は他の人に譲渡・販売することもできる。</p>
-        <p class="text-[10px] text-gold tracking-widest border-t border-stone-100 pt-3">8,000pt = 1泊無料 / 泊の売買も可</p>
+        <h3 class="font-display text-xl font-light text-stone-900 mb-3" data-i18n="step3.title">無料で泊まる・売る</h3>
+        <p class="text-stone-400 text-xs leading-relaxed mb-4" data-i18n="step3.body">8,000ptで1泊に交換。使わない泊は他の人に譲渡・販売することもできる。</p>
+        <p class="text-[10px] text-gold tracking-widest border-t border-stone-100 pt-3" data-i18n="step3.note">8,000pt = 1泊無料 / 泊の売買も可</p>
       </div>
     </div>
 
     <a href="https://ubiquitous-nasturtium-3ddaf6.netlify.app" target="_blank" rel="noopener"
        class="inline-block text-[10px] tracking-[0.22em] uppercase border border-stone-900 px-8 py-3 text-stone-900 hover:bg-stone-900 hover:text-white transition-all duration-300" style="text-decoration:none;">
-      kuariアプリでポイントを始める →
+      <span data-i18n="staypoints.cta">kuariアプリでポイントを始める →</span>
     </a>
   </section>
 
@@ -332,15 +329,15 @@
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
       <div>
         <p class="font-display text-2xl font-light tracking-ultra mb-2">kuari 東本町</p>
-        <p class="text-xs text-stone-400 tracking-widest">島根県松江市東本町4-144 6F</p>
+        <p class="text-xs text-stone-400 tracking-widest" data-i18n="footer.address">島根県松江市東本町4-144 6F</p>
         <a href="https://maps.google.com/?q=島根県松江市東本町4-144" target="_blank" rel="noopener"
            class="text-xs text-stone-400 tracking-widest hover:text-stone-700 transition-colors mt-1 block" style="text-decoration:none;">
           Google Maps ↗
         </a>
       </div>
       <div class="text-xs text-stone-400 tracking-widest text-left md:text-right space-y-1">
-        <p>¥80,000 / 泊</p>
-        <p>定員 2名 — 1LDK</p>
+        <p data-i18n="footer.price">¥80,000 / 泊</p>
+        <p data-i18n="footer.capacity">定員 2名 — 1LDK</p>
         <div class="mt-4 flex flex-col gap-2 items-start md:items-end">
           <a href="https://tk1128.github.io/kuari-hp/zen-retreat/" target="_blank" rel="noopener" class="text-stone-400 hover:text-stone-700 transition-colors" style="text-decoration:none;">kuari 皆生 ↗</a>
           <a href="https://prouve-brise-soleil.vercel.app/" target="_blank" rel="noopener" class="text-stone-400 hover:text-stone-700 transition-colors" style="text-decoration:none;">Jean Prouvé ↗</a>
@@ -350,12 +347,11 @@
     </div>
   </footer>
 
-  <!-- Toast -->
   <div id="toast"></div>
 
   <!-- ── SCRIPT ─────────────────────────────────────────── -->
   <script>
-    /* ── Strip tracking params (fbclid, utm_*, gclid etc.) ── */
+    /* ── Strip tracking params ── */
     (function(){
       const u = new URL(location.href);
       const tp = ['fbclid','utm_source','utm_medium','utm_campaign','utm_content','utm_term','utm_id','gclid','mc_eid','igshid'];
@@ -364,6 +360,178 @@
       [...u.searchParams.keys()].forEach(k => { if(/^(fb_|aem_)/.test(k)){ u.searchParams.delete(k); dirty=true; } });
       if(dirty) history.replaceState({}, '', u.search ? u.toString() : u.origin + u.pathname);
     })();
+
+    /* ── i18n ── */
+    const translations = {
+      ja: {
+        'nav.reserve': '予約する',
+        'hero.alt.living': 'リビング',
+        'hero.alt.bedroom': '居室',
+        'hero.alt.lake': '宍道湖',
+        'hero.title1': '静寂と、',
+        'hero.title2': '光の宿。',
+        'hero.price': '¥80,000 / 泊',
+        'hero.location': '松江城址まで徒歩5分',
+        'intro.heading': '松江城址を望む、<br>1LDKの滞在空間。',
+        'intro.body': '島根県松江市東本町4丁目。宍道湖の夕景と城下町に佇む、ヴィンテージ家具を揃えた静かな1LDK。4面採光の開放感ある空間で、大切な時間をお過ごしください。',
+        'intro.address': '松江市東本町4-144 6F',
+        'intro.stat1.label': '定員',
+        'intro.stat2.label': '間取り',
+        'intro.stat3.label': '1泊',
+        'img.dresser': 'ドレッサー',
+        'img.sunset': '宍道湖夕景',
+        'img.teahouse': '茶室',
+        'form.heading': '予約・お問い合わせ',
+        'form.sub': 'ご希望の日程・人数をお知らせください。確認後、ご連絡いたします。',
+        'form.name': 'お名前',
+        'form.contact': '連絡先',
+        'form.name.placeholder': '山田 太郎',
+        'form.contact.placeholder': 'メール or 電話番号',
+        'form.checkin': 'チェックイン',
+        'form.checkout': 'チェックアウト',
+        'form.guests': '人数',
+        'form.plan': '料金プラン',
+        'form.guests.default': '選択してください',
+        'form.guests.1': '1名',
+        'form.guests.2': '2名',
+        'form.plan.normal': '通常料金 — ¥80,000 / 泊',
+        'form.plan.crypto': 'クリプト決済 — 0.1 ETH / 泊',
+        'form.plan.staypoints': 'STAY POINTS — 8,000pt / 泊',
+        'form.plan.web3': '無料 — web3.AI概論 履修者',
+        'form.plan.henkaku': '無料 — 変革メンバー',
+        'form.plan.eth': '無料 — イーサリアン',
+        'form.plan.meeting': 'ミーティング / ワークショップ',
+        'form.message': 'メッセージ',
+        'form.message.placeholder': 'ご要望・ご質問など',
+        'form.submit': '送信する',
+        'form.submitting': '送信中...',
+        'staypoints.heading': '投稿が、滞在になる。',
+        'staypoints.body': 'kuariでの体験や山陰の観光プランをSNSに投稿するだけ。<br>いいねが貯まるほどSTAY POINTSが増え、無料滞在へ変わる。<br>余った泊は他の人に売ることもできる。',
+        'staypoints.cta': 'kuariアプリでポイントを始める →',
+        'step1.title': '投稿する',
+        'step1.body': 'kuari滞在ログや山陰の旅プランをSNSへ。kuariアプリに登録すると自動集計される。',
+        'step1.note': '滞在投稿 +300pt / 観光プラン +100pt',
+        'step2.title': 'いいねを集める',
+        'step2.body': '投稿が共感を呼ぶほどポイントが増える。他者のプランを実行して投稿するとボーナスも。',
+        'step2.note': 'いいね +1pt / プラン実行ボーナス +500pt',
+        'step3.title': '無料で泊まる・売る',
+        'step3.body': '8,000ptで1泊に交換。使わない泊は他の人に譲渡・販売することもできる。',
+        'step3.note': '8,000pt = 1泊無料 / 泊の売買も可',
+        'footer.address': '島根県松江市東本町4-144 6F',
+        'footer.price': '¥80,000 / 泊',
+        'footer.capacity': '定員 2名 — 1LDK',
+        'toast.required': '必須項目をすべて入力してください',
+        'toast.date': 'チェックアウトはイン日より後を選択してください',
+        'toast.success': '予約リクエストを受け付けました。確認後ご連絡いたします。',
+        'toast.error': '送信に失敗しました。しばらく後に再度お試しください',
+        'meta.title': 'kuari 東本町 — 松江',
+        'meta.description': '松江市東本町。ヴィンテージ家具の1LDK。宿泊 ¥80,000 / 泊',
+      },
+      en: {
+        'nav.reserve': 'Reserve',
+        'hero.alt.living': 'Living room',
+        'hero.alt.bedroom': 'Bedroom',
+        'hero.alt.lake': 'Lake Shinji',
+        'hero.title1': 'Silence and',
+        'hero.title2': 'a house of light.',
+        'hero.price': '¥80,000 / night',
+        'hero.location': '5 min walk from Matsue Castle',
+        'intro.heading': 'A 1LDK retreat<br>overlooking Matsue Castle.',
+        'intro.body': 'Higashihonmachi 4-chome, Matsue, Shimane. A quiet 1LDK furnished with vintage pieces, nestled in the castle town alongside Lake Shinji\'s celebrated sunsets. Four-sided natural light fills this open, serene space.',
+        'intro.address': '4-144 6F Higashihonmachi, Matsue',
+        'intro.stat1.label': 'Guests',
+        'intro.stat2.label': 'Layout',
+        'intro.stat3.label': '/ night',
+        'img.dresser': 'Dresser',
+        'img.sunset': 'Lake Shinji sunset',
+        'img.teahouse': 'Tea house',
+        'form.heading': 'Reservation & Enquiry',
+        'form.sub': 'Please share your preferred dates and number of guests. We will be in touch shortly.',
+        'form.name': 'Name',
+        'form.contact': 'Contact',
+        'form.name.placeholder': 'Taro Yamada',
+        'form.contact.placeholder': 'Email or phone number',
+        'form.checkin': 'Check-in',
+        'form.checkout': 'Check-out',
+        'form.guests': 'Guests',
+        'form.plan': 'Rate Plan',
+        'form.guests.default': 'Please select',
+        'form.guests.1': '1 guest',
+        'form.guests.2': '2 guests',
+        'form.plan.normal': 'Standard Rate — ¥80,000 / night',
+        'form.plan.crypto': 'Crypto — 0.1 ETH / night',
+        'form.plan.staypoints': 'STAY POINTS — 8,000pt / night',
+        'form.plan.web3': 'Free — web3.AI Course Member',
+        'form.plan.henkaku': 'Free — Henkaku Member',
+        'form.plan.eth': 'Free — Etherean',
+        'form.plan.meeting': 'Meeting / Workshop',
+        'form.message': 'Message',
+        'form.message.placeholder': 'Requests or questions',
+        'form.submit': 'Send',
+        'form.submitting': 'Sending...',
+        'staypoints.heading': 'Post your story. Stay for free.',
+        'staypoints.body': 'Share your kuari experience or Sanin travel plans on social media.<br>The more likes you earn, the more STAY POINTS accumulate — until a free night is yours.<br>Extra nights can even be sold to others.',
+        'staypoints.cta': 'Start earning points on the kuari app →',
+        'step1.title': 'Post',
+        'step1.body': 'Share your kuari stay log or a Sanin travel plan on social media. Register with the kuari app and points are tallied automatically.',
+        'step1.note': 'Stay post +300pt / Travel plan +100pt',
+        'step2.title': 'Gather likes',
+        'step2.body': 'The more your posts resonate, the more points you earn. Post about executing someone else\'s plan for a bonus.',
+        'step2.note': 'Like +1pt / Plan execution bonus +500pt',
+        'step3.title': 'Stay free or sell',
+        'step3.body': 'Redeem 8,000pt for one free night. Unused nights can be transferred or sold to others.',
+        'step3.note': '8,000pt = 1 free night / nights can be traded',
+        'footer.address': '4-144 6F Higashihonmachi, Matsue, Shimane',
+        'footer.price': '¥80,000 / night',
+        'footer.capacity': '2 Guests — 1LDK',
+        'toast.required': 'Please fill in all required fields',
+        'toast.date': 'Check-out must be after check-in',
+        'toast.success': 'Your request has been received. We will contact you shortly.',
+        'toast.error': 'Failed to send. Please try again later.',
+        'meta.title': 'kuari Higashihonmachi — Matsue',
+        'meta.description': 'Higashihonmachi, Matsue. Vintage-furnished 1LDK. ¥80,000 / night.',
+      }
+    };
+
+    let currentLang = localStorage.getItem('kuari-lang') || 'ja';
+
+    function applyTranslations(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const v = t[el.dataset.i18n];
+        if (v !== undefined) el.textContent = v;
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const v = t[el.dataset.i18nHtml];
+        if (v !== undefined) el.innerHTML = v;
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const v = t[el.dataset.i18nPlaceholder];
+        if (v !== undefined) el.placeholder = v;
+      });
+      document.querySelectorAll('[data-i18n-alt]').forEach(el => {
+        const v = t[el.dataset.i18nAlt];
+        if (v !== undefined) el.alt = v;
+      });
+      document.querySelectorAll('[data-i18n-option]').forEach(el => {
+        const v = t[el.dataset.i18nOption];
+        if (v !== undefined) el.textContent = v;
+      });
+      if (t['meta.title']) document.title = t['meta.title'];
+      const descMeta = document.querySelector('meta[name="description"]');
+      if (descMeta && t['meta.description']) descMeta.content = t['meta.description'];
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+      localStorage.setItem('kuari-lang', lang);
+      currentLang = lang;
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => applyTranslations(btn.dataset.lang));
+    });
 
     /* ── Nav scroll ── */
     const nav = document.getElementById('nav');
@@ -380,7 +548,6 @@
       slides[cur].classList.add('active');
     }, 5000);
 
-    /* ── Scroll to top on load ── */
     if (history.scrollRestoration) history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
 
@@ -414,18 +581,19 @@
       const guests    = document.getElementById('f-guests').value;
       const community = document.getElementById('f-plan').value;
       const notes     = document.getElementById('f-notes').value.trim();
+      const t         = translations[currentLang];
 
       if (!name || !contact || !checkin || !checkout || !guests) {
-        showToast('必須項目をすべて入力してください', false);
+        showToast(t['toast.required'], false);
         return;
       }
       if (checkin >= checkout) {
-        showToast('チェックアウトはイン日より後を選択してください', false);
+        showToast(t['toast.date'], false);
         return;
       }
 
       const btn = document.getElementById('submitBtn');
-      btn.textContent = '送信中...';
+      btn.textContent = t['form.submitting'];
       btn.disabled = true;
 
       try {
@@ -435,18 +603,21 @@
           body: JSON.stringify({ name, contact, checkin, checkout, guests, community, purpose: '', notes }),
         });
         if (res.ok) {
-          showToast('予約リクエストを受け付けました。確認後ご連絡いたします。');
+          showToast(t['toast.success']);
           this.reset();
         } else {
           throw new Error('server error');
         }
       } catch {
-        showToast('送信に失敗しました。しばらく後に再度お試しください', false);
+        showToast(t['toast.error'], false);
       } finally {
-        btn.textContent = '送信する';
+        btn.textContent = t['form.submit'];
         btn.disabled = false;
       }
     });
+
+    /* ── Apply on load ── */
+    applyTranslations(currentLang);
   </script>
 
 </body>
